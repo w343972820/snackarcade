@@ -1,0 +1,132 @@
+---
+/**
+ * Mobile navigation drawer.
+ *
+ * Built as a plain checkbox-free button + inline script rather than a framework
+ * island. The whole interaction is "toggle one class and one aria attribute";
+ * shipping a component runtime for that would cost more than the feature.
+ *
+ * The script is `is:inline` and under 400 bytes, so there is no extra request
+ * and nothing to hydrate. It is written defensively: if it never runs, the menu
+ * is still reachable because the links are duplicated in the footer.
+ */
+import { getMainNav } from '@/lib/content/navigation';
+import type { NavLink } from '@/config/nav';
+
+const currentPath: string = Astro.url.pathname;
+
+/** Same resolved list the desktop header renders — one nav, two presentations. */
+const mainNav: NavLink[] = await getMainNav();
+---
+
+<button
+  type="button"
+  class="mobile-nav__toggle tap-target md:hidden"
+  aria-expanded="false"
+  aria-controls="mobile-nav-panel"
+  aria-label="Open menu"
+  data-mobile-nav-toggle
+>
+  <span class="mobile-nav__bars" aria-hidden="true">
+    <span></span><span></span><span></span>
+  </span>
+</button>
+
+<nav
+  id="mobile-nav-panel"
+  class="mobile-nav__panel md:hidden"
+  aria-label="Mobile navigation"
+  hidden
+  data-mobile-nav-panel
+>
+  <ul class="mobile-nav__list">
+    {
+      mainNav.map((link) => (
+        <li>
+          <a
+            href={link.href}
+            class="mobile-nav__link tap-target"
+            aria-current={currentPath === link.href ? 'page' : undefined}
+          >
+            {link.label}
+          </a>
+        </li>
+      ))
+    }
+    <li>
+      <a href="/search/" class="mobile-nav__link tap-target">Search</a>
+    </li>
+  </ul>
+</nav>
+
+<script
+  is:inline
+  set:html={`(function(){
+  var btn = document.querySelector('[data-mobile-nav-toggle]');
+  var panel = document.querySelector('[data-mobile-nav-panel]');
+  if (!btn || !panel) return;
+  btn.addEventListener('click', function(){
+    var open = btn.getAttribute('aria-expanded') === 'true';
+    btn.setAttribute('aria-expanded', String(!open));
+    btn.setAttribute('aria-label', open ? 'Open menu' : 'Close menu');
+    if (open) { panel.setAttribute('hidden', ''); } else { panel.removeAttribute('hidden'); }
+  });
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape' && btn.getAttribute('aria-expanded') === 'true') { btn.click(); }
+  });
+})();`}
+/>
+
+<style>
+  .mobile-nav__toggle {
+    background: transparent;
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-card);
+    padding: 0 0.6rem;
+    cursor: pointer;
+  }
+
+  .mobile-nav__bars {
+    display: inline-flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .mobile-nav__bars span {
+    display: block;
+    width: 20px;
+    height: 2px;
+    background: var(--color-ink);
+  }
+
+  .mobile-nav__panel {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 100%;
+    background: var(--color-surface);
+    border-bottom: 1px solid var(--color-line);
+    box-shadow: 0 12px 24px rgb(0 0 0 / 8%);
+    z-index: 50;
+  }
+
+  .mobile-nav__list {
+    display: flex;
+    flex-direction: column;
+    padding: 0.5rem var(--spacing-gutter) 1rem;
+  }
+
+  .mobile-nav__link {
+    justify-content: flex-start;
+    width: 100%;
+    padding-block: 0.75rem;
+    color: var(--color-ink);
+    font-weight: 600;
+    border-bottom: 1px solid var(--color-line);
+    text-decoration: none;
+  }
+
+  .mobile-nav__link[aria-current='page'] {
+    color: var(--color-brand-dark);
+  }
+</style>

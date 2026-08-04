@@ -1,0 +1,82 @@
+---
+/**
+ * All games — pages 2 and beyond.  URL: /all-games/page/{n}/
+ *
+ * Page 1 is in ../index.astro. This file emits page numbers >= 2 only.
+ */
+import type { GetStaticPaths } from 'astro';
+import { getPublishedGames } from '@/lib/content/games';
+import { allGamesPagePath } from '@/lib/utils/url';
+import { breadcrumbListSchema } from '@/components/seo/schema/breadcrumbList';
+import { itemListSchema } from '@/components/seo/schema/itemList';
+import { PAGE_SIZES } from '@/config/seo';
+import { SITE } from '@/config/site';
+import type { Crumb } from '@/lib/seo/breadcrumbs';
+
+import GameListing from '@/components/listings/GameListing.astro';
+
+export const getStaticPaths = (async () => {
+  const all = await getPublishedGames();
+  const size = PAGE_SIZES.ALL_GAMES;
+  const totalPages = Math.ceil(all.length / size);
+  const paths = [];
+  for (let page = 2; page <= totalPages; page++) {
+    paths.push({ params: { page: String(page) }, props: { pageNumber: page, totalPages } });
+  }
+  return paths;
+}) satisfies GetStaticPaths;
+
+interface Props {
+  pageNumber: number;
+  totalPages: number;
+}
+
+const { pageNumber, totalPages } = Astro.props;
+
+const all = await getPublishedGames();
+const size = PAGE_SIZES.ALL_GAMES;
+const total = all.length;
+const start = (pageNumber - 1) * size;
+const pageGames = all.slice(start, start + size);
+
+const title = `All Free Online Games — Play ${total} Games`;
+const description = `Browse every free browser game on ${SITE.name}. Puzzle, word, card and arcade games, each with a how-to-play guide, full controls and tips. No download needed.`;
+
+const crumbs: Crumb[] = [
+  { name: 'Home', href: '/' },
+  { name: 'All Games', href: '/all-games/' },
+];
+const pathname = allGamesPagePath(pageNumber);
+
+const jsonLd = [
+  breadcrumbListSchema(crumbs),
+  itemListSchema(
+    pageGames.map((g) => ({ slug: g.id, title: g.data.title })),
+    'All Games',
+    start + 1,
+  ),
+];
+
+const hrefFor = (page: number) => allGamesPagePath(page);
+const introHtml = `<p>Every game on ${SITE.name} loads in your browser with no download and no account. Use the menu to jump to a category, or scroll through the full list below.</p>`;
+---
+
+<GameListing
+  kind="all-games"
+  title={title}
+  description={description}
+  h1="All Games"
+  crumbs={crumbs}
+  games={pageGames}
+  pageNumber={pageNumber}
+  totalPages={totalPages}
+  hrefFor={hrefFor}
+  pathname={pathname}
+  itemCount={pageGames.length}
+  jsonLdNodes={jsonLd}
+  source={`src/pages/all-games/page/${pageNumber}.astro`}
+  lede={`Page ${pageNumber} of ${totalPages}.`}
+  emptyMessage="No more games on this page."
+>
+  <Fragment slot="intro" set:html={introHtml} />
+</GameListing>

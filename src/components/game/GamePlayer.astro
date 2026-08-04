@@ -1,0 +1,154 @@
+---
+/**
+ * The playable area — poster first, iframe only after a click.
+ *
+ * ── THE RULE THAT MATTERS MOST IN THIS FILE ─────────────────────────────────
+ * This component renders NO `<iframe>`. Not a hidden one, not a `srcdoc` one,
+ * not one behind `display: none`. The markup below contains a poster image and
+ * a button, and that is the entire server-rendered player. `game-player.ts`
+ * creates the frame on click.
+ *
+ * A hidden iframe still fetches, still executes, and still costs LCP — so
+ * "hidden" would defeat the whole point. PRD 5.2 states the requirement and
+ * an e2e test asserts that a freshly loaded page has zero iframes.
+ * ────────────────────────────────────────────────────────────────────────────
+ *
+ * The poster is passed in already optimised rather than being resolved here,
+ * because `[slug].astro` needs the identical URL to emit the `<link rel=
+ * "preload">` hint. One `getImage()` call, two consumers, no chance of the
+ * preload pointing at a variant the page never requests.
+ */
+
+/** A poster resolved by `getImage()` in the page. */
+export interface PosterImage {
+  /** Optimised image URL. */
+  src: string;
+  /** `srcset` attribute value; empty when only one width was generated. */
+  srcSet: string;
+  /** `sizes` attribute value. */
+  sizes: string;
+  /** Intrinsic width in pixels. */
+  width: number;
+  /** Intrinsic height in pixels. */
+  height: number;
+}
+
+export interface Props {
+  /** Game slug, reported with the `game_start` event. */
+  slug: string;
+  /** Display name, used in the button label and the frame title. */
+  title: string;
+  /** URL the iframe will load once the visitor clicks play. */
+  entryUrl: string;
+  /** `sandbox` attribute value from `getGameSandbox()`. */
+  sandbox: string;
+  /** Where the bundle comes from; reported with the `game_start` event. */
+  sourceType: 'self_hosted' | 'iframe';
+  /** Optimised cover image. */
+  poster: PosterImage;
+  /** Alt text for the poster. */
+  posterAlt: string;
+  /** `[width, height]` used to reserve the stage before anything loads. */
+  aspectRatio: readonly [number, number];
+  /** One line under the frame, e.g. "Runs in your browser · No install". */
+  sourceNote?: string;
+}
+
+const {
+  slug,
+  title,
+  entryUrl,
+  sandbox,
+  sourceType,
+  poster,
+  posterAlt,
+  aspectRatio,
+  sourceNote = 'Runs in your browser. Nothing to install, no sign-up.',
+} = Astro.props;
+
+const [aspectWidth, aspectHeight] = aspectRatio;
+
+/**
+ * Guard against a zero in the content file: `aspect-ratio: 16 / 0` collapses
+ * the stage to nothing, which would be a full-height layout shift on click.
+ */
+const safeWidth: number = aspectWidth > 0 ? aspectWidth : 16;
+const safeHeight: number = aspectHeight > 0 ? aspectHeight : 9;
+---
+
+<section
+  class="game-player"
+  data-game-player
+  data-slug={slug}
+  data-game-title={title}
+  data-entry-url={entryUrl}
+  data-sandbox={sandbox}
+  data-source-type={sourceType}
+  style={`--game-aspect:${safeWidth} / ${safeHeight}`}
+  aria-label={`${title} game area`}
+>
+  <div class="game-player__stage" data-game-stage>
+    {/* The LCP element on this page. Eager, high priority, and preloaded from
+        the document head with the exact same URL. */}
+    <img
+      class="game-player__poster"
+      src={poster.src}
+      srcset={poster.srcSet === '' ? undefined : poster.srcSet}
+      sizes={poster.srcSet === '' ? undefined : poster.sizes}
+      width={poster.width}
+      height={poster.height}
+      alt={posterAlt}
+      loading="eager"
+      decoding="sync"
+      fetchpriority="high"
+    />
+
+    <div class="game-player__overlay">
+      <button type="button" class="game-player__play" data-game-play>
+        <svg
+          class="game-player__play-icon"
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <path d="M8 5.14v13.72a1 1 0 0 0 1.54.84l10.3-6.86a1 1 0 0 0 0-1.68L9.54 4.3A1 1 0 0 0 8 5.14Z"></path>
+        </svg>
+        <span>Play {title}</span>
+      </button>
+
+      <p class="game-player__hint">Free · No download · Loads in seconds</p>
+    </div>
+  </div>
+
+  <div class="game-player__bar">
+    <p class="game-player__source">{sourceNote}</p>
+
+    {/* Hidden until a game is running — a fullscreen button with nothing to
+        show is a dead control. `game-player.ts` unhides it. */}
+    <button
+      type="button"
+      class="game-player__button"
+      data-game-fullscreen
+      data-game-controls
+      hidden
+    >
+      <svg
+        class="game-player__play-icon"
+        viewBox="0 0 24 24"
+        aria-hidden="true"
+        focusable="false"
+      >
+        <path
+          d="M4 9V4h5v2H6v3H4Zm11-5h5v5h-2V6h-3V4ZM4 15h2v3h3v2H4v-5Zm14 0h2v5h-5v-2h3v-3Z"
+        ></path>
+      </svg>
+      <span>Fullscreen</span>
+    </button>
+  </div>
+</section>
+
+<script>
+  import { initGamePlayers } from '@/scripts/game-player';
+
+  initGamePlayers();
+</script>

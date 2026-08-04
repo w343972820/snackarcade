@@ -1,0 +1,109 @@
+---
+/**
+ * Numbered "How to Play" steps (PRD 5.2 module 7).
+ *
+ * This section exists to win the `how to play {game}` query family, which is
+ * usually the second-largest source of traffic to a game page after the brand
+ * term itself. Two details matter for that:
+ *
+ *   • A real `<ol>`. Google's step extraction keys off ordered lists; a
+ *     `<div>` stack with numbers drawn in CSS is invisible to it.
+ *   • The step heading and its explanation are separate elements, so the
+ *     heading can be lifted into a snippet without dragging the prose with it.
+ */
+
+/** One step from `data.content.howToPlay`. */
+export interface HowToStep {
+  /** Short imperative heading, e.g. "Make your first move." */
+  step: string;
+  /** The explanation underneath it. */
+  detail: string;
+}
+
+export interface Props {
+  /** Steps in play order. */
+  steps: readonly HowToStep[];
+  /** Game name, used in the heading. */
+  gameTitle: string;
+  /** Heading id so the section can be labelled. */
+  headingId?: string;
+}
+
+const { steps, gameTitle, headingId = 'howto-heading' } = Astro.props;
+---
+
+{
+  steps.length > 0 && (
+    <section class="game-section" aria-labelledby={headingId} id="how-to-play">
+      <h2 class="game-section__title" id={headingId}>
+        How to Play {gameTitle}
+      </h2>
+
+      <ol class="howto">
+        {steps.map((step, index) => (
+          <li class="howto__step">
+            <span class="howto__number" aria-hidden="true">
+              {index + 1}
+            </span>
+            <div class="howto__body">
+              <h3 class="howto__title">{step.step}</h3>
+              <p class="howto__detail">{step.detail}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </section>
+  )
+}
+
+<style>
+  .howto {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 0.85rem;
+    counter-reset: howto;
+  }
+
+  .howto__step {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.9rem;
+    padding: 0.95rem 1.1rem;
+    background: var(--color-surface-alt);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-card);
+  }
+
+  .howto__number {
+    flex: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.9rem;
+    height: 1.9rem;
+    border-radius: var(--radius-pill);
+    background: var(--color-brand);
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.9rem;
+    line-height: 1;
+  }
+
+  .howto__body {
+    min-width: 0;
+  }
+
+  .howto__title {
+    font-size: 1.02rem;
+    margin: 0 0 0.2rem;
+    color: var(--color-ink);
+  }
+
+  .howto__detail {
+    margin: 0;
+    color: var(--color-body);
+    max-width: 62ch;
+  }
+</style>

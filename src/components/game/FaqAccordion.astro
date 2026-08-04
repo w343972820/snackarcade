@@ -1,0 +1,145 @@
+---
+/**
+ * FAQ accordion (PRD 5.2 module 12) — native `<details>`, zero JavaScript.
+ *
+ * ── TWO RULES THIS FILE EXISTS TO ENFORCE ───────────────────────────────────
+ * 1. NO JAVASCRIPT. `<details>`/`<summary>` is a browser primitive with
+ *    keyboard support, correct ARIA semantics and in-page find built in. A
+ *    hand-rolled accordion would add bytes to a page with a 20 KB JS budget and
+ *    would be worse at all three.
+ *
+ * 2. THE ANSWER TEXT IS VISIBLE. Google requires every question and answer in
+ *    FAQPage structured data to be present on the page. Collapsed-but-present
+ *    content is explicitly fine; content that is absent from the DOM until a
+ *    fetch happens is not. `<details>` keeps the answer in the DOM at all
+ *    times, which is exactly why it is the right element here.
+ * ────────────────────────────────────────────────────────────────────────────
+ *
+ * The same array is passed to `faqPageSchema()` by the page, so the markup and
+ * the structured data cannot drift apart.
+ */
+
+/** One question-and-answer pair from `data.content.faq`. */
+export interface FaqItem {
+  /** The question. */
+  q: string;
+  /** The answer. */
+  a: string;
+}
+
+export interface Props {
+  /** FAQ entries, in the order they should be read. */
+  items: readonly FaqItem[];
+  /** Game name, used in the heading. */
+  gameTitle: string;
+  /** Heading id so the section can be labelled. */
+  headingId?: string;
+  /**
+   * Open the first entry by default. Keeps the section from looking like an
+   * empty stack of bars, and guarantees at least one answer is visible without
+   * interaction.
+   */
+  openFirst?: boolean;
+}
+
+const { items, gameTitle, headingId = 'faq-heading', openFirst = true } = Astro.props;
+---
+
+{
+  items.length > 0 && (
+    <section class="game-section" aria-labelledby={headingId} id="faq">
+      <h2 class="game-section__title" id={headingId}>
+        {gameTitle} — Frequently Asked Questions
+      </h2>
+
+      <div class="faq">
+        {items.map((item, index) => (
+          <details class="faq__item" open={openFirst && index === 0}>
+            <summary class="faq__question">
+              <span class="faq__question-text">{item.q}</span>
+              <span class="faq__marker" aria-hidden="true" />
+            </summary>
+            <div class="faq__answer">
+              <p set:html={item.a} />
+            </div>
+          </details>
+        ))}
+      </div>
+    </section>
+  )
+}
+
+<style>
+  .faq {
+    display: grid;
+    gap: 0.6rem;
+  }
+
+  .faq__item {
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-card);
+    background: var(--color-surface);
+    overflow: hidden;
+  }
+
+  .faq__question {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    /* 44px minimum tap target without a fixed height. */
+    padding: 0.85rem 1rem;
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--color-ink);
+    list-style: none;
+    background: var(--color-surface-alt);
+  }
+
+  /* Remove the default disclosure triangle in both engine families. */
+  .faq__question::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq__question::marker {
+    content: '';
+  }
+
+  .faq__question:hover {
+    background: var(--color-surface-sunken);
+  }
+
+  .faq__question-text {
+    min-width: 0;
+  }
+
+  /* A CSS-drawn chevron: no icon font, no inline SVG per item. */
+  .faq__marker {
+    flex: none;
+    width: 0.55rem;
+    height: 0.55rem;
+    margin-inline-end: 0.2rem;
+    border-right: 2px solid var(--color-muted);
+    border-bottom: 2px solid var(--color-muted);
+    transform: rotate(45deg) translate(-0.1rem, -0.1rem);
+    transition: transform 0.18s ease;
+  }
+
+  .faq__item[open] .faq__marker {
+    transform: rotate(-135deg) translate(-0.1rem, -0.1rem);
+  }
+
+  .faq__answer {
+    padding: 0.2rem 1rem 1rem;
+    color: var(--color-body);
+  }
+
+  .faq__answer p {
+    margin: 0;
+    max-width: 64ch;
+  }
+
+  .faq__answer :global(a) {
+    text-decoration: underline;
+  }
+</style>

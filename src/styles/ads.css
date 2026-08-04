@@ -1,0 +1,76 @@
+/* =============================================================================
+   Ad slot containers — the anti-CLS layer.
+
+   The container's height is decided by `src/config/ads.ts` and inlined as CSS
+   custom properties on each slot. That means the browser knows how tall the ad
+   box is the moment the HTML arrives, long before any ad script runs, so a
+   filling ad cannot push content around.
+
+   When ads are disabled these rules simply never match anything — `AdSlot.astro`
+   renders no markup at all.
+   ============================================================================= */
+
+.ad-slot {
+  display: block;
+  margin-inline: auto;
+  text-align: center;
+  /* Height reserved up front. Set per-slot via inline custom properties. */
+  min-height: var(--ad-mh-mobile, 0px);
+  /* Keep any layout thrash inside the ad from escaping into the page. */
+  contain: layout;
+}
+
+@media (min-width: 1024px) {
+  .ad-slot {
+    min-height: var(--ad-mh-desktop, 0px);
+  }
+}
+
+/* A placement can opt out of a breakpoint entirely. When it does, the container
+   disappears rather than leaving reserved whitespace. */
+.ad-slot[data-ad-mobile='0'] {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .ad-slot[data-ad-mobile='0'] {
+    display: block;
+  }
+
+  .ad-slot[data-ad-desktop='0'] {
+    display: none;
+  }
+}
+
+/* Required by AdSense policy: ads must be labelled, and the label must not be
+   misleading. The allowed strings are constrained at the TypeScript level. */
+.ad-slot__label {
+  display: block;
+  font-size: 11px;
+  line-height: 1.4;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  margin-bottom: 4px;
+}
+
+.ad-slot__inner {
+  display: block;
+  width: 100%;
+}
+
+/* AdSense policy: keep a clear gap between the game area and the nearest ad,
+   so a user reaching for a game control cannot hit an ad by accident.
+   This is asserted by an end-to-end test measuring real pixel distance. */
+.game-ad-guard {
+  margin-block-start: var(--game-ad-gap, 150px);
+}
+
+/* Anchor ads sit above the page; reserve space so they never cover content. */
+.ad-slot--anchor {
+  position: sticky;
+  bottom: 0;
+  z-index: 40;
+  background: var(--color-surface-alt);
+  border-top: 1px solid var(--color-line);
+}

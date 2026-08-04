@@ -1,0 +1,51 @@
+---
+/**
+ * Blog post.  URL: /blog/{slug}/
+ *
+ * getStaticPaths emits one route per non-draft post in src/content/blog. With no
+ * posts authored the index page shows its empty state and nothing is generated here.
+ */
+import type { GetStaticPaths } from 'astro';
+import { getCollection, render } from 'astro:content';
+
+import ArticleLayout from '@/layouts/ArticleLayout.astro';
+import { pageBreadcrumbs } from '@/lib/seo/breadcrumbs';
+
+export const getStaticPaths = (async () => {
+  const posts = await getCollection('blog', (post) => import.meta.env.DEV || !post.data.draft);
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { slug: post.id },
+  }));
+}) satisfies GetStaticPaths;
+
+interface Props {
+  slug: string;
+}
+
+const { slug } = Astro.props;
+
+const entry = (await getCollection('blog')).find((p) => p.id === slug);
+if (!entry) return Astro.notFound();
+
+const data = entry.data;
+const crumbs = pageBreadcrumbs(data.title, `/blog/${slug}/`);
+const pathname = `/blog/${slug}/`;
+
+const { Content } = await render(entry);
+---
+
+<ArticleLayout
+  title={data.seo.title}
+  description={data.seo.description}
+  kind="blog"
+  h1={data.title}
+  crumbs={crumbs}
+  pathname={pathname}
+  publishedAt={data.publishedAt}
+  updatedAt={data.updatedAt}
+  source={`src/pages/blog/${slug}.astro`}
+  showAds={false}
+>
+  <Content />
+</ArticleLayout>

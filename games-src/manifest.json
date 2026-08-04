@@ -1,0 +1,104 @@
+{
+  "$comment": "Source-of-truth register for every self-hosted game bundle. `npm run sync:games` mirrors each folder listed here into public/play/<slug>/ so the site works with zero cloud services. Never add a game here without also recording its licence — src/pages/licenses.json.ts publishes this file's licence data and scripts/validate-content.mjs rejects the build if a licence is missing or forbidden.",
+  "version": 1,
+  "updatedAt": "2026-08-04",
+  "games": [
+    {
+      "slug": "2048",
+      "title": "2048",
+      "originalTitle": "2048",
+      "renamed": false,
+      "entryFile": "index.html",
+      "upstream": {
+        "repository": "https://github.com/gabrielecirulli/2048",
+        "commitRef": "master",
+        "downloadedAt": "2026-08-04"
+      },
+      "license": {
+        "spdx": "MIT",
+        "file": "LICENSE.txt",
+        "url": "https://github.com/gabrielecirulli/2048/blob/master/LICENSE.txt",
+        "author": "Gabriele Cirulli",
+        "authorUrl": "https://github.com/gabrielecirulli",
+        "assetsLicense": "Clear Sans font by Intel, Apache-2.0",
+        "attributionRendered": "2048 by Gabriele Cirulli · MIT License",
+        "verifiedAt": "2026-08-04"
+      },
+      "modifications": [
+        "Removed the in-page paragraph pointing to the author's own hosted version, so the bundled copy does not send visitors away mid-game. No game logic was touched."
+      ],
+      "bundle": {
+        "fileCount": 29,
+        "bytes": 602978
+      },
+      "trademarkRisk": "none",
+      "trademarkNote": "\"2048\" is the original author's own title for his own original work. Nothing to rename."
+    },
+    {
+      "slug": "block-drop",
+      "title": "Block Drop",
+      "originalTitle": "canvas-tetris",
+      "renamed": true,
+      "entryFile": "index.html",
+      "upstream": {
+        "repository": "https://github.com/dionyziz/canvas-tetris",
+        "commitRef": "master",
+        "downloadedAt": "2026-08-04"
+      },
+      "license": {
+        "spdx": "MIT",
+        "file": "LICENSE.md",
+        "url": "https://github.com/dionyziz/canvas-tetris/blob/master/LICENSE.md",
+        "author": "Dionysis Zindros",
+        "authorUrl": "https://github.com/dionyziz",
+        "assetsLicense": "same as code license",
+        "attributionRendered": "Block Drop, based on canvas-tetris by Dionysis Zindros · MIT License",
+        "verifiedAt": "2026-08-04"
+      },
+      "modifications": [
+        "Renamed js/tetris.js to js/blocks.js and updated the script tag in index.html.",
+        "Changed the document title from \"HTML5 Tetris\" to \"Block Drop\".",
+        "Added js/touch.js — a new, purely additive file giving the game touch controls on phones and tablets. It calls the same global keyPress() entry point the upstream keyboard handler uses and does not alter any upstream game logic.",
+        "No game logic was modified."
+      ],
+      "bundle": {
+        "fileCount": 8,
+        "bytes": 21117
+      },
+      "trademarkRisk": "high-if-unrenamed",
+      "trademarkNote": "TETRIS is a registered trademark of the Tetris Holding, LLC. The MIT licence covers the source code only and grants no trademark rights whatsoever. This bundle must ship as \"Block Drop\" — the word Tetris must never appear in the title, slug, URL, meta tags, headings or body copy. scripts/validate-content.mjs enforces this on every build."
+    },
+    {
+      "slug": "five-letters",
+      "title": "Five Letters",
+      "originalTitle": "wordle-clone",
+      "renamed": true,
+      "entryFile": "index.html",
+      "upstream": {
+        "repository": "https://github.com/WebDevSimplified/wordle-clone",
+        "commitRef": "main",
+        "downloadedAt": "2026-08-04"
+      },
+      "license": {
+        "spdx": "MIT",
+        "file": "LICENSE",
+        "url": "https://github.com/WebDevSimplified/wordle-clone/blob/main/LICENSE",
+        "author": "Web Dev Simplified (Kyle Cook)",
+        "authorUrl": "https://github.com/WebDevSimplified",
+        "assetsLicense": "same as code license",
+        "attributionRendered": "Five Letters, based on wordle-clone by Web Dev Simplified · MIT License",
+        "verifiedAt": "2026-08-04"
+      },
+      "modifications": [
+        "Changed the document title from \"Wordle Clone\" to \"Five Letters\".",
+        "No game logic or word lists were modified."
+      ],
+      "bundle": {
+        "fileCount": 6,
+        "bytes": 379531
+      },
+      "trademarkRisk": "high-if-unrenamed",
+      "trademarkNote": "WORDLE is a registered trademark of The New York Times Company. The MIT licence covers the source code only. This bundle must ship as \"Five Letters\" — the word Wordle must never appear in the title, slug, URL, meta tags, headings or body copy. scripts/validate-content.mjs enforces this on every build."
+    }
+  ]
+}

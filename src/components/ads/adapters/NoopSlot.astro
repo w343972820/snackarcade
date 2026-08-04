@@ -1,0 +1,17 @@
+---
+/**
+ * The "no ads" adapter.
+ *
+ * It renders absolutely nothing — no wrapper, no comment, no whitespace-only
+ * element. This is the adapter selected whenever `adsConfig.network` is 'none',
+ * and it exists so `AdSlot.astro` can dispatch on the network without special
+ * cases.
+ *
+ * Note that with ads switched off entirely, `AdSlot.astro` returns before it
+ * ever reaches an adapter, so nothing here runs at all.
+ */
+export interface Props {
+  /** Accepted and ignored, so every adapter has the same signature. */
+  placementId?: string;
+}
+---

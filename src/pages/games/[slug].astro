@@ -1,0 +1,478 @@
+---
+/**
+ * Game detail page — the page that carries the site.
+ *
+ * ═══════════════════════════════════════════════════════════════════════════
+ * WHAT THIS FILE IS RESPONSIBLE FOR
+ * ═══════════════════════════════════════════════════════════════════════════
+ * Almost nothing is rendered here directly. `GamePageLayout` owns the DOM order
+ * and the ad placement, `src/components/game/*` own the individual modules, and
+ * `src/lib/related/similar.ts` owns the internal-link graph. This file is the
+ * wiring: it resolves content, resolves the poster ONCE, and hands the pieces
+ * to the components.
+ *
+ * The four things it does that nothing else can:
+ *
+ *   1. `getStaticPaths` — one page per published game.
+ *   2. Resolves the poster with a single `getImage()` call, then uses the very
+ *      same URLs for both the `<link rel="preload">` in the head and the
+ *      `<img>` in the player. Two calls would risk preloading a variant the
+ *      browser never requests, which is worse than not preloading at all.
+ *   3. Emits the JSON-LD @graph: VideoGame + BreadcrumbList + FAQPage. The FAQ
+ *      array passed to `faqPageSchema()` is the identical array passed to
+ *      `FaqAccordion`, so the markup and the structured data cannot drift.
+ *   4. Reads this game's row out of the site-wide similarity graph. The graph
+ *      is built once per build and memoised — see `buildSimilarityGraphCached`.
+ *
+ * ═══════════════════════════════════════════════════════════════════════════
+ * WHAT THIS FILE MUST NEVER DO
+ * ═══════════════════════════════════════════════════════════════════════════
+ *   • Render an `<iframe>`. The player is click-to-play; `GamePlayer.astro`
+ *     explains why at length. Adding one here would undo it silently.
+ *   • Put an `<AdSlot>` above the `player` slot. The layout comment explains
+ *     the two independent rules that forbid it.
+ *   • Add a fourth `<AdSlot>`. The layout already renders below-game and
+ *     footer; the single in-content slot below is the third and last, matching
+ *     `adsConfig.maxPerPage`.
+ */
+import type { GetStaticPaths } from 'astro';
+import { getImage } from 'astro:assets';
+import { getCollection } from 'astro:content';
+
+import { SITE } from '@/config/site';
+import { getPublishedGames, getGamesBySlugs, type Game } from '@/lib/content/games';
+import { getCategoryById, getRoutedTagIds } from '@/lib/content/taxonomy';
+import { gamePath, categoryPath } from '@/lib/utils/url';
+import { getGameEntryUrl, getGameSandbox, getGameOrigin } from '@/lib/utils/gameUrl';
+import { toMonthYear } from '@/lib/utils/date';
+import { gameBreadcrumbs } from '@/lib/seo/breadcrumbs';
+import {
+  buildSimilarityGraphCached,
+  getSimilarSlugs,
+  toSimilarityGame,
+} from '@/lib/related/similar';
+import { videoGameSchema } from '@/components/seo/schema/videoGame';
+import { breadcrumbListSchema } from '@/components/seo/schema/breadcrumbList';
+import { faqPageSchema } from '@/components/seo/schema/faqPage';
+
+import GamePageLayout, { type MetaItem } from '@/layouts/GamePageLayout.astro';
+import GamePlayer from '@/components/game/GamePlayer.astro';
+import HowToPlaySteps from '@/components/game/HowToPlaySteps.astro';
+import ControlsTable from '@/components/game/ControlsTable.astro';
+import TipsList from '@/components/game/TipsList.astro';
+import GameInfoTable from '@/components/game/GameInfoTable.astro';
+import GameTags, { type TagChip } from '@/components/game/GameTags.astro';
+import FaqAccordion from '@/components/game/FaqAccordion.astro';
+import Attribution from '@/components/game/Attribution.astro';
+import SimilarGames from '@/components/game/SimilarGames.astro';
+import AdSlot from '@/components/ads/AdSlot.astro';
+
+export const getStaticPaths = (async () => {
+  const games = await getPublishedGames();
+  return games.map((game) => ({ params: { slug: game.id }, props: { game } }));
+}) satisfies GetStaticPaths;
+
+interface Props {
+  game: Game;
+}
+
+const { game } = Astro.props;
+const data = game.data;
+const slug: string = game.id;
+
+/* ---------------------------------------------------------------------------
+   Taxonomy
+   --------------------------------------------------------------------------- */
+
+const primaryCategoryId: string = data.taxonomy.primaryCategory.id;
+const primaryCategory = await getCategoryById(primaryCategoryId);
+const primaryCategoryName: string = primaryCategory?.data.name ?? primaryCategoryId;
+
+const crumbs = gameBreadcrumbs(primaryCategoryName, primaryCategoryId, data.title, slug);
+
+/**
+ * Tag chips. `routedTagIds` holds only the tags this build actually generated a
+ * page for, so a chip can never link to a route that does not exist. Tags with
+ * no page still render, as plain text — see `GameTags.astro`.
+ */
+const routedTagIds: Set<string> = await getRoutedTagIds();
+const allTags = await getCollection('tags');
+const tagNameById = new Map<string, string>(allTags.map((tag) => [tag.id, tag.data.name]));
+
+const tagChips: TagChip[] = data.taxonomy.tags.map((tagId: string) => ({
+  id: tagId,
+  name: tagNameById.get(tagId) ?? tagId,
+  routed: routedTagIds.has(tagId),
+}));
+
+/* ---------------------------------------------------------------------------
+   Where the playable bundle lives
+   --------------------------------------------------------------------------- */
+
+const isSelfHosted: boolean = data.source.sourceType === 'self_hosted';
+
+const entryUrl: string =
+  data.source.sourceType === 'self_hosted'
+    ? getGameEntryUrl(slug, data.source.entryFile)
+    : data.source.embedUrl;
+
+const sandbox: string = getGameSandbox(data.source.sourceType);
+
+/**
+ * Only meaningful when bundles are served from a separate origin. In local mode
+ * `getGameOrigin()` returns null and preconnecting to our own origin would be a
+ * wasted hint.
+ */
+const gameOrigin: string | null = getGameOrigin();
+
+const sourceNote: string = isSelfHosted
+  ? 'Hosted on this site. No download, no sign-up, no plugins.'
+  : 'Streamed from the original publisher. No download, no sign-up.';
+
+/* ---------------------------------------------------------------------------
+   Poster
+
+   One `getImage()` call feeds both the preload hint and the player's <img>.
+   `astro.config.mjs` sets `responsiveStyles: false`, so the widths below are
+   the complete, deliberate set of files this page adds to the deploy budget.
+   --------------------------------------------------------------------------- */
+
+const POSTER_SIZES = '(min-width: 1200px) 860px, (min-width: 640px) 92vw, 100vw';
+
+const posterAsset = await getImage({
+  src: data.media.cover,
+  widths: [480, 768, 1024],
+  sizes: POSTER_SIZES,
+  format: 'webp',
+});
+
+const poster = {
+  src: posterAsset.src,
+  srcSet: posterAsset.srcSet.attribute,
+  sizes: POSTER_SIZES,
+  width: data.media.cover.width,
+  height: data.media.cover.height,
+};
+
+/* ---------------------------------------------------------------------------
+   Meta bar (PRD 5.2 module 3)
+
+   Deliberately short: category, genre, session length, last update. A rating is
+   only shown when a real one exists — the same rule the structured data
+   follows, so a visitor never sees stars that Google is not being told about.
+   --------------------------------------------------------------------------- */
+
+const metaItems: MetaItem[] = [
+  { text: primaryCategoryName, href: categoryPath(primaryCategoryId), label: 'Category' },
+  { text: data.info.genre[0] ?? 'Browser game', label: 'Genre' },
+  { text: `About ${data.info.avgSessionMinutes} min a session`, label: 'Session length' },
+  { text: `Updated ${toMonthYear(data.updatedAt)}`, label: 'Last updated' },
+];
+
+if (data.ratings.count > 0 && data.ratings.value !== undefined) {
+  metaItems.splice(1, 0, {
+    text: `${data.ratings.value.toFixed(1)} / 5 from ${data.ratings.count} players`,
+    label: 'Rating',
+  });
+}
+
+/* ---------------------------------------------------------------------------
+   Structured data
+   --------------------------------------------------------------------------- */
+
+const videoGame = videoGameSchema({
+  slug,
+  title: data.title,
+  description: data.seo.description,
+  image: data.media.cover.src,
+  playUrl: `${SITE.url}${gamePath(slug)}`,
+  developer: data.info.developer,
+  developerUrl: data.license.authorUrl,
+  genre: data.info.genre,
+  playMode: data.info.players,
+  platform: data.info.platform,
+  datePublished: data.publishedAt,
+  dateModified: data.updatedAt,
+  ratings: { count: data.ratings.count, value: data.ratings.value },
+  isFree: true,
+});
+
+const jsonLdNodes = [
+  videoGame,
+  breadcrumbListSchema(crumbs),
+  faqPageSchema(data.content.faq),
+];
+
+/* ---------------------------------------------------------------------------
+   Internal links
+
+   The graph is computed over the WHOLE corpus, not just this game's neighbours,
+   because the balancing and orphan-rescue passes need global inbound-link
+   counts to work. `buildSimilarityGraphCached` makes that cost once per build
+   instead of once per page.
+   --------------------------------------------------------------------------- */
+
+const allGames = await getPublishedGames();
+const similarityGraph = buildSimilarityGraphCached(allGames.map(toSimilarityGame));
+const similarSlugs: string[] = getSimilarSlugs(similarityGraph, slug);
+const similarGames: Game[] = await getGamesBySlugs(similarSlugs);
+
+/* ---------------------------------------------------------------------------
+   Rail navigation
+
+   Jump links only — no ad. Every target below is a real section id on this
+   page; a jump link to a section that does not exist is worse than no rail.
+   --------------------------------------------------------------------------- */
+
+const jumpLinks: { href: string; text: string }[] = [
+  { href: '#about-heading', text: `About ${data.title}` },
+  { href: '#howto-heading', text: 'How to play' },
+  { href: '#controls-heading', text: 'Controls' },
+  { href: '#tips-heading', text: 'Tips & strategy' },
+  { href: '#info-heading', text: 'Game info' },
+  { href: '#faq-heading', text: 'FAQ' },
+];
+
+if (similarGames.length > 0) {
+  jumpLinks.splice(5, 0, { href: '#similar-heading', text: 'Similar games' });
+}
+---
+
+<GamePageLayout
+  title={data.seo.title}
+  description={data.seo.description}
+  pathname={gamePath(slug)}
+  canonicalOverride={data.seo.canonicalOverride}
+  explicitNoindex={data.seo.noindexOverride}
+  draft={data.draft}
+  ogImage={posterAsset.src}
+  ogImageAlt={data.media.coverAlt}
+  jsonLdNodes={jsonLdNodes}
+  source={`src/pages/games/[slug].astro (${slug})`}
+  publishedAt={data.publishedAt}
+  updatedAt={data.updatedAt}
+  crumbs={crumbs}
+  h1={data.h1}
+  metaItems={metaItems}
+>
+  {/* --- Head hints ------------------------------------------------------ */}
+  <Fragment slot="head">
+    {
+      gameOrigin !== null && (
+        <>
+          <link rel="preconnect" href={gameOrigin} crossorigin />
+          <link rel="dns-prefetch" href={gameOrigin} />
+        </>
+      )
+    }
+
+    {/* The poster is the LCP element. Same URL, same srcset, same sizes as the
+        <img> below — anything else and the browser downloads twice. */}
+    <link
+      rel="preload"
+      as="image"
+      href={poster.src}
+      imagesrcset={poster.srcSet === '' ? undefined : poster.srcSet}
+      imagesizes={poster.srcSet === '' ? undefined : poster.sizes}
+      fetchpriority="high"
+    />
+  </Fragment>
+
+  {/* --- The playable area ----------------------------------------------- */}
+  <GamePlayer
+    slot="player"
+    slug={slug}
+    title={data.title}
+    entryUrl={entryUrl}
+    sandbox={sandbox}
+    sourceType={data.source.sourceType}
+    poster={poster}
+    posterAlt={data.media.coverAlt}
+    aspectRatio={data.media.aspectRatio}
+    sourceNote={sourceNote}
+  />
+
+  {/* --- Desktop rail ----------------------------------------------------- */}
+  <Fragment slot="rail">
+    <nav class="game-rail__nav" aria-label="On this page">
+      <p class="game-rail__title">On this page</p>
+      <ul class="game-rail__list">
+        {jumpLinks.map((link) => (
+          <li>
+            <a class="game-rail__link" href={link.href}>
+              {link.text}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <dl class="game-rail__facts">
+      <div class="game-rail__fact">
+        <dt>Price</dt>
+        <dd>Free</dd>
+      </div>
+      <div class="game-rail__fact">
+        <dt>Install</dt>
+        <dd>Not required</dd>
+      </div>
+      <div class="game-rail__fact">
+        <dt>Plays on</dt>
+        <dd>{data.info.platform.join(', ')}</dd>
+      </div>
+      <div class="game-rail__fact">
+        <dt>Licence</dt>
+        <dd>{data.license.license}</dd>
+      </div>
+    </dl>
+  </Fragment>
+
+  {/* --- Main article ------------------------------------------------------ */}
+
+  <section class="game-section prose-content" aria-labelledby="intro-heading">
+    <h2 id="intro-heading" class="sr-only">Introduction</h2>
+    <p class="game-section__intro">{data.content.intro}</p>
+  </section>
+
+  <section class="game-section prose-content" aria-labelledby="about-heading">
+    <h2 id="about-heading">About {data.title}</h2>
+    {data.content.about.map((paragraph) => <p>{paragraph}</p>)}
+  </section>
+
+  {/* The third and final ad on the page. See the layout header comment. */}
+  <AdSlot placement="in-content" class="game-section__ad" />
+
+  <HowToPlaySteps steps={data.content.howToPlay} gameTitle={data.title} />
+
+  <ControlsTable rows={data.content.controls} gameTitle={data.title} />
+
+  <TipsList tips={data.content.tips} gameTitle={data.title} />
+
+  {
+    data.content.features.length > 0 && (
+      <section class="game-section" aria-labelledby="features-heading">
+        <h2 id="features-heading">What makes {data.title} worth playing</h2>
+        <ul class="game-features">
+          {data.content.features.map((feature) => (
+            <li class="game-features__item">{feature}</li>
+          ))}
+        </ul>
+      </section>
+    )
+  }
+
+  <GameInfoTable
+    developer={data.info.developer}
+    released={data.info.released}
+    genre={data.info.genre}
+    players={data.info.players}
+    technology={data.info.technology}
+    platform={data.info.platform}
+    avgSessionMinutes={data.info.avgSessionMinutes}
+    license={data.license.license}
+    licenseUrl={data.license.licenseUrl}
+    updatedAt={data.updatedAt}
+  />
+
+  <GameTags tags={tagChips} gameTitle={data.title} />
+
+  {
+    similarGames.length > 0 && (
+      <SimilarGames games={similarGames} fromSlug={slug} gameTitle={data.title} />
+    )
+  }
+
+  <FaqAccordion items={data.content.faq} gameTitle={data.title} />
+
+  <Attribution
+    attributionRendered={data.license.attributionRendered}
+    license={data.license.license}
+    licenseUrl={data.license.licenseUrl}
+    author={data.license.author}
+    authorUrl={data.license.authorUrl}
+    sourceUrl={data.license.sourceUrl}
+    assetsLicense={data.license.assetsLicense}
+    verifiedAt={data.license.verifiedAt}
+  />
+</GamePageLayout>
+
+<style>
+  /* The intro paragraph is the first prose a visitor reads after playing, and
+     it is also what Google most often lifts into a snippet. Slightly larger
+     than body copy, capped at a comfortable measure. */
+  .game-section__intro {
+    font-size: 1.05rem;
+    max-width: 68ch;
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  /* --- Rail -------------------------------------------------------------- */
+
+  .game-rail__title {
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-muted);
+    margin-block-end: 0.6rem;
+  }
+
+  .game-rail__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 0.15rem;
+  }
+
+  .game-rail__link {
+    display: block;
+    padding: 0.4rem 0.6rem;
+    border-radius: 0.4rem;
+    color: var(--color-body);
+    text-decoration: none;
+    font-size: 0.95rem;
+  }
+
+  .game-rail__link:hover {
+    background: var(--color-surface-alt);
+    color: var(--color-ink);
+    text-decoration: none;
+  }
+
+  .game-rail__facts {
+    margin-block-start: 1.25rem;
+    padding-block-start: 1rem;
+    border-block-start: 1px solid var(--color-line);
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  .game-rail__fact {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.75rem;
+    font-size: 0.9rem;
+  }
+
+  .game-rail__fact dt {
+    color: var(--color-muted);
+  }
+
+  .game-rail__fact dd {
+    margin: 0;
+    text-align: right;
+    color: var(--color-ink);
+  }
+</style>

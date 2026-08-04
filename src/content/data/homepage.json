@@ -1,0 +1,40 @@
+{
+  "hero": {
+    "h1": "Free Online Games. No Download, No Sign-Up, Just Play.",
+    "subheadline": "Hand-picked browser games you can start in a single click — each one with a real how-to-play guide, full controls and pro tips. Works on desktop, tablet and phone.",
+    "primaryCta": {
+      "label": "Browse All Games",
+      "href": "/all-games/"
+    },
+    "secondaryCta": {
+      "label": "Surprise Me",
+      "href": "/random/"
+    },
+    "trustLine": "No installs · No plugins · No account needed · Free forever"
+  },
+  "featuredSlugs": ["2048", "block-drop", "five-letters"],
+  "sections": [
+    {
+      "id": "featured",
+      "heading": "Featured Games",
+      "subheading": "Start here — the three games we would hand to someone with ten minutes free.",
+      "source": "featured",
+      "limit": 6
+    },
+    {
+      "id": "new",
+      "heading": "Recently Added",
+      "subheading": "The newest games on the site, most recent first.",
+      "source": "newest",
+      "limit": 8
+    },
+    {
+      "id": "categories",
+      "heading": "Browse by Category",
+      "subheading": "Eight categories, each with written guides on every game page.",
+      "source": "categories",
+      "limit": 8
+    }
+  ],
+  "intro": "SnackArcade is a small, hand-maintained collection of browser games that load in seconds and can be finished in ten minutes. Every game on this site has a written guide next to it: what the game is, how to play it, a full controls table for keyboard and touch, and tips that came from actually playing it rather than from a press release. Nothing here needs a download, a plugin or an account. Games hosted directly on this site are open source or licensed for this use, and each one credits the developer who made it with a link back to the original source and its licence."
+}

@@ -1,0 +1,112 @@
+---
+/**
+ * Category listing — pages 2 and beyond.  URL: /c/{slug}/page/{n}/
+ *
+ * The first page of every category lives in ../[slug].astro. This file only ever
+ * emits page numbers >= 2; getStaticPaths guarantees it.
+ *
+ * The same "must have at least one game" gate as page 1 applies, so pagination
+ * can never point at a category whose page 1 was never built.
+ */
+import type { GetStaticPaths } from 'astro';
+import { getCollection, render } from 'astro:content';
+
+import { getPublishedGames } from '@/lib/content/games';
+import { getCategoryById } from '@/lib/content/taxonomy';
+import { categoryPath, categoryPagePath } from '@/lib/utils/url';
+import { categoryBreadcrumbs } from '@/lib/seo/breadcrumbs';
+import { fillTemplate, templateValues } from '@/lib/seo/meta';
+import { shouldGenerateCategoryPage } from '@/lib/seo/routing';
+import { itemListSchema } from '@/components/seo/schema/itemList';
+import { breadcrumbListSchema } from '@/components/seo/schema/breadcrumbList';
+import { faqPageSchema } from '@/components/seo/schema/faqPage';
+import { PAGE_SIZES } from '@/config/seo';
+
+import GameListing from '@/components/listings/GameListing.astro';
+
+export const getStaticPaths = (async () => {
+  const categories = await getCollection('categories');
+  const games = await getPublishedGames();
+
+  const paths = [];
+  for (const category of categories) {
+    const catGames = games.filter((g) =>
+      g.data.taxonomy.categories.some((ref) => ref.id === category.id),
+    );
+    if (!shouldGenerateCategoryPage(catGames.length)) continue;
+    const totalPages = Math.ceil(catGames.length / PAGE_SIZES.CATEGORY);
+    for (let page = 2; page <= totalPages; page++) {
+      paths.push({
+        params: { slug: category.id, page: String(page) },
+        props: { categoryId: category.id, pageNumber: page, totalPages },
+      });
+    }
+  }
+  return paths;
+}) satisfies GetStaticPaths;
+
+interface Props {
+  categoryId: string;
+  pageNumber: number;
+  totalPages: number;
+}
+
+const { categoryId, pageNumber, totalPages } = Astro.props;
+
+const category = await getCategoryById(categoryId);
+if (!category) return Astro.notFound();
+
+const allCatGames = await getPublishedGames();
+const catGames = allCatGames.filter((g) =>
+  g.data.taxonomy.categories.some((ref) => ref.id === category.id),
+);
+const total = catGames.length;
+
+const size = PAGE_SIZES.CATEGORY;
+const start = (pageNumber - 1) * size;
+const pageGames = catGames.slice(start, start + size);
+
+const name = category.data.name;
+const values = templateValues(total, name);
+const title = fillTemplate(category.data.seo.titleTemplate, values);
+const description = fillTemplate(category.data.seo.descriptionTemplate, values);
+const h1 = fillTemplate(category.data.h1Template, values);
+
+const crumbs = categoryBreadcrumbs(name, categoryId, pageNumber);
+const pathname = categoryPagePath(categoryId, pageNumber);
+const { Content } = await render(category);
+
+const faqEntries = category.data.faq;
+const jsonLd = [
+  breadcrumbListSchema(crumbs),
+  faqPageSchema(faqEntries),
+  itemListSchema(
+    pageGames.map((g) => ({ slug: g.id, title: g.data.title })),
+    `${name} Games`,
+    start + 1,
+  ),
+];
+
+const hrefFor = (page: number) => categoryPagePath(categoryId, page);
+---
+
+<GameListing
+  kind="category-page"
+  title={title}
+  description={description}
+  h1={h1}
+  crumbs={crumbs}
+  games={pageGames}
+  pageNumber={pageNumber}
+  totalPages={totalPages}
+  hrefFor={hrefFor}
+  faqEntries={faqEntries}
+  pathname={pathname}
+  itemCount={pageGames.length}
+  jsonLdNodes={jsonLd}
+  source={`src/pages/c/${categoryId}/page/${pageNumber}.astro`}
+  lede={`Page ${pageNumber} of ${totalPages} — ${total} ${total === 1 ? 'game' : 'games'} in ${name}.`}
+  emptyMessage="No more games on this page."
+>
+  <Fragment slot="intro"><Content /></Fragment>
+</GameListing>

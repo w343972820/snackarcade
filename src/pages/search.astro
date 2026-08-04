@@ -1,0 +1,191 @@
+---
+/**
+ * Search page.  URL: /search/
+ *
+ * Explicitly noindex (kind="search") — a search-results page is thin and
+ * duplicate by nature, and indexing it would dilute the site. The search itself
+ * runs entirely client-side against /search-index.json via MiniSearch, so the
+ * page is fully functional on a static host with no backend.
+ */
+import BaseLayout from '@/layouts/BaseLayout.astro';
+
+const title = 'Search Free Online Games';
+const description =
+  'Search SnackArcade for free browser games by name, genre or tag. Every result links straight to a playable game with its own written guide.';
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  kind="search"
+  pathname="/search/"
+  itemCount={0}
+  source="src/pages/search.astro"
+>
+  <div class="container-content search-page">
+    <h1>Search Games</h1>
+    <p class="search-page__lead">
+      Type a game name, a genre like “puzzle”, or a tag like “no download”. Results appear as you type.
+    </p>
+
+    <input
+      id="search-input"
+      class="search-page__input"
+      type="search"
+      placeholder="e.g. puzzle, word, 2048"
+      aria-label="Search games"
+      autocomplete="off"
+    />
+
+    <ul id="search-results" class="search-page__results" aria-live="polite"></ul>
+    <p id="search-empty" class="search-page__empty" hidden>No games found. Try another word.</p>
+    <p id="search-hint" class="search-page__hint">Type at least two characters to search.</p>
+  </div>
+</BaseLayout>
+
+<script>
+  import MiniSearch from 'minisearch';
+
+  interface SearchRecord {
+    slug: string;
+    title: string;
+    description: string;
+    url: string;
+  }
+
+  const input = document.getElementById('search-input') as HTMLInputElement | null;
+  const results = document.getElementById('search-results') as HTMLUListElement | null;
+  const empty = document.getElementById('search-empty') as HTMLParagraphElement | null;
+  const hint = document.getElementById('search-hint') as HTMLParagraphElement | null;
+
+  let mini: MiniSearch<SearchRecord> | null = null;
+
+  async function loadIndex() {
+    try {
+      const res = await fetch('/search-index.json');
+      const data = (await res.json()) as { records: SearchRecord[] };
+      const records = data.records ?? [];
+      mini = new MiniSearch<SearchRecord>({
+        fields: ['title', 'description', 'keywords'],
+        storeFields: ['title', 'description', 'url'],
+        searchOptions: { prefix: true, fuzzy: 0.2, boost: { title: 2 } },
+      });
+      mini.addAll(records);
+    } catch (error) {
+      if (hint) hint.textContent = 'Search index failed to load. Please refresh the page.';
+      console.error('[search] failed to load index', error);
+    }
+  }
+
+  function render(query: string) {
+    if (!mini || !results || !empty || !hint) return;
+    const q = query.trim();
+    results.innerHTML = '';
+
+    if (q.length < 2) {
+      empty.hidden = true;
+      hint.hidden = false;
+      return;
+    }
+    hint.hidden = true;
+
+    const hits = mini.search(q).slice(0, 20);
+    empty.hidden = hits.length > 0;
+
+    const fragment = document.createDocumentFragment();
+    for (const hit of hits) {
+      const li = document.createElement('li');
+      li.className = 'search-page__result';
+      const a = document.createElement('a');
+      a.href = hit.url as string;
+      a.className = 'search-page__result-link';
+      const titleEl = document.createElement('span');
+      titleEl.className = 'search-page__result-title';
+      titleEl.textContent = hit.title as string;
+      const descEl = document.createElement('span');
+      descEl.className = 'search-page__result-desc';
+      descEl.textContent = hit.description as string;
+      a.append(titleEl, descEl);
+      li.append(a);
+      fragment.append(li);
+    }
+    results.append(fragment);
+  }
+
+  input?.addEventListener('input', () => render(input.value));
+  void loadIndex();
+</script>
+
+<style>
+  .search-page {
+    padding-block: 2rem 3rem;
+    max-width: 48rem;
+  }
+
+  .search-page h1 {
+    font-size: clamp(1.7rem, 1.2rem + 2vw, 2.3rem);
+  }
+
+  .search-page__lead {
+    margin-block: 0.5rem 1.5rem;
+    color: var(--color-muted);
+    max-width: 60ch;
+  }
+
+  .search-page__input {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    font-size: 1.05rem;
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-card);
+    background: var(--color-surface);
+    color: var(--color-ink);
+  }
+
+  .search-page__input:focus {
+    outline: 3px solid var(--color-brand);
+    outline-offset: 2px;
+  }
+
+  .search-page__results {
+    list-style: none;
+    padding: 0;
+    margin-block-start: 1.5rem;
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .search-page__result-link {
+    display: block;
+    padding: 0.9rem 1rem;
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-card);
+    background: var(--color-surface);
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .search-page__result-link:hover {
+    border-color: var(--color-brand);
+    text-decoration: none;
+  }
+
+  .search-page__result-title {
+    display: block;
+    font-weight: 700;
+    color: var(--color-ink);
+  }
+
+  .search-page__result-desc {
+    display: block;
+    margin-block-start: 0.25rem;
+    font-size: 0.9rem;
+    color: var(--color-muted);
+  }
+
+  .search-page__empty,
+  .search-page__hint {
+    margin-block-start: 1.25rem;
+    color: var(--color-muted);
+  }
+</style>

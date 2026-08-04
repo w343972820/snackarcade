@@ -1,0 +1,80 @@
+---
+/**
+ * Tips & Strategies (PRD 5.2 module 9).
+ *
+ * This is the single most valuable block on the page. It targets the
+ * `{game} tips` and `how to beat {game}` query families, and it supplies most
+ * of the page's original word count.
+ *
+ * The schema enforces 5–8 tips, each with a real body, precisely because
+ * recycling one generic set of tips across every game is what turns a game site
+ * into a doorway-page farm in Google's eyes. Nothing here can prevent that —
+ * only the person writing the content can — but the per-tip heading makes
+ * copy-paste filler obvious to a human reviewer at a glance.
+ */
+
+/** One tip from `data.content.tips`. */
+export interface Tip {
+  /** Short label, rendered as an h3. */
+  title: string;
+  /** The advice itself. */
+  body: string;
+}
+
+export interface Props {
+  /** Tips in the order they should be read. */
+  tips: readonly Tip[];
+  /** Game name, used in the heading. */
+  gameTitle: string;
+  /** Heading id so the section can be labelled. */
+  headingId?: string;
+}
+
+const { tips, gameTitle, headingId = 'tips-heading' } = Astro.props;
+---
+
+{
+  tips.length > 0 && (
+    <section class="game-section" aria-labelledby={headingId} id="tips">
+      <h2 class="game-section__title" id={headingId}>
+        {gameTitle} Tips &amp; Strategies
+      </h2>
+
+      <ul class="tips">
+        {tips.map((tip) => (
+          <li class="tips__item">
+            <h3 class="tips__title">{tip.title}</h3>
+            <p class="tips__body" set:html={tip.body} />
+          </li>
+        ))}
+      </ul>
+    </section>
+  )
+}
+
+<style>
+  .tips {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 1.1rem;
+  }
+
+  .tips__item {
+    padding-inline-start: 1rem;
+    border-inline-start: 3px solid var(--color-brand);
+  }
+
+  .tips__title {
+    font-size: 1.02rem;
+    margin: 0 0 0.25rem;
+    color: var(--color-ink);
+  }
+
+  .tips__body {
+    margin: 0;
+    color: var(--color-body);
+    max-width: 64ch;
+  }
+</style>

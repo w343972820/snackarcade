@@ -1,0 +1,38 @@
+---
+/**
+ * Mediavine / Raptive ad container.
+ *
+ * These networks insert their own creatives into containers they find on the
+ * page, so the adapter's whole job is to render a correctly named container of
+ * a known height. The rest is handled by the script loaded in `AdsHead.astro`.
+ *
+ * Because the container is the same `.ad-slot` box AdSense uses, switching
+ * networks changes nothing about the page layout — which is exactly the promise
+ * the ad abstraction is supposed to make.
+ */
+import type { AdPlacement } from '@/config/ads';
+
+export interface Props {
+  /** The placement being rendered. */
+  placement: AdPlacement;
+}
+
+const { placement } = Astro.props;
+
+/**
+ * Mediavine's own naming for the positions it supports. Anything it does not
+ * recognise falls back to 'content_desktop', which it treats as a generic
+ * in-article slot.
+ */
+const MEDIAVINE_NAMES: Record<string, string> = {
+  header: 'leaderboard_atf',
+  'below-game': 'content_desktop',
+  'in-content': 'content_desktop',
+  sidebar: 'sidebar_atf',
+  footer: 'adhesive_footer',
+};
+
+const mediavineName: string = MEDIAVINE_NAMES[placement.id] ?? 'content_desktop';
+---
+
+<div class="ad-slot__inner" data-mediavine-placement={mediavineName}></div>

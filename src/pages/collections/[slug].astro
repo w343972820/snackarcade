@@ -1,0 +1,103 @@
+---
+/**
+ * Collection detail.  URL: /collections/{slug}/
+ *
+ * Lists the games in a hand-picked collection. getStaticPaths emits one route per
+ * collection in src/content/collections; with none authored yet it emits nothing
+ * and the index page shows its empty state instead.
+ */
+import type { GetStaticPaths } from 'astro';
+import { getCollection, render } from 'astro:content';
+
+import { getGamesBySlugs } from '@/lib/content/games';
+import { collectionPath } from '@/lib/utils/url';
+import { collectionBreadcrumbs } from '@/lib/seo/breadcrumbs';
+import { breadcrumbListSchema } from '@/components/seo/schema/breadcrumbList';
+import { itemListSchema } from '@/components/seo/schema/itemList';
+
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Breadcrumbs from '@/components/ui/Breadcrumbs.astro';
+import GameGrid from '@/components/ui/GameGrid.astro';
+
+export const getStaticPaths = (async () => {
+  const collections = await getCollection('collections');
+  return collections.map((collection) => ({
+    params: { slug: collection.id },
+    props: { slug: collection.id },
+  }));
+}) satisfies GetStaticPaths;
+
+interface Props {
+  slug: string;
+}
+
+const { slug } = Astro.props;
+
+const entry = (await getCollection('collections')).find((c) => c.id === slug);
+if (!entry) return Astro.notFound();
+
+const data = entry.data;
+const games = await getGamesBySlugs(data.gameSlugs);
+const crumbs = collectionBreadcrumbs(data.title, slug);
+const pathname = collectionPath(slug);
+
+const { Content } = await render(entry);
+
+const jsonLd = [
+  breadcrumbListSchema(crumbs),
+  itemListSchema(
+    games.map((g) => ({ slug: g.id, title: g.data.title })),
+    data.title,
+    1,
+  ),
+];
+---
+
+<BaseLayout
+  title={data.seo.title}
+  description={data.seo.description}
+  kind="collection"
+  pathname={pathname}
+  itemCount={games.length}
+  jsonLdNodes={jsonLd}
+  source={`src/pages/collections/${slug}.astro`}
+>
+  <div class="container-content collection-page">
+    <Breadcrumbs crumbs={crumbs} class="collection-page__crumbs" />
+    <h1>{data.title}</h1>
+
+    <div class="collection-page__intro prose-content">
+      <Content />
+    </div>
+
+    {
+      games.length === 0 ? (
+        <p class="collection-page__empty">This collection has no games linked yet.</p>
+      ) : (
+        <GameGrid games={games} eagerCount={4} headingLevel="h3" />
+      )
+    }
+  </div>
+</BaseLayout>
+
+<style>
+  .collection-page {
+    padding-block: 1rem 2rem;
+  }
+  .collection-page__crumbs {
+    margin-block-end: 1rem;
+  }
+  .collection-page h1 {
+    font-size: clamp(1.7rem, 1.2rem + 2vw, 2.4rem);
+  }
+  .collection-page__intro {
+    margin-block-end: 2rem;
+    max-width: 70ch;
+  }
+  .collection-page__empty {
+    padding: 2rem 1rem;
+    border: 1px dashed var(--color-line);
+    border-radius: var(--radius-card);
+    color: var(--color-muted);
+  }
+</style>

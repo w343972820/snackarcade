@@ -1,0 +1,190 @@
+---
+/**
+ * The Action / Desktop / Mobile controls table (PRD 5.2 module 8).
+ *
+ * WHY A TABLE AND NOT A LIST
+ * --------------------------
+ * `{game} controls` is one of the highest-intent queries a game page can win,
+ * and Google's featured snippet for that query family is almost always pulled
+ * from a real `<table>` with a real `<thead>`. A styled `<div>` grid renders
+ * identically and wins nothing.
+ *
+ * MOBILE COLLAPSE
+ * ---------------
+ * Three columns do not fit at 375px without horizontal scrolling, and a
+ * scrolling table is a mobile-usability flag in Search Console. Below 640px the
+ * rows become label/value pairs — two columns — via `data-label`, so the markup
+ * stays a semantically correct table at every width.
+ */
+
+/** One row of the controls table. */
+export interface ControlRow {
+  /** What the player is doing, e.g. "Move left". */
+  action: string;
+  /** Keyboard or mouse input. */
+  desktop: string;
+  /** Touch gesture, or "Not available". */
+  mobile: string;
+}
+
+export interface Props {
+  /** Rows from `data.content.controls`. */
+  rows: readonly ControlRow[];
+  /** Game name, used in the caption. */
+  gameTitle: string;
+  /** Heading id so the section can be labelled. */
+  headingId?: string;
+}
+
+const { rows, gameTitle, headingId = 'controls-heading' } = Astro.props;
+---
+
+{
+  rows.length > 0 && (
+    <section class="game-section" aria-labelledby={headingId} id="controls">
+      <h2 class="game-section__title" id={headingId}>
+        {gameTitle} Controls
+      </h2>
+
+      <div class="controls-table__scroll">
+        <table class="controls-table">
+          <caption class="controls-table__caption">
+            Every keyboard and touch input for {gameTitle}.
+          </caption>
+          <thead>
+            <tr>
+              <th scope="col">Action</th>
+              <th scope="col">Desktop</th>
+              <th scope="col">Mobile</th>
+            </tr>
+          </thead>
+          <tbody>
+            {rows.map((row) => (
+              <tr>
+                <th scope="row" class="controls-table__action" data-label="Action">
+                  {row.action}
+                </th>
+                <td data-label="Desktop">{row.desktop}</td>
+                <td data-label="Mobile">{row.mobile}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  )
+}
+
+<style>
+  .controls-table__scroll {
+    /* Only ever engages on the widest tables at mid-range widths. */
+    overflow-x: auto;
+  }
+
+  .controls-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.94rem;
+    text-align: left;
+  }
+
+  .controls-table__caption {
+    caption-side: bottom;
+    padding-block-start: 0.6rem;
+    font-size: 0.8rem;
+    color: var(--color-muted);
+    text-align: left;
+  }
+
+  .controls-table th,
+  .controls-table td {
+    padding: 0.6rem 0.8rem;
+    border-bottom: 1px solid var(--color-line);
+    vertical-align: top;
+  }
+
+  .controls-table thead th {
+    background: var(--color-surface-sunken);
+    color: var(--color-ink);
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  .controls-table__action {
+    font-weight: 600;
+    color: var(--color-ink);
+  }
+
+  .controls-table tbody tr:nth-child(even) {
+    background: var(--color-surface-alt);
+  }
+
+  /* --- Two-column layout below 640px ------------------------------------- */
+  @media (max-width: 639px) {
+    .controls-table__scroll {
+      overflow-x: visible;
+    }
+
+    /* Header row is redundant once every cell carries its own label. */
+    .controls-table thead {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+
+    .controls-table,
+    .controls-table tbody,
+    .controls-table tr,
+    .controls-table th,
+    .controls-table td {
+      display: block;
+    }
+
+    .controls-table tr {
+      margin-block-end: 0.7rem;
+      border: 1px solid var(--color-line);
+      border-radius: var(--radius-card);
+      overflow: hidden;
+      background: var(--color-surface);
+    }
+
+    .controls-table tbody tr:nth-child(even) {
+      background: var(--color-surface);
+    }
+
+    .controls-table__action {
+      background: var(--color-surface-sunken);
+      border-bottom: 1px solid var(--color-line);
+      font-size: 0.98rem;
+    }
+
+    .controls-table td {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+      border-bottom: 1px solid var(--color-line);
+    }
+
+    .controls-table tr td:last-child {
+      border-bottom: 0;
+    }
+
+    .controls-table td::before {
+      content: attr(data-label);
+      flex: none;
+      font-weight: 600;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      color: var(--color-muted);
+    }
+
+    .controls-table td {
+      text-align: right;
+    }
+  }
+</style>

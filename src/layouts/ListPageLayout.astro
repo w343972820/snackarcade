@@ -1,0 +1,136 @@
+---
+/**
+ * Layout for every listing page: categories, tags, collections, all-games, new.
+ *
+ * A listing page earns its place in the index through the original text above
+ * the grid, not through the grid. That is why `intro` is a named slot the
+ * caller is expected to fill, and why the FAQ block sits at the bottom — both
+ * are the difference between a category page that ranks and a category page
+ * Google treats as a duplicate of the sitemap.
+ */
+import type { Crumb } from '@/lib/seo/breadcrumbs';
+import type { PageKind } from '@/lib/seo/indexability';
+
+import AdSlot from '@/components/ads/AdSlot.astro';
+import Breadcrumbs from '@/components/ui/Breadcrumbs.astro';
+import BaseLayout from './BaseLayout.astro';
+
+export interface Props {
+  title: string;
+  description: string;
+  kind: PageKind;
+  /** Visible page headline. */
+  h1: string;
+  /** Breadcrumb trail, built by `src/lib/seo/breadcrumbs.ts`. */
+  crumbs: readonly Crumb[];
+
+  pathname?: string;
+  itemCount?: number;
+  pageNumber?: number;
+  explicitNoindex?: boolean;
+
+  canonicalOverride?: string | undefined;
+  prevUrl?: string | undefined;
+  nextUrl?: string | undefined;
+  ogImage?: string;
+  jsonLdNodes?: (Record<string, unknown> | null | undefined)[];
+  source?: string;
+  /** One-line summary shown directly under the H1. */
+  lede?: string;
+}
+
+const {
+  title,
+  description,
+  kind,
+  h1,
+  crumbs,
+  pathname,
+  itemCount = 0,
+  pageNumber = 1,
+  explicitNoindex = false,
+  canonicalOverride,
+  prevUrl,
+  nextUrl,
+  ogImage,
+  jsonLdNodes = [],
+  source = 'listing page',
+  lede,
+} = Astro.props;
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  kind={kind}
+  pathname={pathname}
+  itemCount={itemCount}
+  pageNumber={pageNumber}
+  explicitNoindex={explicitNoindex}
+  canonicalOverride={canonicalOverride}
+  prevUrl={prevUrl}
+  nextUrl={nextUrl}
+  ogImage={ogImage}
+  jsonLdNodes={jsonLdNodes}
+  source={source}
+>
+  <div class="container-content list-page">
+    <Breadcrumbs crumbs={crumbs} class="list-page__crumbs" />
+
+    <header class="list-page__header">
+      <h1>{h1}</h1>
+      {lede !== undefined && <p class="list-page__lede">{lede}</p>}
+    </header>
+
+    {/* Original editorial text. Without it a listing page is a sitemap. */}
+    <div class="list-page__intro prose-content">
+      <slot name="intro" />
+    </div>
+
+    <AdSlot placement="header" class="list-page__ad" />
+
+    <section class="list-page__grid" aria-label="Games">
+      <slot />
+    </section>
+
+    <slot name="pagination" />
+
+    <div class="list-page__extra prose-content">
+      <slot name="faq" />
+    </div>
+
+    <AdSlot placement="footer" class="list-page__ad" />
+  </div>
+</BaseLayout>
+
+<style>
+  .list-page {
+    padding-block: 1rem 2rem;
+  }
+
+  .list-page__header {
+    margin-block: 1rem 0.75rem;
+  }
+
+  .list-page__header h1 {
+    font-size: clamp(1.5rem, 1.1rem + 1.8vw, 2.2rem);
+  }
+
+  .list-page__lede {
+    margin-block-start: 0.5rem;
+    color: var(--color-muted);
+    max-width: 70ch;
+  }
+
+  .list-page__intro:not(:empty) {
+    margin-block-end: 1.75rem;
+  }
+
+  .list-page__ad {
+    margin-block: 1.5rem;
+  }
+
+  .list-page__extra:not(:empty) {
+    margin-block-start: 3rem;
+  }
+</style>

@@ -1,0 +1,144 @@
+---
+/**
+ * The document shell every page on the site is built from.
+ *
+ * IT DOES FOUR THINGS AND NO PAGE SHOULD DO THEM ITSELF
+ * ----------------------------------------------------
+ * 1. Decides indexability, exactly once, through `resolveIndexability`. That
+ *    call also records non-indexable paths for the sitemap filter, so the
+ *    robots meta tag and the sitemap can never disagree.
+ * 2. Renders the head via `BaseHead`, which enforces title and description
+ *    lengths at build time.
+ * 3. Emits the JSON-LD `@graph` — one script tag, whatever the page type.
+ * 4. Emits the ad lazy loader after the body content, only when ads are on.
+ */
+import { adsActive, adsConfig } from '@/config/ads';
+import { SITE } from '@/config/site';
+import { resolveIndexability, type PageKind } from '@/lib/seo/indexability';
+import { buildAdSenseLoaderScript } from '@/scripts/ads-loader';
+
+import BaseHead from '@/components/seo/BaseHead.astro';
+import JsonLd from '@/components/seo/JsonLd.astro';
+import Header from '@/components/layout/Header.astro';
+import Footer from '@/components/layout/Footer.astro';
+
+import '@/styles/global.css';
+
+export interface Props {
+  /** Page title without the brand suffix. */
+  title: string;
+  /** Meta description, 70–158 characters. */
+  description: string;
+  /** What kind of page this is; drives the indexing rules. */
+  kind: PageKind;
+
+  /** Canonical path. Defaults to the URL currently being rendered. */
+  pathname?: string;
+  /** Items on a listing page — thin listings are set to noindex. */
+  itemCount?: number;
+  /** Pagination page number, 1-based. */
+  pageNumber?: number;
+  /** `noindexOverride: true` from a content file. */
+  explicitNoindex?: boolean;
+  /** True when the source content file is a draft. */
+  draft?: boolean;
+
+  /** Open Graph type. */
+  ogType?: 'website' | 'article';
+  /** Social image, absolute or site-relative. */
+  ogImage?: string;
+  /** Alt text for the social image. */
+  ogImageAlt?: string;
+  /** Deliberate canonical override. */
+  canonicalOverride?: string | undefined;
+  /** Article dates, used for `og:type="article"`. */
+  publishedAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  /** Pagination rel links. */
+  prevUrl?: string | undefined;
+  nextUrl?: string | undefined;
+
+  /** Structured-data nodes; nulls are filtered out by `JsonLd`. */
+  jsonLdNodes?: (Record<string, unknown> | null | undefined)[];
+  /** Names the source file in build-time error messages. */
+  source?: string;
+  /** Extra classes on `<main>`. */
+  mainClass?: string;
+}
+
+const {
+  title,
+  description,
+  kind,
+  pathname = Astro.url.pathname,
+  itemCount = 0,
+  pageNumber = 1,
+  explicitNoindex = false,
+  draft = false,
+  ogType = 'website',
+  ogImage,
+  ogImageAlt,
+  canonicalOverride,
+  publishedAt,
+  updatedAt,
+  prevUrl,
+  nextUrl,
+  jsonLdNodes = [],
+  source = 'unknown page',
+  mainClass = '',
+} = Astro.props;
+
+/**
+ * The one and only indexability decision for this page. Calling it here — not
+ * in the individual pages — is what guarantees no page can forget to make it.
+ */
+const indexability = resolveIndexability({
+  kind,
+  pathname,
+  itemCount,
+  pageNumber,
+  explicitNoindex,
+  draft,
+});
+
+/** Emitted at the end of <body>, so the slots it looks for already exist. */
+const adLoader: string =
+  adsActive() && adsConfig.network === 'adsense' ? buildAdSenseLoaderScript() : '';
+---
+
+<!doctype html>
+<html lang={SITE.locale}>
+  <head>
+    <BaseHead
+      title={title}
+      description={description}
+      pathname={pathname}
+      robots={indexability.robots}
+      ogType={ogType}
+      ogImage={ogImage}
+      ogImageAlt={ogImageAlt}
+      canonicalOverride={canonicalOverride}
+      publishedAt={publishedAt}
+      updatedAt={updatedAt}
+      prevUrl={prevUrl}
+      nextUrl={nextUrl}
+      source={source}
+    />
+    <JsonLd nodes={jsonLdNodes} />
+    <slot name="head" />
+  </head>
+
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <Header />
+
+    <main id="main" class={mainClass}>
+      <slot />
+    </main>
+
+    <Footer />
+
+    {adLoader !== '' && <script is:inline set:html={adLoader} />}
+  </body>
+</html>

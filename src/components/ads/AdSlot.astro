@@ -1,0 +1,89 @@
+---
+/**
+ * An ad position.
+ *
+ * Pages and layouts drop `<AdSlot placement="below-game" />` wherever an ad
+ * belongs and never mention a network, a publisher id or a script. That is the
+ * whole point: the day the site moves from AdSense to Mediavine, not one of
+ * these call sites changes.
+ *
+ * ── THE RULE THAT MATTERS MOST IN THIS FILE ─────────────────────────────────
+ * When ads are off, this component returns nothing. No wrapper div, no reserved
+ * height, no label, no comment. `scripts/validate-ads.mjs` greps the built site
+ * and fails the build if any ad token survives with ads off.
+ * ────────────────────────────────────────────────────────────────────────────
+ */
+import { adsActive, getPlacement, adsConfig, type AdPlacementId } from '@/config/ads';
+
+import AdSenseSlot from './adapters/AdSenseSlot.astro';
+import MediavineSlot from './adapters/MediavineSlot.astro';
+import NoopSlot from './adapters/NoopSlot.astro';
+
+export interface Props {
+  /** Which configured position this is. */
+  placement: AdPlacementId;
+  /** Extra classes for the outer container, e.g. spacing utilities. */
+  class?: string;
+  /**
+   * Add the mandatory gap between a game frame and the ad below it.
+   * Only the slot directly under a playable game needs this.
+   */
+  gameGuard?: boolean;
+  /** Render as a sticky anchor unit. Used by the footer placement on mobile. */
+  anchor?: boolean;
+}
+
+const {
+  placement: placementId,
+  class: className = '',
+  gameGuard = false,
+  anchor = false,
+} = Astro.props;
+
+/** Resolved once, so the template below stays free of logic. */
+const active: boolean = adsActive();
+const placement = active ? getPlacement(placementId) : null;
+
+/**
+ * Reserved height is published as CSS custom properties rather than a fixed
+ * `height`, so `src/styles/ads.css` can apply a different value per breakpoint
+ * without a media query per placement.
+ */
+const styleVars: string =
+  placement === null
+    ? ''
+    : [
+        `--ad-mh-mobile:${placement.minHeightMobile}px`,
+        `--ad-mh-desktop:${placement.minHeightDesktop}px`,
+        gameGuard ? `--game-ad-gap:${adsConfig.gameAdGapPx}px` : '',
+      ]
+        .filter((part) => part !== '')
+        .join(';');
+
+const containerClass: string = [
+  'ad-slot',
+  anchor ? 'ad-slot--anchor' : '',
+  gameGuard ? 'game-ad-guard' : '',
+  className,
+]
+  .filter((part) => part !== '')
+  .join(' ');
+---
+
+{
+  active && placement !== null && (
+    <aside
+      class={containerClass}
+      style={styleVars}
+      data-ad-placement={placement.id}
+      data-ad-mobile={String(placement.minHeightMobile)}
+      data-ad-desktop={String(placement.minHeightDesktop)}
+      aria-label={placement.label}
+    >
+      <span class="ad-slot__label">{placement.label}</span>
+      {adsConfig.network === 'adsense' && <AdSenseSlot placement={placement} />}
+      {adsConfig.network === 'mediavine' && <MediavineSlot placement={placement} />}
+      {adsConfig.network === 'none' && <NoopSlot placementId={placement.id} />}
+    </aside>
+  )
+}

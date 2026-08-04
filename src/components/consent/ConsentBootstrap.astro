@@ -1,0 +1,35 @@
+---
+/**
+ * Consent Mode v2 defaults and, when configured, the GA4 loader.
+ *
+ * MUST be rendered as the very first thing inside `<head>`. Google requires
+ * consent defaults to be set before any tag that could read or write storage;
+ * if AdSense or gtag.js loads first, every EEA visitor is treated as having
+ * consented and the site is non-compliant.
+ *
+ * When neither ads nor analytics are switched on, nothing is emitted — a site
+ * that sets no cookies does not need a consent signal, and shipping one anyway
+ * would be dead weight on every page.
+ */
+import { adsActive } from '@/config/ads';
+import { analyticsConfig } from '@/config/analytics';
+import {
+  buildAnalyticsScript,
+  buildConsentBootstrapScript,
+  buildEventHelperScript,
+} from '@/scripts/analytics';
+
+const adsOn: boolean = adsActive();
+const analyticsOn: boolean = analyticsConfig.enabled;
+
+/** Consent is only meaningful when something on the page can set storage. */
+const needsConsent: boolean = adsOn || analyticsOn;
+
+const consentScript: string = needsConsent ? buildConsentBootstrapScript() : '';
+const analyticsScript: string = analyticsOn ? buildAnalyticsScript() : '';
+const eventHelper: string = analyticsOn ? buildEventHelperScript() : '';
+---
+
+{needsConsent && <script is:inline set:html={consentScript} />}
+{analyticsOn && <script is:inline set:html={analyticsScript} />}
+{analyticsOn && eventHelper !== '' && <script is:inline set:html={eventHelper} />}

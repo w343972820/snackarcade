@@ -1,0 +1,44 @@
+---
+/**
+ * Google AdSense ad unit.
+ *
+ * Renders only the `<ins>` element. It is marked `data-ad-pending`, and the
+ * shared lazy loader emitted once per page by `AdsHead.astro` is what actually
+ * pushes it into the AdSense queue when it nears the viewport.
+ *
+ * The element carries no inline height: the reserved space lives on the parent
+ * `.ad-slot` container so the browser knows the box size from the first byte of
+ * HTML, before any script runs. That is what keeps CLS at zero.
+ */
+import { adsConfig, type AdPlacement } from '@/config/ads';
+
+export interface Props {
+  /** The placement being rendered. */
+  placement: AdPlacement;
+}
+
+const { placement } = Astro.props;
+
+/**
+ * An ad unit id is optional in practice — AdSense Auto ads work without one —
+ * but a named unit is the only way to see per-placement revenue in the
+ * dashboard, so a missing id is worth a build-time warning rather than silence.
+ */
+if (placement.adsenseSlotId === '' && import.meta.env.PROD) {
+  console.warn(
+    `[ads] Placement "${placement.id}" has no adsenseSlotId. The ad will still ` +
+      'fill, but you will not be able to see how much it earns. Create an ad ' +
+      'unit in the AdSense dashboard and paste its id into src/config/ads.ts.',
+  );
+}
+---
+
+<ins
+  class="adsbygoogle ad-slot__inner"
+  style="display:block"
+  data-ad-pending
+  data-ad-client={adsConfig.publisherId}
+  data-ad-slot={placement.adsenseSlotId === '' ? undefined : placement.adsenseSlotId}
+  data-ad-format={placement.format}
+  data-full-width-responsive={placement.fullWidthResponsive ? 'true' : 'false'}
+></ins>

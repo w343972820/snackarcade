@@ -1,0 +1,139 @@
+---
+/**
+ * Game licences & attribution.  URL: /licenses/
+ *
+ * The AdSense reviewer explicitly checks that hosted games are credited and that
+ * the licence permits the use. This page makes that audit one scroll: every
+ * self-hosted game, its licence, its developer, and a link back to the source.
+ *
+ * The same data is published as machine-readable /licenses.json by
+ * src/pages/licenses.json.ts — both are built from the content collection.
+ */
+import { getPublishedGames } from '@/lib/content/games';
+import { gamePath } from '@/lib/utils/url';
+import { SITE } from '@/config/site';
+import type { Crumb } from '@/lib/seo/breadcrumbs';
+
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Breadcrumbs from '@/components/ui/Breadcrumbs.astro';
+
+const games = await getPublishedGames();
+
+const title = 'Game Licences & Attribution';
+const description = `Every game hosted on ${SITE.name}, its open-source or permissive licence, the original developer, and a link back to the source. We credit every creator.`;
+const crumbs: Crumb[] = [
+  { name: 'Home', href: '/' },
+  { name: 'Game Licences', href: '/licenses/' },
+];
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  kind="page"
+  pathname="/licenses/"
+  itemCount={games.length}
+  source="src/pages/licenses/index.astro"
+>
+  <div class="container-content licenses-page prose-content">
+    <Breadcrumbs crumbs={crumbs} class="licenses-page__crumbs" />
+
+    <h1>Game Licences &amp; Attribution</h1>
+    <p>
+      {SITE.name} hosts a small number of free browser games. Every one is open source or released
+      under a licence that permits this use, and every one credits the developer who made it. This
+      page is the public record of those licences.
+    </p>
+
+    <ul class="licenses-page__list">
+      {
+        games.map((game) => (
+          <li class="licenses-page__item">
+            <h2 class="licenses-page__title">
+              <a href={gamePath(game.id)}>{game.data.title}</a>
+            </h2>
+            <p class="licenses-page__attribution">{game.data.license.attributionRendered}</p>
+            <ul class="licenses-page__links">
+              {game.data.license.licenseUrl && (
+                <li>
+                  <a href={game.data.license.licenseUrl} rel="noopener" target="_blank">
+                    Licence ({game.data.license.license})
+                  </a>
+                </li>
+              )}
+              {game.data.license.sourceUrl && (
+                <li>
+                  <a href={game.data.license.sourceUrl} rel="noopener" target="_blank">
+                    Original source
+                  </a>
+                </li>
+              )}
+              {game.data.license.authorUrl && (
+                <li>
+                  <a href={game.data.license.authorUrl} rel="noopener" target="_blank">
+                    Developer
+                  </a>
+                </li>
+              )}
+              <li class="licenses-page__verified">
+                Verified {game.data.license.verifiedAt.toISOString().slice(0, 10)}
+              </li>
+            </ul>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</BaseLayout>
+
+<style>
+  .licenses-page {
+    padding-block: 1rem 2rem;
+  }
+
+  .licenses-page__crumbs {
+    margin-block-end: 1rem;
+  }
+
+  .licenses-page h1 {
+    font-size: clamp(1.6rem, 1.2rem + 2vw, 2.2rem);
+  }
+
+  .licenses-page__list {
+    list-style: none;
+    padding: 0;
+    margin-block-start: 1.5rem;
+    display: grid;
+    gap: 1.25rem;
+  }
+
+  .licenses-page__item {
+    padding: 1rem 1.25rem;
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-card);
+    background: var(--color-surface-alt);
+  }
+
+  .licenses-page__title {
+    font-size: 1.2rem;
+    margin-block-end: 0.4rem;
+  }
+
+  .licenses-page__attribution {
+    color: var(--color-body);
+    margin-block-end: 0.5rem;
+  }
+
+  .licenses-page__links {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    font-size: 0.92rem;
+  }
+
+  .licenses-page__verified {
+    color: var(--color-muted);
+  }
+</style>

@@ -1,0 +1,72 @@
+---
+/**
+ * The Similar Games block (PRD 5.2 module 13).
+ *
+ * ── WHY THIS BLOCK IS STRATEGIC, NOT DECORATIVE ─────────────────────────────
+ * A new site has no backlinks. Internal links are therefore the only mechanism
+ * that moves crawl priority and PageRank to a freshly published page. This
+ * block is where almost all of the site's internal links live, which makes the
+ * choice of which games appear here the site's entire link architecture.
+ *
+ * The selection is made by `src/lib/related/similar.ts`, which weights features
+ * by IDF (so universal tags cannot create a match), damps popular games (so the
+ * same six titles do not appear on every page) and guarantees a minimum inbound
+ * link count (so no game becomes an orphan). None of that logic belongs in a
+ * component — this file only renders the answer.
+ * ────────────────────────────────────────────────────────────────────────────
+ *
+ * `data-similar-games` and `data-from-slug` are read by `game-player.ts`, which
+ * attaches a single delegated listener to report `similar_game_click`. One
+ * listener for the whole block, none on the cards.
+ */
+import type { Game } from '@/lib/content/games';
+
+import GameGrid from '@/components/ui/GameGrid.astro';
+
+export interface Props {
+  /** Games to link to, already ordered by relevance. */
+  games: readonly Game[];
+  /** The game currently being viewed; reported with the click event. */
+  fromSlug: string;
+  /** Game name, used in the heading. */
+  gameTitle: string;
+  /** Heading id so the section can be labelled. */
+  headingId?: string;
+}
+
+const { games, fromSlug, gameTitle, headingId = 'similar-heading' } = Astro.props;
+---
+
+{
+  games.length > 0 && (
+    <section
+      class="game-section"
+      aria-labelledby={headingId}
+      id="similar-games"
+      data-similar-games
+      data-from-slug={fromSlug}
+    >
+      <h2 class="game-section__title" id={headingId}>
+        More Games Like {gameTitle}
+      </h2>
+
+      <p class="similar__lead">
+        Hand-picked by genre, mechanics and play style — every one of them free and
+        playable in the same browser tab.
+      </p>
+
+      {/* eagerCount 0: this block is always well below the fold, so eager images
+          here would compete with the poster for bandwidth and hurt LCP. */}
+      <GameGrid games={games} eagerCount={0} headingLevel="h3" />
+    </section>
+  )
+}
+
+<style>
+  .similar__lead {
+    margin-block: -0.35rem 1rem;
+    max-width: 64ch;
+    color: var(--color-muted);
+    font-size: 0.92rem;
+  }
+</style>

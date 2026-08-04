@@ -1,0 +1,130 @@
+---
+/**
+ * Shared renderer for every game-listing page: categories, tags, all-games and
+ * new. Keeps the editorial intro, the grid, pagination and the FAQ block in one
+ * place so the listing pages stay thin and consistent.
+ *
+ * Props are passed at render time (not through getStaticPaths), so the function
+ * `hrefFor` is fine — it is never serialised.
+ */
+import type { Crumb } from '@/lib/seo/breadcrumbs';
+import type { PageKind } from '@/lib/seo/indexability';
+import type { Game } from '@/lib/content/games';
+import type { FaqEntry } from '@/components/seo/schema/faqPage';
+
+import ListPageLayout from '@/layouts/ListPageLayout.astro';
+import GameGrid from '@/components/ui/GameGrid.astro';
+import Pagination from '@/components/ui/Pagination.astro';
+
+export interface Props {
+  kind: PageKind;
+  title: string;
+  description: string;
+  h1: string;
+  crumbs: readonly Crumb[];
+  /** Games already sliced for this page. */
+  games: readonly Game[];
+  pageNumber: number;
+  totalPages: number;
+  hrefFor: (page: number) => string;
+  /** FAQ entries; rendered visibly and passed to the page's FAQPage JSON-LD. */
+  faqEntries?: readonly FaqEntry[];
+  /** Pathname of this exact page, for the canonical link and sitemap. */
+  pathname: string;
+  /** Items on this page, used for the indexability decision. */
+  itemCount?: number;
+  explicitNoindex?: boolean;
+  jsonLdNodes?: (Record<string, unknown> | null | undefined)[];
+  source?: string;
+  lede?: string;
+  emptyMessage?: string;
+}
+
+const {
+  kind,
+  title,
+  description,
+  h1,
+  crumbs,
+  games,
+  pageNumber,
+  totalPages,
+  hrefFor,
+  faqEntries = [],
+  pathname,
+  itemCount = games.length,
+  explicitNoindex = false,
+  jsonLdNodes = [],
+  source = 'listing page',
+  lede,
+  emptyMessage,
+} = Astro.props;
+
+const prevUrl: string | undefined = pageNumber > 1 ? hrefFor(pageNumber - 1) : undefined;
+const nextUrl: string | undefined = pageNumber < totalPages ? hrefFor(pageNumber + 1) : undefined;
+---
+
+<ListPageLayout
+  title={title}
+  description={description}
+  kind={kind}
+  h1={h1}
+  crumbs={crumbs}
+  pathname={pathname}
+  itemCount={itemCount}
+  pageNumber={pageNumber}
+  explicitNoindex={explicitNoindex}
+  prevUrl={prevUrl}
+  nextUrl={nextUrl}
+  jsonLdNodes={jsonLdNodes}
+  source={source}
+  lede={lede}
+>
+  <slot name="intro" />
+
+  <GameGrid games={games} eagerCount={8} headingLevel="h3" emptyMessage={emptyMessage} />
+
+  <Fragment slot="pagination">
+    <Pagination current={pageNumber} total={totalPages} hrefFor={hrefFor} />
+  </Fragment>
+
+  {
+    faqEntries.length > 0 && (
+      <Fragment slot="faq">
+        <section aria-labelledby="listing-faq-heading">
+          <h2 id="listing-faq-heading">Frequently Asked Questions</h2>
+          <dl class="listing-faq">
+            {faqEntries.map((item) => (
+              <div class="listing-faq__item">
+                <dt class="listing-faq__q">{item.q}</dt>
+                <dd class="listing-faq__a" set:html={item.a} />
+              </div>
+            ))}
+          </dl>
+        </section>
+      </Fragment>
+    )
+  }
+</ListPageLayout>
+
+<style>
+  .listing-faq {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .listing-faq__item {
+    border-bottom: 1px solid var(--color-line);
+    padding-block-end: 1rem;
+  }
+
+  .listing-faq__q {
+    font-weight: 700;
+    color: var(--color-ink);
+  }
+
+  .listing-faq__a {
+    margin-block-start: 0.3rem;
+    color: var(--color-body);
+  }
+</style>

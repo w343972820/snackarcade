@@ -1,0 +1,165 @@
+---
+/**
+ * Numbered pagination for listing pages.
+ *
+ * Renders real `<a href>` links to every reachable page rather than a
+ * JavaScript pager, because a crawler that cannot follow a link cannot find the
+ * games behind it. On a site whose entire traffic model is organic search, that
+ * is the difference between a game being indexed and not existing.
+ */
+export interface Props {
+  /** Current page number, 1-based. */
+  current: number;
+  /** Total number of pages. */
+  total: number;
+  /**
+   * Builds the URL for a page number. Supplied by the caller so category,
+   * tag and all-games listings can each use their own URL shape.
+   */
+  hrefFor: (page: number) => string;
+  /** Accessible label, e.g. "Puzzle games pages". */
+  label?: string;
+}
+
+const { current, total, hrefFor, label = 'Pagination' } = Astro.props;
+
+/**
+ * Page numbers to show: always the first and last, plus a window around the
+ * current page. `null` marks a gap where an ellipsis is rendered.
+ *
+ * @param current Current page.
+ * @param total Total pages.
+ * @returns Ordered list of page numbers and gaps.
+ */
+function buildWindow(current: number, total: number): (number | null)[] {
+  if (total <= 7) {
+    return Array.from({ length: total }, (_unused, index) => index + 1);
+  }
+
+  const pages = new Set<number>([1, total, current]);
+  if (current - 1 > 1) pages.add(current - 1);
+  if (current + 1 < total) pages.add(current + 1);
+  if (current <= 3) {
+    pages.add(2);
+    pages.add(3);
+  }
+  if (current >= total - 2) {
+    pages.add(total - 1);
+    pages.add(total - 2);
+  }
+
+  const sorted = [...pages].filter((page) => page >= 1 && page <= total).sort((a, b) => a - b);
+
+  const withGaps: (number | null)[] = [];
+  let previous = 0;
+  for (const page of sorted) {
+    if (previous !== 0 && page - previous > 1) withGaps.push(null);
+    withGaps.push(page);
+    previous = page;
+  }
+
+  return withGaps;
+}
+
+const items: (number | null)[] = buildWindow(current, total);
+const prevHref: string | null = current > 1 ? hrefFor(current - 1) : null;
+const nextHref: string | null = current < total ? hrefFor(current + 1) : null;
+---
+
+{
+  total > 1 && (
+    <nav class="pagination" aria-label={label}>
+      {prevHref !== null ? (
+        <a class="pagination__step tap-target" href={prevHref} rel="prev">
+          ← Previous
+        </a>
+      ) : (
+        <span class="pagination__step pagination__step--off tap-target">← Previous</span>
+      )}
+
+      <ol class="pagination__list">
+        {items.map((page) =>
+          page === null ? (
+            <li class="pagination__gap" aria-hidden="true">
+              …
+            </li>
+          ) : (
+            <li>
+              {page === current ? (
+                <span class="pagination__page pagination__page--current tap-target" aria-current="page">
+                  {page}
+                </span>
+              ) : (
+                <a class="pagination__page tap-target" href={hrefFor(page)}>
+                  {page}
+                </a>
+              )}
+            </li>
+          ),
+        )}
+      </ol>
+
+      {nextHref !== null ? (
+        <a class="pagination__step tap-target" href={nextHref} rel="next">
+          Next →
+        </a>
+      ) : (
+        <span class="pagination__step pagination__step--off tap-target">Next →</span>
+      )}
+    </nav>
+  )
+}
+
+<style>
+  .pagination {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    margin-block-start: 2.5rem;
+  }
+
+  .pagination__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+  }
+
+  .pagination__page,
+  .pagination__step {
+    padding-inline: 0.75rem;
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-card);
+    color: var(--color-body);
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-decoration: none;
+    background: var(--color-surface);
+  }
+
+  .pagination__page:hover,
+  .pagination__step:hover {
+    background: var(--color-surface-sunken);
+    text-decoration: none;
+  }
+
+  .pagination__page--current {
+    background: var(--color-brand);
+    border-color: var(--color-brand);
+    color: #fff;
+  }
+
+  .pagination__step--off {
+    color: var(--color-muted);
+    opacity: 0.55;
+    pointer-events: none;
+  }
+
+  .pagination__gap {
+    display: inline-flex;
+    align-items: center;
+    padding-inline: 0.3rem;
+    color: var(--color-muted);
+  }
+</style>

@@ -1,0 +1,54 @@
+---
+/**
+ * Everything the ad network needs in `<head>`, emitted once per page.
+ *
+ * With ads off this component produces an empty string — no preconnect, no
+ * script tag, no comment. That is the guarantee `scripts/validate-ads.mjs`
+ * checks after every build.
+ *
+ * The lazy loader is inlined at the END of the body by `BaseLayout.astro`
+ * rather than here, because it has to run after the slots exist in the DOM.
+ */
+import { adsActive, adsConfig } from '@/config/ads';
+import { buildMediavineLoaderScript } from '@/scripts/ads-loader';
+
+const active: boolean = adsActive();
+const isAdSense: boolean = active && adsConfig.network === 'adsense';
+const isMediavine: boolean = active && adsConfig.network === 'mediavine';
+
+/**
+ * AdSense's own tag URL. Kept in one place so the ad validator has a single
+ * string to look for.
+ */
+const adSenseTagUrl: string =
+  `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adsConfig.publisherId}`;
+
+const mediavineLoader: string = isMediavine ? buildMediavineLoaderScript() : '';
+---
+
+{
+  isAdSense && (
+    <>
+      {/* Warm up the TLS handshake to the ad server while the page parses. */}
+      <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin />
+      <link rel="preconnect" href="https://googleads.g.doubleclick.net" crossorigin />
+      <link rel="dns-prefetch" href="https://tpc.googlesyndication.com" />
+
+      {/*
+        `async` and no `defer`: AdSense must be allowed to run as soon as it
+        arrives, but must never block parsing. This is Google's own guidance
+        and a condition of ad serving.
+      */}
+      <script async is:inline src={adSenseTagUrl} crossorigin="anonymous"></script>
+    </>
+  )
+}
+
+{
+  isMediavine && (
+    <>
+      <link rel="preconnect" href="https://scripts.mediavine.com" crossorigin />
+      <script is:inline set:html={mediavineLoader} />
+    </>
+  )
+}

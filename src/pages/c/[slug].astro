@@ -1,0 +1,116 @@
+---
+/**
+ * Category listing — page 1.  URL: /c/{slug}/
+ *
+ * The editorial intro is the category's own markdown body, rendered to HTML.
+ * Pagination (page 2+) lives in ./[slug]/page/[page].astro so the two URL shapes
+ * stay distinct and crawlable.
+ *
+ * A category with zero published games gets NO page. It used to be built and
+ * marked `noindex`, which left five dead ends in the navigation and five thin
+ * pages an AdSense reviewer could count. Navigation resolves its category links
+ * from the same predicate (`shouldGenerateCategoryPage`), so the header, the
+ * footer and the routes always agree.
+ */
+import type { GetStaticPaths } from 'astro';
+import { getCollection, render } from 'astro:content';
+
+import { getPublishedGames } from '@/lib/content/games';
+import { getCategoryById } from '@/lib/content/taxonomy';
+import { categoryPath, categoryPagePath } from '@/lib/utils/url';
+import { categoryBreadcrumbs } from '@/lib/seo/breadcrumbs';
+import { fillTemplate, templateValues } from '@/lib/seo/meta';
+import { shouldGenerateCategoryPage } from '@/lib/seo/routing';
+import { itemListSchema } from '@/components/seo/schema/itemList';
+import { breadcrumbListSchema } from '@/components/seo/schema/breadcrumbList';
+import { faqPageSchema } from '@/components/seo/schema/faqPage';
+import { PAGE_SIZES } from '@/config/seo';
+
+import GameListing from '@/components/listings/GameListing.astro';
+
+export const getStaticPaths = (async () => {
+  const categories = await getCollection('categories');
+  const games = await getPublishedGames();
+
+  return categories
+    .map((category) => {
+      const catGames = games.filter((g) =>
+        g.data.taxonomy.categories.some((ref) => ref.id === category.id),
+      );
+      return { category, count: catGames.length };
+    })
+    .filter(({ count }) => shouldGenerateCategoryPage(count))
+    .map(({ category, count }) => {
+      const totalPages = Math.max(1, Math.ceil(count / PAGE_SIZES.CATEGORY));
+      return {
+        params: { slug: category.id },
+        props: { categoryId: category.id, pageNumber: 1, totalPages },
+      };
+    });
+}) satisfies GetStaticPaths;
+
+interface Props {
+  categoryId: string;
+  pageNumber: number;
+  totalPages: number;
+}
+
+const { categoryId, pageNumber, totalPages } = Astro.props;
+
+const category = await getCategoryById(categoryId);
+if (!category) return Astro.notFound();
+
+const allCatGames = await getPublishedGames();
+const catGames = allCatGames.filter((g) =>
+  g.data.taxonomy.categories.some((ref) => ref.id === category.id),
+);
+const total = catGames.length;
+
+const size = PAGE_SIZES.CATEGORY;
+const start = (pageNumber - 1) * size;
+const pageGames = catGames.slice(start, start + size);
+
+const name = category.data.name;
+const values = templateValues(total, name);
+const title = fillTemplate(category.data.seo.titleTemplate, values);
+const description = fillTemplate(category.data.seo.descriptionTemplate, values);
+const h1 = fillTemplate(category.data.h1Template, values);
+
+const crumbs = categoryBreadcrumbs(name, categoryId, pageNumber);
+const pathname = pageNumber > 1 ? categoryPagePath(categoryId, pageNumber) : categoryPath(categoryId);
+const { Content } = await render(category);
+
+const faqEntries = category.data.faq;
+const jsonLd = [
+  breadcrumbListSchema(crumbs),
+  faqPageSchema(faqEntries),
+  itemListSchema(
+    pageGames.map((g) => ({ slug: g.id, title: g.data.title })),
+    `${name} Games`,
+    start + 1,
+  ),
+];
+
+const hrefFor = (page: number) => categoryPagePath(categoryId, page);
+---
+
+<GameListing
+  kind="category"
+  title={title}
+  description={description}
+  h1={h1}
+  crumbs={crumbs}
+  games={pageGames}
+  pageNumber={pageNumber}
+  totalPages={totalPages}
+  hrefFor={hrefFor}
+  faqEntries={faqEntries}
+  pathname={pathname}
+  itemCount={pageGames.length}
+  jsonLdNodes={jsonLd}
+  source={`src/pages/c/${categoryId}.astro`}
+  lede={`${total} ${total === 1 ? 'game' : 'games'} in ${name}.`}
+  emptyMessage="No games in this category yet — new ones are added every week."
+>
+  <Fragment slot="intro"><Content /></Fragment>
+</GameListing>

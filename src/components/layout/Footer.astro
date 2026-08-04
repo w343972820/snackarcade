@@ -1,0 +1,146 @@
+---
+/**
+ * Site footer — three link columns plus the legal line.
+ *
+ * The AdSense reviewer looks for exactly this: a real About page, a real
+ * contact route, a privacy policy that mentions cookies and third-party ad
+ * serving, and terms. All four are linked from every page, which is the part
+ * reviewers check first.
+ */
+import { SITE } from '@/config/site';
+import { getFooterColumns } from '@/lib/content/navigation';
+import type { NavColumn } from '@/config/nav';
+
+/**
+ * Resolved from live content: the Categories column only lists categories that
+ * actually have a generated page, and is dropped entirely when none do.
+ */
+const footerColumns: NavColumn[] = await getFooterColumns();
+
+const currentYear: number = new Date().getUTCFullYear();
+const copyrightRange: string =
+  currentYear > SITE.foundingYear ? `${SITE.foundingYear}–${currentYear}` : `${SITE.foundingYear}`;
+---
+
+<footer class="site-footer">
+  <div class="container-content">
+    <div class="site-footer__top">
+      <div class="site-footer__brand">
+        <span class="site-footer__name">{SITE.name}</span>
+        <p class="site-footer__tagline">{SITE.tagline}</p>
+        <p class="site-footer__contact">
+          Questions or a takedown request? <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
+        </p>
+      </div>
+
+      {
+        footerColumns.map((column) => (
+          <nav class="site-footer__column" aria-label={column.heading}>
+            <h2 class="site-footer__heading">{column.heading}</h2>
+            <ul>
+              {column.links.map((link) => (
+                <li>
+                  <a
+                    href={link.href}
+                    class="site-footer__link"
+                    rel={link.external === true ? 'noopener' : undefined}
+                    target={link.external === true ? '_blank' : undefined}
+                  >
+                    {link.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        ))
+      }
+    </div>
+
+    <div class="site-footer__bottom">
+      <p>© {copyrightRange} {SITE.name}. All rights reserved.</p>
+      <p class="site-footer__credit">
+        Games hosted here are open source or licensed for this use. Every game page credits its
+        original developer and links to the licence.
+      </p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    margin-block-start: 4rem;
+    padding-block: 2.5rem 2rem;
+    background: var(--color-surface-alt);
+    border-top: 1px solid var(--color-line);
+    font-size: 0.92rem;
+  }
+
+  .site-footer__top {
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: 1fr;
+  }
+
+  @media (min-width: 640px) {
+    .site-footer__top {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .site-footer__top {
+      grid-template-columns: 1.4fr repeat(3, 1fr);
+    }
+  }
+
+  .site-footer__name {
+    display: block;
+    font-weight: 800;
+    font-size: 1.05rem;
+    color: var(--color-ink);
+  }
+
+  .site-footer__tagline {
+    margin-block-start: 0.4rem;
+    color: var(--color-muted);
+    max-width: 34ch;
+  }
+
+  .site-footer__contact {
+    margin-block-start: 0.75rem;
+    color: var(--color-muted);
+  }
+
+  .site-footer__heading {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-muted);
+    margin-block-end: 0.6rem;
+  }
+
+  .site-footer__link {
+    display: inline-block;
+    padding-block: 0.35rem;
+    color: var(--color-body);
+    text-decoration: none;
+  }
+
+  .site-footer__link:hover {
+    color: var(--color-brand-dark);
+    text-decoration: underline;
+  }
+
+  .site-footer__bottom {
+    margin-block-start: 2rem;
+    padding-block-start: 1.25rem;
+    border-top: 1px solid var(--color-line);
+    color: var(--color-muted);
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  .site-footer__credit {
+    max-width: 80ch;
+  }
+</style>

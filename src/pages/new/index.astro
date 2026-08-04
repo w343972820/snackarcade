@@ -1,0 +1,59 @@
+---
+/**
+ * Newest games.  URL: /new/
+ *
+ * A single page (no pagination) of the most recently published games, newest
+ * first. The newest-game signal is what the homepage and nav both point at.
+ */
+import { getPublishedGames } from '@/lib/content/games';
+import { breadcrumbListSchema } from '@/components/seo/schema/breadcrumbList';
+import { itemListSchema } from '@/components/seo/schema/itemList';
+import { SITE } from '@/config/site';
+import type { Crumb } from '@/lib/seo/breadcrumbs';
+
+import GameListing from '@/components/listings/GameListing.astro';
+
+const games = await getPublishedGames();
+const total = games.length;
+
+const title = 'New Free Games Added Recently';
+const description = `The newest free browser games on ${SITE.name}, added this week. Puzzle, word, card and arcade games with full how-to-play guides. No download, no sign-up.`;
+
+const crumbs: Crumb[] = [
+  { name: 'Home', href: '/' },
+  { name: 'New', href: '/new/' },
+];
+const pathname = '/new/';
+
+const jsonLd = [
+  breadcrumbListSchema(crumbs),
+  itemListSchema(
+    games.map((g) => ({ slug: g.id, title: g.data.title })),
+    'New Games',
+    1,
+  ),
+];
+
+const hrefFor = () => '/new/';
+const introHtml = `<p>These are the most recently added games on ${SITE.name}. New titles land every week, each with its own written guide, controls table and tips.</p>`;
+---
+
+<GameListing
+  kind="all-games"
+  title={title}
+  description={description}
+  h1="New Games"
+  crumbs={crumbs}
+  games={games}
+  pageNumber={1}
+  totalPages={1}
+  hrefFor={hrefFor}
+  pathname={pathname}
+  itemCount={total}
+  jsonLdNodes={jsonLd}
+  source="src/pages/new/index.astro"
+  lede={`${total} ${total === 1 ? 'game' : 'games'} added recently.`}
+  emptyMessage="No games published yet."
+>
+  <Fragment slot="intro" set:html={introHtml} />
+</GameListing>

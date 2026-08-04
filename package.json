@@ -1,0 +1,45 @@
+{
+  "name": "snackarcade",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "SnackArcade — free browser games with real guides. Astro static site.",
+  "engines": {
+    "node": ">=22.0.0 <23"
+  },
+  "scripts": {
+    "dev": "node scripts/sync-local-games.mjs && astro dev",
+    "prebuild": "node scripts/validate-content.mjs && node scripts/sync-local-games.mjs",
+    "build": "astro build",
+    "postbuild": "node scripts/check-deploy-budget.mjs",
+    "preview": "astro preview",
+    "check": "astro check && npm run build",
+    "doctor": "node scripts/doctor.mjs",
+    "sync:games": "node scripts/sync-local-games.mjs",
+    "gen:covers": "node scripts/gen-covers.mjs",
+    "new:game": "node scripts/new-game.mjs",
+    "publish:games": "node scripts/publish-games.mjs",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "3.7.3",
+    "@tailwindcss/vite": "4.3.3",
+    "astro": "7.1.6",
+    "minisearch": "7.2.0",
+    "sharp": "0.35.3",
+    "tailwindcss": "4.3.3"
+  },
+  "devDependencies": {
+    "@astrojs/check": "0.9.10",
+    "@types/node": "26.1.2",
+    "fast-glob": "3.3.3",
+    "gray-matter": "4.0.3",
+    "js-yaml": "5.2.3",
+    "picocolors": "1.1.1",
+    "prompts": "2.4.2",
+    "typescript": "6.0.3",
+    "vitest": "4.1.10",
+    "wrangler": "4.118.0"
+  }
+}

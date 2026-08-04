@@ -1,0 +1,151 @@
+---
+/**
+ * A single game card, used by every listing on the site.
+ *
+ * TWO THINGS HERE ARE LOAD-BEARING FOR CORE WEB VITALS
+ * ----------------------------------------------------
+ * 1. Explicit `widths` and `formats` on `<Image>`. `astro.config.mjs` sets
+ *    `responsiveStyles: false`, so Astro will not invent a srcset. Every
+ *    generated variant is a file in the deploy budget, and an implicit fan-out
+ *    is how a 20,000-file limit gets consumed without anyone noticing.
+ *
+ * 2. The card reserves its aspect ratio in CSS. Images arriving later cannot
+ *    shift the grid, which keeps CLS at zero on listing pages.
+ */
+import { Image } from 'astro:assets';
+
+import type { Game } from '@/lib/content/games';
+import { gamePath } from '@/lib/utils/url';
+
+export interface Props {
+  /** The game to render. */
+  game: Game;
+  /**
+   * Load the image eagerly. Set true for the first few cards above the fold;
+   * everything else stays lazy.
+   */
+  priority?: boolean;
+  /** Heading level used for the card title, so listings keep a valid outline. */
+  headingLevel?: 'h2' | 'h3';
+}
+
+const { game, priority = false, headingLevel = 'h3' } = Astro.props;
+
+const href: string = gamePath(game.id);
+const { title, media, taxonomy, info } = game.data;
+
+/** One short line of context under the title. */
+const metaLine: string = [info.genre[0] ?? 'Game', `${info.avgSessionMinutes} min`]
+  .filter((part) => part !== '')
+  .join(' · ');
+
+const Heading = headingLevel;
+---
+
+<article class="game-card">
+  <a class="game-card__link" href={href}>
+    <div class="game-card__media">
+      <Image
+        src={media.cover}
+        alt={media.coverAlt}
+        widths={[240, 360, 480]}
+        sizes="(min-width: 1024px) 240px, (min-width: 640px) 33vw, 50vw"
+        formats={['webp']}
+        loading={priority ? 'eager' : 'lazy'}
+        decoding={priority ? 'sync' : 'async'}
+        fetchpriority={priority ? 'high' : 'auto'}
+        class="game-card__image"
+      />
+    </div>
+
+    <div class="game-card__body">
+      <Heading class="game-card__title">{title}</Heading>
+      <p class="game-card__meta">{metaLine}</p>
+    </div>
+  </a>
+
+  {
+    taxonomy.tags.length > 0 && (
+      <ul class="game-card__tags" aria-label="Tags">
+        {taxonomy.tags.slice(0, 2).map((tag) => (
+          <li class="game-card__tag">{tag.replace(/-/g, ' ')}</li>
+        ))}
+      </ul>
+    )
+  }
+</article>
+
+<style>
+  .game-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background: var(--color-surface);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-card);
+    overflow: hidden;
+    transition: box-shadow 0.18s ease, transform 0.18s ease;
+  }
+
+  .game-card:hover {
+    box-shadow: 0 8px 22px rgb(0 0 0 / 9%);
+    transform: translateY(-2px);
+  }
+
+  .game-card__link {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .game-card__link:hover {
+    text-decoration: none;
+  }
+
+  .game-card__media {
+    /* Space reserved before the image loads — this is the anti-CLS rule. */
+    aspect-ratio: 40 / 21;
+    background: var(--color-surface-sunken);
+    overflow: hidden;
+  }
+
+  .game-card__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .game-card__body {
+    padding: 0.7rem 0.8rem 0.85rem;
+  }
+
+  .game-card__title {
+    font-size: 1rem;
+    line-height: 1.3;
+    color: var(--color-ink);
+  }
+
+  .game-card__meta {
+    margin-block-start: 0.2rem;
+    font-size: 0.8rem;
+    color: var(--color-muted);
+  }
+
+  .game-card__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+    padding: 0 0.8rem 0.8rem;
+  }
+
+  .game-card__tag {
+    font-size: 0.7rem;
+    text-transform: capitalize;
+    color: var(--color-muted);
+    background: var(--color-surface-sunken);
+    border-radius: var(--radius-pill);
+    padding: 0.15rem 0.5rem;
+  }
+</style>

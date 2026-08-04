@@ -1,0 +1,342 @@
+/* =============================================================================
+   Game detail page — layout, player and section rhythm.
+
+   WHY THIS IS A GLOBAL STYLESHEET AND NOT SCOPED COMPONENT CSS
+   ------------------------------------------------------------
+   Two reasons, both load-bearing:
+
+   1. `game-player.ts` creates the `<iframe>` at runtime. An element created by
+      JavaScript never carries Astro's scoping attribute, so a scoped rule would
+      not match it and the frame would render unstyled (and therefore collapsed,
+      which is a guaranteed layout shift). `.game-player__frame` MUST be global.
+
+   2. The 150px separation between the game and the nearest ad is a policy
+      requirement that spans two components. Keeping it in one file means there
+      is a single place to audit it.
+
+   Component-internal styling (tables, accordions, tip cards) stays in each
+   component's scoped <style> block.
+   ============================================================================= */
+
+/* -----------------------------------------------------------------------------
+   Page shell
+   -------------------------------------------------------------------------- */
+
+.game-page {
+  padding-block: 1rem 2.5rem;
+}
+
+.game-page__crumbs {
+  margin-block-end: 0.85rem;
+}
+
+.game-page__title {
+  font-size: clamp(1.5rem, 1.1rem + 2vw, 2.35rem);
+  margin-block-end: 0.6rem;
+}
+
+/* --- Meta bar (PRD 5.2 module 3) ------------------------------------------ */
+
+.game-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem 0.85rem;
+  margin-block-end: 1rem;
+  font-size: 0.875rem;
+  color: var(--color-muted);
+}
+
+.game-meta__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.game-meta__item + .game-meta__item::before {
+  content: '·';
+  color: var(--color-line);
+  margin-inline-end: 0.55rem;
+}
+
+.game-meta__link {
+  color: var(--color-brand-dark);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.game-meta__link:hover {
+  text-decoration: underline;
+}
+
+.game-meta__value {
+  color: var(--color-body);
+  font-weight: 600;
+}
+
+/* -----------------------------------------------------------------------------
+   Player
+
+   The stage reserves its space with `aspect-ratio` before anything loads, and
+   the poster and the runtime iframe both sit `inset: 0` inside it. Swapping one
+   for the other therefore cannot move a single pixel of the page.
+   -------------------------------------------------------------------------- */
+
+.game-player {
+  --game-aspect: 16 / 9;
+
+  width: 100%;
+  max-width: 62rem;
+  margin-inline: auto;
+}
+
+.game-player__stage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: var(--game-aspect);
+  background: #0f172a;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  /* Keep anything the game does to its own layout from escaping. */
+  contain: layout paint;
+}
+
+.game-player__poster {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  /* Dimmed so the play button keeps a 4.5:1 contrast ratio over any artwork. */
+  filter: brightness(0.62);
+}
+
+.game-player__overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 1rem;
+  text-align: center;
+}
+
+.game-player__play {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-height: 56px;
+  padding: 0.85rem 1.9rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+  font-family: inherit;
+  color: #fff;
+  background: var(--color-brand);
+  border: 0;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  box-shadow: 0 10px 28px rgb(0 0 0 / 35%);
+  transition: transform 0.16s ease, background-color 0.16s ease;
+}
+
+.game-player__play:hover {
+  background: var(--color-brand-dark);
+  transform: scale(1.03);
+}
+
+.game-player__play:active {
+  transform: scale(0.99);
+}
+
+.game-player__play-icon {
+  width: 1.15em;
+  height: 1.15em;
+  flex: none;
+  fill: currentcolor;
+}
+
+.game-player__hint {
+  margin: 0;
+  font-size: 0.82rem;
+  color: rgb(255 255 255 / 88%);
+  text-shadow: 0 1px 3px rgb(0 0 0 / 60%);
+}
+
+/* The runtime-injected frame. Global by necessity — see the file header. */
+.game-player__frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+  background: #0f172a;
+}
+
+/* Once the game is running the poster and its call to action step aside.
+   `display: none` on absolutely positioned children moves nothing. */
+.game-player.is-playing .game-player__poster,
+.game-player.is-playing .game-player__overlay {
+  display: none;
+}
+
+/* --- Player toolbar ------------------------------------------------------- */
+
+.game-player__bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  margin-block-start: 0.6rem;
+  font-size: 0.82rem;
+  color: var(--color-muted);
+}
+
+.game-player__source {
+  margin: 0;
+}
+
+.game-player__button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 44px;
+  padding: 0.4rem 0.95rem;
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-body);
+  background: var(--color-surface-alt);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+}
+
+.game-player__button:hover {
+  background: var(--color-surface-sunken);
+  color: var(--color-ink);
+}
+
+/* Fullscreen is meaningless before the game exists, so it is revealed by
+   `game-player.ts` at the same moment the iframe is mounted. */
+.game-player__button[hidden] {
+  display: none;
+}
+
+/* -----------------------------------------------------------------------------
+   Ad separation
+
+   AdSense treats an ad placed near a game control as accidental-click bait, and
+   the penalty lands on the account rather than the page.
+
+   The rule itself deliberately does NOT live here. `<AdSlot gameGuard>` adds the
+   `.game-ad-guard` class and publishes `--game-ad-gap:150px` inline; the
+   `margin-block-start` that consumes it is in `src/styles/ads.css`, next to
+   every other ad rule. Keeping one owner for the gap means there is exactly one
+   number to change and exactly one place `validate-ads.mjs` and the e2e pixel
+   test have to look.
+
+   A second declaration here would be dead weight when ads are off (the slot
+   renders nothing at all) and a silent conflict when they are on.
+   -------------------------------------------------------------------------- */
+
+/* -----------------------------------------------------------------------------
+   Two-column body: article + rail. Single column below 1024px.
+   -------------------------------------------------------------------------- */
+
+.game-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 2rem;
+  margin-block-start: 2rem;
+}
+
+@media (min-width: 1024px) {
+  .game-body--with-rail {
+    grid-template-columns: minmax(0, 1fr) 300px;
+    gap: 2.5rem;
+  }
+}
+
+.game-body__main {
+  min-width: 0;
+}
+
+.game-body__rail {
+  min-width: 0;
+}
+
+@media (min-width: 1024px) {
+  .game-body__rail {
+    position: sticky;
+    top: 5rem;
+    align-self: start;
+  }
+}
+
+/* -----------------------------------------------------------------------------
+   Section rhythm shared by every content module
+   -------------------------------------------------------------------------- */
+
+.game-section {
+  margin-block-start: 2.75rem;
+  scroll-margin-top: 5rem;
+}
+
+.game-section:first-child {
+  margin-block-start: 0;
+}
+
+.game-section__title {
+  font-size: clamp(1.25rem, 1.1rem + 0.7vw, 1.6rem);
+  margin-block-end: 0.9rem;
+}
+
+.game-section__lead {
+  max-width: 68ch;
+  color: var(--color-body);
+}
+
+.game-intro {
+  max-width: 68ch;
+  font-size: 1.05rem;
+  color: var(--color-body);
+  margin-block-start: 1.5rem;
+}
+
+.game-section__ad {
+  margin-block: 2.5rem;
+}
+
+/* Features list (PRD 5.2 module 10) */
+.game-features {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+  gap: 0.6rem;
+}
+
+.game-features__item {
+  position: relative;
+  padding: 0.65rem 0.9rem 0.65rem 2.1rem;
+  background: var(--color-surface-alt);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-card);
+  font-size: 0.94rem;
+  color: var(--color-body);
+}
+
+.game-features__item::before {
+  content: '✓';
+  position: absolute;
+  left: 0.85rem;
+  color: var(--color-success);
+  font-weight: 700;
+}

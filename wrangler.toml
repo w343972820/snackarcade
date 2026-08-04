@@ -1,0 +1,20 @@
+# =============================================================================
+# Wrangler configuration — used ONLY by `npm run publish:games` to upload game
+# bundles to Cloudflare R2.
+#
+# The website itself is NOT deployed through wrangler. Cloudflare Pages builds
+# it straight from Git: build command `npm run build`, output directory `dist`.
+#
+# You do not need this file at all until you decide to move game bundles off
+# your main site. See PUBLIC_GAME_ORIGIN in .env.example for when that is.
+# =============================================================================
+
+name = "snackarcade-games"
+compatibility_date = "2026-08-04"
+
+# The R2 bucket that holds the playable game bundles.
+# Create it in the Cloudflare dashboard, then attach a custom domain such as
+# play.snackarcade.com and set PUBLIC_GAME_ORIGIN to that domain.
+[[r2_buckets]]
+binding = "GAMES"
+bucket_name = "snackarcade-games"

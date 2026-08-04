@@ -1,0 +1,40 @@
+---
+/**
+ * Renders one or more JSON-LD nodes as a single `@graph` script tag.
+ *
+ * Collapsing everything into one graph means one script tag per page instead of
+ * five, and lets nodes reference each other by `@id`.
+ *
+ * Null entries are dropped, so a caller can pass the result of a generator that
+ * legitimately returns null (an empty FAQ, a one-item breadcrumb trail) without
+ * guarding at every call site.
+ */
+export interface Props {
+  /** Schema nodes. Nulls are filtered out. */
+  nodes: (Record<string, unknown> | null | undefined)[];
+}
+
+const { nodes } = Astro.props;
+
+const graph = nodes.filter(
+  (node): node is Record<string, unknown> => node !== null && node !== undefined,
+);
+
+const payload =
+  graph.length === 0
+    ? null
+    : {
+        '@context': 'https://schema.org',
+        '@graph': graph,
+      };
+
+/**
+ * `set:html` is used deliberately: JSON.stringify already produces safe JSON,
+ * and the `<` in any string value is escaped below so the script tag cannot be
+ * terminated early by content.
+ */
+const serialised =
+  payload === null ? '' : JSON.stringify(payload).replace(/</g, '\\u003c');
+---
+
+{serialised !== '' && <script type="application/ld+json" is:inline set:html={serialised} />}

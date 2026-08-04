@@ -1,0 +1,158 @@
+[
+  {
+    "id": "no-download",
+    "name": "No Download",
+    "description": "Games that run entirely in the browser with nothing to install — no launcher, no plugin and no setup file. Open the page and play.",
+    "forceNoindex": false
+  },
+  {
+    "id": "single-player",
+    "name": "Single Player",
+    "description": "Games designed to be played alone against the game itself, with no opponent, no lobby and no need for anyone else to be online.",
+    "forceNoindex": false
+  },
+  {
+    "id": "two-player",
+    "name": "Two Player",
+    "description": "Local multiplayer games for two people sharing one keyboard or one touchscreen, with split controls listed on every game page.",
+    "forceNoindex": false
+  },
+  {
+    "id": "mobile-friendly",
+    "name": "Mobile Friendly",
+    "description": "Games with working touch controls that have been checked on a phone-sized screen, including swipe gestures and on-screen buttons.",
+    "forceNoindex": false
+  },
+  {
+    "id": "keyboard-only",
+    "name": "Keyboard Only",
+    "description": "Games controlled entirely from the keyboard with no mouse required, which also makes them easier to play on a laptop trackpad.",
+    "forceNoindex": false
+  },
+  {
+    "id": "offline-capable",
+    "name": "Works Offline",
+    "description": "Games that keep working after the page has loaded even if your connection drops, because all the game logic runs in your browser.",
+    "forceNoindex": false
+  },
+  {
+    "id": "open-source",
+    "name": "Open Source",
+    "description": "Games whose source code is publicly available under a permissive licence, with a link to the original repository on every page.",
+    "forceNoindex": false
+  },
+  {
+    "id": "quick-session",
+    "name": "Quick Session",
+    "description": "Games where a full round takes under five minutes, making them the right choice for a coffee break rather than an evening.",
+    "forceNoindex": false
+  },
+  {
+    "id": "long-session",
+    "name": "Long Session",
+    "description": "Games built for extended play, where progress accumulates over half an hour or more and stopping early costs you something.",
+    "forceNoindex": false
+  },
+  {
+    "id": "number-puzzle",
+    "name": "Number Puzzle",
+    "description": "Puzzles built around arithmetic, sequences or numeric targets, where the challenge is calculation and planning rather than reflexes.",
+    "forceNoindex": false
+  },
+  {
+    "id": "merge",
+    "name": "Merge",
+    "description": "Games where combining two identical pieces produces a bigger one, creating a chain of upgrades that drives the whole scoring system.",
+    "forceNoindex": false
+  },
+  {
+    "id": "falling-blocks",
+    "name": "Falling Blocks",
+    "description": "Stacking games where pieces descend from the top of the playfield and you rotate and position them before they land.",
+    "forceNoindex": false
+  },
+  {
+    "id": "word-guessing",
+    "name": "Word Guessing",
+    "description": "Games where you deduce a hidden word from feedback given after each attempt, narrowing the possibilities with every guess.",
+    "forceNoindex": false
+  },
+  {
+    "id": "logic",
+    "name": "Logic",
+    "description": "Puzzles solved by deduction rather than speed, where every move follows from information already visible on the board.",
+    "forceNoindex": false
+  },
+  {
+    "id": "high-score",
+    "name": "High Score",
+    "description": "Games with no ending, only a number — you play until you lose and the goal is beating your own previous best result.",
+    "forceNoindex": false
+  },
+  {
+    "id": "retro",
+    "name": "Retro",
+    "description": "Games in the visual and mechanical style of arcade and early home-computer classics, rebuilt to run in a modern browser.",
+    "forceNoindex": false
+  },
+  {
+    "id": "relaxing",
+    "name": "Relaxing",
+    "description": "Games with no timer, no failure state and no pressure, suitable for playing while thinking about something else entirely.",
+    "forceNoindex": false
+  },
+  {
+    "id": "brain-training",
+    "name": "Brain Training",
+    "description": "Games that exercise memory, pattern recognition or spatial reasoning, and that get measurably easier the more you play them.",
+    "forceNoindex": false
+  },
+  {
+    "id": "daily-puzzle",
+    "name": "Daily Puzzle",
+    "description": "Games offering one fresh puzzle per day on a fixed reset schedule, shared by everyone playing on the same date.",
+    "forceNoindex": false
+  },
+  {
+    "id": "strategy",
+    "name": "Strategy",
+    "description": "Games where planning several moves ahead matters more than execution, and where a bad decision costs you many turns later.",
+    "forceNoindex": false
+  },
+  {
+    "id": "classic",
+    "name": "Classic",
+    "description": "Games that have been played for decades and remain popular, with rules most people already half-remember from somewhere.",
+    "forceNoindex": false
+  },
+  {
+    "id": "one-button",
+    "name": "One Button",
+    "description": "Games controlled with a single key or tap, which makes them instantly playable and surprisingly hard to actually master.",
+    "forceNoindex": false
+  },
+  {
+    "id": "endless",
+    "name": "Endless",
+    "description": "Games with no final level or win condition that continue escalating for as long as you can keep up with them.",
+    "forceNoindex": false
+  },
+  {
+    "id": "saves-progress",
+    "name": "Saves Progress",
+    "description": "Games that store your board state or best score in browser local storage, so closing the tab does not lose your run.",
+    "forceNoindex": false
+  },
+  {
+    "id": "no-signup",
+    "name": "No Sign-Up",
+    "description": "Games playable immediately with no account, no email address and no login wall standing between you and the first move.",
+    "forceNoindex": false
+  },
+  {
+    "id": "family-friendly",
+    "name": "Family Friendly",
+    "description": "Games with no violence, no chat with strangers and no content that needs a parent to check it before a child plays.",
+    "forceNoindex": false
+  }
+]

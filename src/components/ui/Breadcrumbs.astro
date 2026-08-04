@@ -1,0 +1,90 @@
+---
+/**
+ * Visible breadcrumb trail.
+ *
+ * The matching BreadcrumbList structured data is generated from the SAME crumb
+ * array by `breadcrumbListSchema`, so the visible trail and the markup can
+ * never disagree — a mismatch is a structured-data violation.
+ *
+ * The last crumb is rendered as plain text, not a link: linking a page to
+ * itself in a breadcrumb is a small but real usability problem, and Google's
+ * own examples omit it.
+ */
+import type { Crumb } from '@/lib/seo/breadcrumbs';
+
+export interface Props {
+  /** The trail, starting at Home. */
+  crumbs: readonly Crumb[];
+  /** Extra classes for the wrapper. */
+  class?: string;
+}
+
+const { crumbs, class: className = '' } = Astro.props;
+const lastIndex: number = crumbs.length - 1;
+---
+
+{
+  crumbs.length > 1 && (
+    <nav class={`breadcrumbs ${className}`.trim()} aria-label="Breadcrumb">
+      <ol class="breadcrumbs__list">
+        {crumbs.map((crumb, index) => (
+          <li class="breadcrumbs__item">
+            {index === lastIndex || crumb.href === undefined ? (
+              <span class="breadcrumbs__current" aria-current="page">
+                {crumb.name}
+              </span>
+            ) : (
+              <>
+                <a class="breadcrumbs__link" href={crumb.href}>
+                  {crumb.name}
+                </a>
+                <span class="breadcrumbs__sep" aria-hidden="true">
+                  ›
+                </span>
+              </>
+            )}
+          </li>
+        ))}
+      </ol>
+    </nav>
+  )
+}
+
+<style>
+  .breadcrumbs {
+    font-size: 0.85rem;
+    color: var(--color-muted);
+  }
+
+  .breadcrumbs__list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.35rem;
+  }
+
+  .breadcrumbs__item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+
+  .breadcrumbs__link {
+    color: var(--color-muted);
+    text-decoration: none;
+  }
+
+  .breadcrumbs__link:hover {
+    color: var(--color-brand-dark);
+    text-decoration: underline;
+  }
+
+  .breadcrumbs__current {
+    color: var(--color-body);
+    font-weight: 600;
+  }
+
+  .breadcrumbs__sep {
+    color: var(--color-line);
+  }
+</style>

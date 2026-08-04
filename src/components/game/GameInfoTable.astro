@@ -1,0 +1,153 @@
+---
+/**
+ * The Game Info table (PRD 5.2 module 11).
+ *
+ * This block is E-E-A-T evidence rather than decoration. A page that states who
+ * made the game, when it came out, what it is built with and under which
+ * licence it is being redistributed reads as a page written by someone who
+ * actually knows the game. The pages that lose to us on these queries almost
+ * never carry this information.
+ *
+ * The licence row doubles as compliance: it is the machine-checkable claim that
+ * this site has the right to host the bundle at all.
+ */
+import { toIsoDate, toMonthYear } from '@/lib/utils/date';
+
+export interface Props {
+  /** Studio or individual who made the game. */
+  developer: string;
+  /** Original release, e.g. "2014" or "March 2014". */
+  released: string;
+  /** Genre labels. */
+  genre: readonly string[];
+  /** SinglePlayer | MultiPlayer | CoOp. */
+  players: string;
+  /** Engine or stack, e.g. "HTML5 / JavaScript". */
+  technology: string;
+  /** Supported platforms. */
+  platform: readonly string[];
+  /** Typical session length in minutes. */
+  avgSessionMinutes: number;
+  /** SPDX-style licence id from the content file. */
+  license: string;
+  /** Canonical URL of that licence, when the content file supplies one. */
+  licenseUrl?: string | undefined;
+  /** When the page was last meaningfully edited. */
+  updatedAt: Date;
+  /** Heading id so the section can be labelled. */
+  headingId?: string;
+}
+
+const {
+  developer,
+  released,
+  genre,
+  players,
+  technology,
+  platform,
+  avgSessionMinutes,
+  license,
+  licenseUrl,
+  updatedAt,
+  headingId = 'info-heading',
+} = Astro.props;
+
+/** `SinglePlayer` reads badly in a table cell. */
+const PLAY_MODE_LABELS: Readonly<Record<string, string>> = {
+  SinglePlayer: 'Single player',
+  MultiPlayer: 'Multiplayer',
+  CoOp: 'Co-op',
+};
+
+const playersLabel: string = PLAY_MODE_LABELS[players] ?? players;
+
+/** Every row except the licence, which needs a link and is rendered separately. */
+const rows: { label: string; value: string }[] = [
+  { label: 'Developer', value: developer },
+  { label: 'Released', value: released },
+  { label: 'Genre', value: genre.join(', ') },
+  { label: 'Players', value: playersLabel },
+  { label: 'Technology', value: technology },
+  { label: 'Platforms', value: platform.join(', ') },
+  { label: 'Average session', value: `About ${avgSessionMinutes} minutes` },
+];
+---
+
+<section class="game-section" aria-labelledby={headingId} id="game-info">
+  <h2 class="game-section__title" id={headingId}>Game Info</h2>
+
+  <table class="info-table">
+    <tbody>
+      {
+        rows.map((row) => (
+          <tr class="info-table__row">
+            <th scope="row" class="info-table__label">
+              {row.label}
+            </th>
+            <td class="info-table__value">{row.value}</td>
+          </tr>
+        ))
+      }
+
+      <tr class="info-table__row">
+        <th scope="row" class="info-table__label">Licence</th>
+        <td class="info-table__value">
+          {
+            licenseUrl === undefined ? (
+              license
+            ) : (
+              <a href={licenseUrl} rel="noopener nofollow" target="_blank">
+                {license}
+              </a>
+            )
+          }
+        </td>
+      </tr>
+
+      <tr class="info-table__row">
+        <th scope="row" class="info-table__label">Last updated</th>
+        <td class="info-table__value">
+          <time datetime={toIsoDate(updatedAt)}>{toMonthYear(updatedAt)}</time>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<style>
+  .info-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-card);
+    overflow: hidden;
+    font-size: 0.94rem;
+  }
+
+  .info-table__row:not(:last-child) .info-table__label,
+  .info-table__row:not(:last-child) .info-table__value {
+    border-bottom: 1px solid var(--color-line);
+  }
+
+  .info-table__label {
+    width: 40%;
+    padding: 0.6rem 0.9rem;
+    text-align: left;
+    font-weight: 600;
+    color: var(--color-muted);
+    background: var(--color-surface-alt);
+    vertical-align: top;
+  }
+
+  .info-table__value {
+    padding: 0.6rem 0.9rem;
+    color: var(--color-ink);
+    vertical-align: top;
+  }
+
+  @media (min-width: 640px) {
+    .info-table__label {
+      width: 30%;
+    }
+  }
+</style>

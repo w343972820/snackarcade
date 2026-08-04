@@ -1,0 +1,116 @@
+---
+/**
+ * Layout for prose pages: About, Privacy, Terms, Contact, DMCA and blog posts.
+ *
+ * Deliberately narrow — 68ch via `.prose-content` — because these pages exist to
+ * be read, and because the AdSense reviewer reads them. The "last updated" line
+ * is not decoration: a legal page with no visible date reads as abandoned.
+ */
+import type { Crumb } from '@/lib/seo/breadcrumbs';
+import type { PageKind } from '@/lib/seo/indexability';
+import { toIsoDate, toLongDate } from '@/lib/utils/date';
+
+import AdSlot from '@/components/ads/AdSlot.astro';
+import Breadcrumbs from '@/components/ui/Breadcrumbs.astro';
+import BaseLayout from './BaseLayout.astro';
+
+export interface Props {
+  title: string;
+  description: string;
+  /** Defaults to 'page'; blog posts pass 'blog'. */
+  kind?: PageKind;
+  /** Visible headline. Defaults to the title. */
+  h1?: string;
+  crumbs: readonly Crumb[];
+
+  pathname?: string;
+  publishedAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  draft?: boolean;
+  explicitNoindex?: boolean;
+  ogImage?: string;
+  jsonLdNodes?: (Record<string, unknown> | null | undefined)[];
+  source?: string;
+  /** Show the in-content ad slot. Off for legal pages. */
+  showAds?: boolean;
+}
+
+const {
+  title,
+  description,
+  kind = 'page',
+  h1,
+  crumbs,
+  pathname,
+  publishedAt,
+  updatedAt,
+  draft = false,
+  explicitNoindex = false,
+  ogImage,
+  jsonLdNodes = [],
+  source = 'article page',
+  showAds = true,
+} = Astro.props;
+
+const headline: string = h1 ?? title;
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  kind={kind}
+  pathname={pathname}
+  draft={draft}
+  explicitNoindex={explicitNoindex}
+  ogType="article"
+  ogImage={ogImage}
+  publishedAt={publishedAt}
+  updatedAt={updatedAt}
+  jsonLdNodes={jsonLdNodes}
+  source={source}
+>
+  <div class="container-content article-page">
+    <Breadcrumbs crumbs={crumbs} class="article-page__crumbs" />
+
+    <article class="article-page__body prose-content">
+      <h1>{headline}</h1>
+
+      {
+        updatedAt !== undefined && (
+          <p class="article-page__updated">
+            Last updated{' '}
+            <time datetime={toIsoDate(updatedAt)}>{toLongDate(updatedAt)}</time>
+          </p>
+        )
+      }
+
+      <slot />
+    </article>
+
+    {showAds && <AdSlot placement="footer" class="article-page__ad" />}
+  </div>
+</BaseLayout>
+
+<style>
+  .article-page {
+    padding-block: 1rem 2rem;
+  }
+
+  .article-page__body {
+    margin-block-start: 1.25rem;
+  }
+
+  .article-page__body h1 {
+    font-size: clamp(1.6rem, 1.2rem + 1.8vw, 2.25rem);
+  }
+
+  .article-page__updated {
+    margin-block-start: 0.4rem;
+    font-size: 0.85rem;
+    color: var(--color-muted);
+  }
+
+  .article-page__ad {
+    margin-block-start: 2.5rem;
+  }
+</style>

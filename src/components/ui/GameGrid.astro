@@ -1,0 +1,82 @@
+---
+/**
+ * Responsive grid of game cards.
+ *
+ * The first `eagerCount` cards load their images eagerly because on a listing
+ * page one of them is the LCP element. Everything below stays lazy.
+ *
+ * When the list is empty the component renders an explanatory block instead of
+ * an empty grid — an empty listing page with no explanation is the kind of
+ * thin page that drags a whole site's quality signals down.
+ */
+import type { Game } from '@/lib/content/games';
+
+import GameCard from './GameCard.astro';
+
+export interface Props {
+  /** Games to display, already sorted by the caller. */
+  games: readonly Game[];
+  /** How many cards load their cover image eagerly. */
+  eagerCount?: number;
+  /** Heading level for card titles, so the page outline stays valid. */
+  headingLevel?: 'h2' | 'h3';
+  /** Message shown when there is nothing to list. */
+  emptyMessage?: string;
+  /** Extra classes for the grid wrapper. */
+  class?: string;
+}
+
+const {
+  games,
+  eagerCount = 4,
+  headingLevel = 'h3',
+  emptyMessage = 'No games here yet. New games are added every week — try another category in the meantime.',
+  class: className = '',
+} = Astro.props;
+---
+
+{
+  games.length === 0 ? (
+    <p class="game-grid__empty">{emptyMessage}</p>
+  ) : (
+    <ul class={`game-grid ${className}`.trim()}>
+      {games.map((game, index) => (
+        <li>
+          <GameCard game={game} priority={index < eagerCount} headingLevel={headingLevel} />
+        </li>
+      ))}
+    </ul>
+  )
+}
+
+<style>
+  .game-grid {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    list-style: none;
+    padding: 0;
+  }
+
+  @media (min-width: 640px) {
+    .game-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .game-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 1.25rem;
+    }
+  }
+
+  .game-grid__empty {
+    padding: 2rem 1rem;
+    background: var(--color-surface-alt);
+    border: 1px dashed var(--color-line);
+    border-radius: var(--radius-card);
+    color: var(--color-muted);
+    text-align: center;
+  }
+</style>

@@ -1,0 +1,53 @@
+---
+/**
+ * Static prose pages: About, Privacy Policy, Terms, Contact, DMCA.
+ * URLs: /about/  /privacy-policy/  /terms/  /contact/  /dmca/
+ *
+ * One file serves all of them. The body is rendered from each Markdown file in
+ * src/content/pages/. These pages are indexable — the AdSense reviewer looks for
+ * a real About and a privacy policy that mentions third-party ad serving.
+ */
+import type { GetStaticPaths } from 'astro';
+import { getCollection, render } from 'astro:content';
+
+import ArticleLayout from '@/layouts/ArticleLayout.astro';
+import { pageBreadcrumbs } from '@/lib/seo/breadcrumbs';
+
+export const getStaticPaths = (async () => {
+  const pages = await getCollection('pages');
+  return pages.map((page) => ({
+    params: { page: page.id },
+    props: { pageId: page.id },
+  }));
+}) satisfies GetStaticPaths;
+
+interface Props {
+  pageId: string;
+}
+
+const { pageId } = Astro.props;
+
+const entry = (await getCollection('pages')).find((p) => p.id === pageId);
+if (!entry) return Astro.notFound();
+
+const { Content } = await render(entry);
+const data = entry.data;
+
+const crumbs = pageBreadcrumbs(data.title, `/${pageId}/`);
+const pathname = `/${pageId}/`;
+---
+
+<ArticleLayout
+  title={data.seo.title}
+  description={data.seo.description}
+  kind="page"
+  h1={data.title}
+  crumbs={crumbs}
+  pathname={pathname}
+  publishedAt={data.updatedAt}
+  updatedAt={data.updatedAt}
+  source={`src/pages/${pageId}.astro`}
+  showAds={false}
+>
+  <Content />
+</ArticleLayout>

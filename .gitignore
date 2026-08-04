@@ -1,0 +1,32 @@
+# build output
+dist/
+# ad-hoc verification builds: `astro build --outDir dist-adson`, dist-verify, ...
+dist-*/
+.astro/
+
+# dependencies
+node_modules/
+
+# generated: local game mirror (source of truth is games-src/)
+public/play/
+
+# temporary aside used while re-mirroring (lives outside public/)
+.play-stale-*
+
+# publish cache
+.publish-cache.json
+
+# env
+.env
+.env.local
+.env.production
+
+# logs
+*.log
+npm-debug.log*
+
+# editor / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

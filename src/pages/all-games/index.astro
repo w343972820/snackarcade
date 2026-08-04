@@ -1,0 +1,65 @@
+---
+/**
+ * All games — page 1.  URL: /all-games/
+ *
+ * Paginated pages live in ./page/[page].astro. Both share the same rendering via
+ * the GameListing component.
+ */
+import { getPublishedGames } from '@/lib/content/games';
+import { allGamesPagePath } from '@/lib/utils/url';
+import { breadcrumbListSchema } from '@/components/seo/schema/breadcrumbList';
+import { itemListSchema } from '@/components/seo/schema/itemList';
+import { PAGE_SIZES } from '@/config/seo';
+import { SITE } from '@/config/site';
+import type { Crumb } from '@/lib/seo/breadcrumbs';
+
+import GameListing from '@/components/listings/GameListing.astro';
+
+const all = await getPublishedGames();
+const size = PAGE_SIZES.ALL_GAMES;
+const total = all.length;
+const totalPages = Math.max(1, Math.ceil(total / size));
+const pageNumber = 1;
+const pageGames = all.slice(0, size);
+
+const title = `All Free Online Games — Play ${total} Games`;
+const description = `Browse every free browser game on ${SITE.name}. Puzzle, word, card and arcade games, each with a how-to-play guide, full controls and tips. No download needed.`;
+
+const crumbs: Crumb[] = [
+  { name: 'Home', href: '/' },
+  { name: 'All Games', href: '/all-games/' },
+];
+const pathname = allGamesPagePath(1);
+
+const jsonLd = [
+  breadcrumbListSchema(crumbs),
+  itemListSchema(
+    pageGames.map((g) => ({ slug: g.id, title: g.data.title })),
+    'All Games',
+    1,
+  ),
+];
+
+const hrefFor = (page: number) => allGamesPagePath(page);
+const introHtml = `<p>Every game on ${SITE.name} loads in your browser with no download and no account. Use the menu to jump to a category, or scroll through the full list below.</p>`;
+---
+
+<GameListing
+  kind="all-games"
+  title={title}
+  description={description}
+  h1="All Games"
+  crumbs={crumbs}
+  games={pageGames}
+  pageNumber={pageNumber}
+  totalPages={totalPages}
+  hrefFor={hrefFor}
+  pathname={pathname}
+  itemCount={pageGames.length}
+  jsonLdNodes={jsonLd}
+  source="src/pages/all-games/index.astro"
+  lede={`${total} ${total === 1 ? 'game' : 'games'} and counting.`}
+  emptyMessage="No games published yet."
+>
+  <Fragment slot="intro" set:html={introHtml} />
+</GameListing>

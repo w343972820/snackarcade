@@ -1,0 +1,185 @@
+@import 'tailwindcss';
+@import './ads.css';
+
+/* =============================================================================
+   Design tokens (Tailwind v4 `@theme`)
+
+   Tailwind v4 has no tailwind.config.js — tokens are declared here and become
+   both CSS custom properties and utility classes (e.g. `--color-brand` gives
+   you `bg-brand`, `text-brand`, `border-brand`).
+   ============================================================================= */
+@theme {
+  /* --- Typography: system stack only. Zero font requests, zero FOUT, zero CLS. --- */
+  --font-sans:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+    'Noto Sans', sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
+
+  /* --- Brand palette --- */
+  --color-brand: #f97316;
+  --color-brand-dark: #ea580c;
+  --color-brand-light: #ffedd5;
+
+  /* --- Neutrals --- */
+  --color-ink: #111827;
+  --color-body: #374151;
+  --color-muted: #6b7280;
+  --color-line: #e5e7eb;
+  --color-surface: #ffffff;
+  --color-surface-alt: #f9fafb;
+  --color-surface-sunken: #f3f4f6;
+
+  /* --- Semantic --- */
+  --color-success: #16a34a;
+  --color-warning: #d97706;
+  --color-danger: #dc2626;
+
+  /* --- Layout --- */
+  --spacing-gutter: 1rem;
+  --container-content: 72rem;
+
+  /* --- Radii --- */
+  --radius-card: 0.75rem;
+  --radius-pill: 9999px;
+}
+
+/* =============================================================================
+   Base layer
+   ============================================================================= */
+@layer base {
+  html {
+    /* Anchor links must not hide behind the sticky header. */
+    scroll-padding-top: 5rem;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-surface);
+    color: var(--color-body);
+    font-family: var(--font-sans);
+    line-height: 1.65;
+    /* Guard against any single element forcing a horizontal scrollbar at 320px. */
+    overflow-x: hidden;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    color: var(--color-ink);
+    font-weight: 700;
+    line-height: 1.25;
+    text-wrap: balance;
+  }
+
+  a {
+    color: var(--color-brand-dark);
+    text-underline-offset: 0.15em;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+
+  /* Visible keyboard focus everywhere — required for accessibility scoring. */
+  :focus-visible {
+    outline: 3px solid var(--color-brand);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  img,
+  video,
+  iframe {
+    max-width: 100%;
+  }
+
+  /* Respect the OS "reduce motion" setting. */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* =============================================================================
+   Reusable component classes
+   ============================================================================= */
+@layer components {
+  .container-content {
+    width: 100%;
+    max-width: var(--container-content);
+    margin-inline: auto;
+    padding-inline: var(--spacing-gutter);
+  }
+
+  /* Screen-reader-only text that still receives focus when tabbed to. */
+  .skip-link {
+    position: absolute;
+    left: -9999px;
+    top: 0;
+    z-index: 100;
+    padding: 0.75rem 1rem;
+    background: var(--color-ink);
+    color: #fff;
+    border-radius: 0 0 var(--radius-card) 0;
+  }
+
+  .skip-link:focus {
+    left: 0;
+  }
+
+  /* Every interactive target is at least 44x44px (mobile usability). */
+  .tap-target {
+    min-height: 44px;
+    min-width: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .prose-content {
+    max-width: 68ch;
+  }
+
+  .prose-content p {
+    margin-block: 1em;
+  }
+
+  .prose-content h2 {
+    font-size: 1.5rem;
+    margin-block: 1.75em 0.6em;
+  }
+
+  .prose-content h3 {
+    font-size: 1.2rem;
+    margin-block: 1.4em 0.5em;
+  }
+
+  .prose-content ul,
+  .prose-content ol {
+    margin-block: 1em;
+    padding-inline-start: 1.4em;
+  }
+
+  .prose-content ul {
+    list-style: disc;
+  }
+
+  .prose-content ol {
+    list-style: decimal;
+  }
+
+  .prose-content li {
+    margin-block: 0.4em;
+  }
+
+  .prose-content a {
+    text-decoration: underline;
+  }
+}

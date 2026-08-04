@@ -1,0 +1,264 @@
+---
+/**
+ * Homepage.
+ *
+ * Content comes from `src/content/data/homepage.json` — the site owner can
+ * rewrite every line of copy on this page without touching a component.
+ *
+ * The editorial paragraph under the fold is not filler. A homepage that is only
+ * a grid of thumbnails carries no original text, and on a site whose entire
+ * business model is organic search that is the weakest possible front door.
+ */
+import homepage from '@/content/data/homepage.json';
+
+import { SEO_THRESHOLDS } from '@/config/seo';
+import { SITE } from '@/config/site';
+import { getGamesBySlugs, getNewestGames, getPublishedGames } from '@/lib/content/games';
+import { getCategoriesWithCounts } from '@/lib/content/taxonomy';
+import { siteGraph } from '@/components/seo/schema/siteGraph';
+import { itemListSchema } from '@/components/seo/schema/itemList';
+import { categoryPath } from '@/lib/utils/url';
+
+import AdSlot from '@/components/ads/AdSlot.astro';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import GameGrid from '@/components/ui/GameGrid.astro';
+
+const allGames = await getPublishedGames();
+const featured = await getGamesBySlugs(homepage.featuredSlugs);
+const newest = await getNewestGames(8);
+const categories = await getCategoriesWithCounts();
+
+/** Featured falls back to newest so the top of the page is never empty. */
+const featuredGames = featured.length > 0 ? featured : newest;
+
+const gameCount: number = allGames.length;
+
+const seoTitle = `Free Online Games — Play ${gameCount}+ Games, No Download`;
+const seoDescription =
+  `Play ${gameCount}+ free browser games with no download and no sign-up. ` +
+  'Puzzle, word and arcade games, each with a full how-to-play guide and controls.';
+
+const jsonLdNodes = [
+  ...siteGraph(true),
+  itemListSchema(
+    featuredGames.map((game) => ({ slug: game.id, title: game.data.title })),
+    'Featured Games',
+  ),
+];
+
+/** Categories with nothing in them would be dead links on the busiest page. */
+const visibleCategories = categories.filter((entry) => entry.count > 0);
+---
+
+<BaseLayout
+  title={seoTitle}
+  description={seoDescription}
+  kind="home"
+  pathname="/"
+  itemCount={gameCount}
+  jsonLdNodes={jsonLdNodes}
+  source="src/pages/index.astro"
+>
+  <section class="hero">
+    <div class="container-content hero__inner">
+      <h1 class="hero__title">{homepage.hero.h1}</h1>
+      <p class="hero__sub">{homepage.hero.subheadline}</p>
+
+      <div class="hero__actions">
+        <a class="hero__cta hero__cta--primary tap-target" href={homepage.hero.primaryCta.href}>
+          {homepage.hero.primaryCta.label}
+        </a>
+        <a class="hero__cta tap-target" href={homepage.hero.secondaryCta.href}>
+          {homepage.hero.secondaryCta.label}
+        </a>
+      </div>
+
+      <p class="hero__trust">{homepage.hero.trustLine}</p>
+    </div>
+  </section>
+
+  <div class="container-content home">
+    <section class="home__section" aria-labelledby="featured-heading">
+      <h2 id="featured-heading" class="home__heading">Featured Games</h2>
+      <p class="home__sub">
+        Start here — the games we would hand to someone with ten minutes free.
+      </p>
+      <GameGrid games={featuredGames} eagerCount={4} headingLevel="h3" />
+    </section>
+
+    <AdSlot placement="header" class="home__ad" />
+
+    <section class="home__section" aria-labelledby="new-heading">
+      <h2 id="new-heading" class="home__heading">Recently Added</h2>
+      <p class="home__sub">The newest games on the site, most recent first.</p>
+      <GameGrid games={newest} eagerCount={0} headingLevel="h3" />
+    </section>
+
+    {
+      visibleCategories.length > 0 && (
+        <section class="home__section" aria-labelledby="categories-heading">
+          <h2 id="categories-heading" class="home__heading">
+            Browse by Category
+          </h2>
+          <p class="home__sub">
+            Every game page includes a written guide, a full controls table and real tips.
+          </p>
+          <ul class="home__categories">
+            {visibleCategories.map((entry) => (
+              <li>
+                <a class="home__category" href={categoryPath(entry.category.id)}>
+                  <span class="home__category-name">{entry.category.data.name}</span>
+                  <span class="home__category-count">
+                    {entry.count} {entry.count === 1 ? 'game' : 'games'}
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )
+    }
+
+    <section class="home__section home__about prose-content" aria-labelledby="about-heading">
+      <h2 id="about-heading" class="home__heading">What {SITE.name} is</h2>
+      <p>{homepage.intro}</p>
+      <p>
+        Tag pages need at least {SEO_THRESHOLDS.TAG_MIN_GAMES} games before they appear in search
+        results, so the navigation only ever points at pages worth arriving on. If a category looks
+        short today, it is because we would rather add the next game properly than pad the list.
+      </p>
+    </section>
+
+    <AdSlot placement="footer" class="home__ad" />
+  </div>
+</BaseLayout>
+
+<style>
+  .hero {
+    background: linear-gradient(180deg, var(--color-brand-light) 0%, var(--color-surface) 100%);
+    padding-block: 2.5rem 2rem;
+    border-bottom: 1px solid var(--color-line);
+  }
+
+  .hero__inner {
+    text-align: center;
+  }
+
+  .hero__title {
+    font-size: clamp(1.7rem, 1.1rem + 2.8vw, 2.75rem);
+    max-width: 22ch;
+    margin-inline: auto;
+  }
+
+  .hero__sub {
+    margin-block-start: 0.9rem;
+    margin-inline: auto;
+    max-width: 62ch;
+    color: var(--color-body);
+    font-size: 1.02rem;
+  }
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.6rem;
+    margin-block-start: 1.4rem;
+  }
+
+  .hero__cta {
+    padding-inline: 1.3rem;
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-pill);
+    background: var(--color-surface);
+    color: var(--color-ink);
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .hero__cta:hover {
+    text-decoration: none;
+    background: var(--color-surface-sunken);
+  }
+
+  .hero__cta--primary {
+    background: var(--color-brand);
+    border-color: var(--color-brand);
+    color: #fff;
+  }
+
+  .hero__cta--primary:hover {
+    background: var(--color-brand-dark);
+    border-color: var(--color-brand-dark);
+  }
+
+  .hero__trust {
+    margin-block-start: 1rem;
+    font-size: 0.85rem;
+    color: var(--color-muted);
+  }
+
+  .home {
+    padding-block: 2rem 1rem;
+  }
+
+  .home__section + .home__section {
+    margin-block-start: 3rem;
+  }
+
+  .home__heading {
+    font-size: 1.4rem;
+  }
+
+  .home__sub {
+    margin-block: 0.3rem 1.1rem;
+    color: var(--color-muted);
+  }
+
+  .home__ad {
+    margin-block: 2.5rem;
+  }
+
+  .home__categories {
+    display: grid;
+    gap: 0.75rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @media (min-width: 768px) {
+    .home__categories {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+
+  .home__category {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    padding: 0.9rem 1rem;
+    min-height: 44px;
+    background: var(--color-surface-alt);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-card);
+    text-decoration: none;
+  }
+
+  .home__category:hover {
+    text-decoration: none;
+    background: var(--color-surface-sunken);
+  }
+
+  .home__category-name {
+    font-weight: 700;
+    color: var(--color-ink);
+  }
+
+  .home__category-count {
+    font-size: 0.8rem;
+    color: var(--color-muted);
+  }
+
+  .home__about {
+    max-width: 72ch;
+  }
+</style>

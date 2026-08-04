@@ -1,0 +1,99 @@
+---
+/**
+ * Tag listing — pages 2 and beyond.  URL: /t/{slug}/page/{n}/
+ *
+ * Mirrors the generation rule in ../[slug].astro exactly: a tag that does not
+ * earn a page 1 must not get a page 2 either, or pagination would link into a
+ * route that was never built.
+ */
+import type { GetStaticPaths } from 'astro';
+import { getCollection } from 'astro:content';
+
+import { getPublishedGames } from '@/lib/content/games';
+import { tagPath, tagPagePath } from '@/lib/utils/url';
+import { tagBreadcrumbs } from '@/lib/seo/breadcrumbs';
+import { countTagOccurrences, shouldGenerateTagPage } from '@/lib/seo/routing';
+import { itemListSchema } from '@/components/seo/schema/itemList';
+import { breadcrumbListSchema } from '@/components/seo/schema/breadcrumbList';
+import { PAGE_SIZES } from '@/config/seo';
+
+import GameListing from '@/components/listings/GameListing.astro';
+
+export const getStaticPaths = (async () => {
+  const tags = await getCollection('tags');
+  const games = await getPublishedGames();
+
+  const counts = countTagOccurrences(games.map((game) => game.data.taxonomy.tags));
+
+  const paths = [];
+  for (const tag of tags) {
+    const count = counts.get(tag.id) ?? 0;
+    if (!shouldGenerateTagPage(count, tag.data.forceNoindex)) continue;
+    const totalPages = Math.ceil(count / PAGE_SIZES.TAG);
+    for (let page = 2; page <= totalPages; page++) {
+      paths.push({
+        params: { slug: tag.id, page: String(page) },
+        props: { tagId: tag.id, pageNumber: page, totalPages },
+      });
+    }
+  }
+  return paths;
+}) satisfies GetStaticPaths;
+
+interface Props {
+  tagId: string;
+  pageNumber: number;
+  totalPages: number;
+}
+
+const { tagId, pageNumber, totalPages } = Astro.props;
+
+const tagEntry = (await getCollection('tags')).find((t) => t.id === tagId);
+if (!tagEntry) return Astro.notFound();
+
+const allGames = await getPublishedGames();
+const tagGames = allGames.filter((g) => g.data.taxonomy.tags.includes(tagId));
+const total = tagGames.length;
+
+const size = PAGE_SIZES.TAG;
+const start = (pageNumber - 1) * size;
+const pageGames = tagGames.slice(start, start + size);
+
+const name = tagEntry.data.name;
+const title = `Free ${name} Games to Play Online`;
+const description = tagEntry.data.description;
+
+const crumbs = tagBreadcrumbs(name, tagId);
+const pathname = tagPagePath(tagId, pageNumber);
+
+const jsonLd = [
+  breadcrumbListSchema(crumbs),
+  itemListSchema(
+    pageGames.map((g) => ({ slug: g.id, title: g.data.title })),
+    `${name} Games`,
+    start + 1,
+  ),
+];
+
+const hrefFor = (page: number) => tagPagePath(tagId, page);
+---
+
+<GameListing
+  kind="tag"
+  title={title}
+  description={description}
+  h1={`${name} Games`}
+  crumbs={crumbs}
+  games={pageGames}
+  pageNumber={pageNumber}
+  totalPages={totalPages}
+  hrefFor={hrefFor}
+  pathname={pathname}
+  itemCount={pageGames.length}
+  jsonLdNodes={jsonLd}
+  source={`src/pages/t/${tagId}/page/${pageNumber}.astro`}
+  lede={`Page ${pageNumber} of ${totalPages} — ${total} ${total === 1 ? 'game' : 'games'} tagged "${name}".`}
+  emptyMessage="No more games on this page."
+>
+  <Fragment slot="intro"><p>{tagEntry.data.description}</p></Fragment>
+</GameListing>

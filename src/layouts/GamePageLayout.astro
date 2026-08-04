@@ -1,0 +1,200 @@
+---
+/**
+ * Layout for the game detail page.
+ *
+ * ═══════════════════════════════════════════════════════════════════════════
+ * THE DOM ORDER BELOW IS A REQUIREMENT, NOT A PREFERENCE
+ * ═══════════════════════════════════════════════════════════════════════════
+ * Header → breadcrumbs → H1 → meta bar → game area → (150px) → first ad.
+ *
+ * On a 375×667 phone that puts the playable game in the first viewport and no
+ * advertising at all. Two independent rules force this:
+ *
+ *   • Core Web Vitals — an ad slot above the game becomes the LCP element and
+ *     reserves 280px of the first screen for something the visitor did not come
+ *     for. It is the single most expensive layout mistake this page could make.
+ *   • AdSense policy — an ad within reach of a game control is treated as an
+ *     accidental-click design, and that violation is applied to the account,
+ *     not to the page. `AdSlot gameGuard` supplies the 150px separation and
+ *     `src/styles/game.css` provides the floor.
+ *
+ * Anything that changes this order needs to be checked against both.
+ *
+ * ═══════════════════════════════════════════════════════════════════════════
+ * WHY THE PLAYER SITS ABOVE THE TWO-COLUMN GRID
+ * ═══════════════════════════════════════════════════════════════════════════
+ * The desktop layout is two columns (article + rail), but the game area spans
+ * the full width above them. If the player were inside the left column, the
+ * rail would sit *beside* the game and the 150px separation rule would be
+ * satisfied vertically while being violated horizontally. Full width above the
+ * grid makes the guarantee true in both axes at every breakpoint.
+ *
+ * ═══════════════════════════════════════════════════════════════════════════
+ * AD COUNT
+ * ═══════════════════════════════════════════════════════════════════════════
+ * Three slots, matching `adsConfig.maxPerPage`: below-game, in-content (placed
+ * by the page) and footer. The rail deliberately carries no ad — a fourth slot
+ * would trip `validate-ads.mjs`, and a sidebar unit is worth far less than the
+ * jump navigation that sits there instead. To monetise the rail later, swap the
+ * `rail` slot content for `<AdSlot placement="sidebar" />` and drop one of the
+ * other three.
+ */
+import type { Crumb } from '@/lib/seo/breadcrumbs';
+
+import AdSlot from '@/components/ads/AdSlot.astro';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Breadcrumbs from '@/components/ui/Breadcrumbs.astro';
+
+import '@/styles/game.css';
+
+/** One entry in the meta bar under the H1. */
+export interface MetaItem {
+  /** Visible text. */
+  text: string;
+  /** Makes the entry a link when present. */
+  href?: string | undefined;
+  /** Screen-reader prefix, e.g. "Category". */
+  label?: string | undefined;
+}
+
+export interface Props {
+  /* --- Head --- */
+  /** `<title>` without the brand suffix. */
+  title: string;
+  /** Meta description. */
+  description: string;
+  /** Canonical path, e.g. `/games/2048/`. */
+  pathname: string;
+  /** Deliberate canonical override from the content file. */
+  canonicalOverride?: string | undefined;
+  /** `seo.noindexOverride` from the content file. */
+  explicitNoindex?: boolean;
+  /** True when the content file is a draft. */
+  draft?: boolean;
+  /** Social image URL. */
+  ogImage?: string | undefined;
+  /** Alt text for the social image. */
+  ogImageAlt?: string | undefined;
+  /** Structured-data nodes for the page graph. */
+  jsonLdNodes?: (Record<string, unknown> | null | undefined)[];
+  /** Names the source file in build-time error messages. */
+  source?: string;
+  /** Publication date, for `og:type="article"`. */
+  publishedAt?: Date | undefined;
+  /** Last meaningful edit. */
+  updatedAt?: Date | undefined;
+
+  /* --- Page furniture --- */
+  /** Breadcrumb trail; the same array feeds the BreadcrumbList schema. */
+  crumbs: readonly Crumb[];
+  /** Visible headline. */
+  h1: string;
+  /** Meta bar entries (PRD 5.2 module 3). */
+  metaItems?: readonly MetaItem[];
+}
+
+const {
+  title,
+  description,
+  pathname,
+  canonicalOverride,
+  explicitNoindex = false,
+  draft = false,
+  ogImage,
+  ogImageAlt,
+  jsonLdNodes = [],
+  source = 'game detail page',
+  publishedAt,
+  updatedAt,
+  crumbs,
+  h1,
+  metaItems = [],
+} = Astro.props;
+
+/** The rail only exists when the page supplies content for it. */
+const hasRail: boolean = Astro.slots.has('rail');
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  kind="game"
+  pathname={pathname}
+  itemCount={1}
+  canonicalOverride={canonicalOverride}
+  explicitNoindex={explicitNoindex}
+  draft={draft}
+  ogType="article"
+  ogImage={ogImage}
+  ogImageAlt={ogImageAlt}
+  publishedAt={publishedAt}
+  updatedAt={updatedAt}
+  jsonLdNodes={jsonLdNodes}
+  source={source}
+>
+  {/* Forwarded to BaseLayout's head: preconnect and poster preload hints. */}
+  <slot name="head" slot="head" />
+
+  <div class="container-content game-page">
+    <Breadcrumbs crumbs={crumbs} class="game-page__crumbs" />
+
+    <h1 class="game-page__title">{h1}</h1>
+
+    {
+      metaItems.length > 0 && (
+        <p class="game-meta">
+          {metaItems.map((item) => (
+            <span class="game-meta__item">
+              {item.label !== undefined && <span class="sr-only">{item.label}: </span>}
+              {item.href === undefined ? (
+                <span class="game-meta__value">{item.text}</span>
+              ) : (
+                <a class="game-meta__link" href={item.href}>
+                  {item.text}
+                </a>
+              )}
+            </span>
+          ))}
+        </p>
+      )
+    }
+
+    {/* The game area. Full width, above the grid, above every ad. */}
+    <slot name="player" />
+
+    {/* First ad on the page. `gameGuard` applies the 150px separation, and
+        renders nothing at all while ads are switched off. */}
+    <AdSlot placement="below-game" gameGuard={true} />
+
+    <div class:list={['game-body', hasRail && 'game-body--with-rail']}>
+      <div class="game-body__main">
+        <slot />
+      </div>
+
+      {
+        hasRail && (
+          <aside class="game-body__rail" aria-label="Page navigation and quick facts">
+            <slot name="rail" />
+          </aside>
+        )
+      }
+    </div>
+
+    <AdSlot placement="footer" class="game-section__ad" />
+  </div>
+</BaseLayout>
+
+<style>
+  /* Screen-reader-only label text for the meta bar entries. */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+  }
+</style>

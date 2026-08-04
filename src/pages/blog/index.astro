@@ -1,0 +1,107 @@
+---
+/**
+ * Blog index.  URL: /blog/
+ *
+ * Empty-state first: with no posts in src/content/blog the page explains itself
+ * rather than looking broken. Each post renders through ./[slug].astro.
+ */
+import { getCollection } from 'astro:content';
+
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Breadcrumbs from '@/components/ui/Breadcrumbs.astro';
+import { blogPath } from '@/lib/utils/url';
+import type { Crumb } from '@/lib/seo/breadcrumbs';
+
+const posts = (await getCollection('blog'))
+  .filter((p) => import.meta.env.DEV || !p.data.draft)
+  .sort((a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime());
+
+const title = 'Blog';
+const description =
+  'Guides, tips and behind-the-scenes notes about the free browser games on SnackArcade — how they are built and how to play them well.';
+const crumbs: Crumb[] = [
+  { name: 'Home', href: '/' },
+  { name: 'Blog', href: '/blog/' },
+];
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  kind="blog"
+  pathname="/blog/"
+  itemCount={posts.length}
+  source="src/pages/blog/index.astro"
+>
+  <div class="container-content blog-index">
+    <Breadcrumbs crumbs={crumbs} class="blog-index__crumbs" />
+    <h1>Blog</h1>
+    <p class="blog-index__lead">Tips, build notes and how-to guides for the games on this site.</p>
+
+    {
+      posts.length === 0 ? (
+        <p class="blog-index__empty">No posts yet — check back soon.</p>
+      ) : (
+        <ul class="blog-index__list">
+          {posts.map((post) => (
+            <li class="blog-index__item">
+              <a href={blogPath(post.id)}>
+                <span class="blog-index__title">{post.data.title}</span>
+                <span class="blog-index__date">
+                  {post.data.publishedAt.toISOString().slice(0, 10)}
+                </span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      )
+    }
+  </div>
+</BaseLayout>
+
+<style>
+  .blog-index {
+    padding-block: 1rem 2rem;
+  }
+  .blog-index__crumbs {
+    margin-block-end: 1rem;
+  }
+  .blog-index h1 {
+    font-size: clamp(1.6rem, 1.2rem + 2vw, 2.2rem);
+  }
+  .blog-index__lead {
+    margin-block: 0.5rem 1.5rem;
+    color: var(--color-muted);
+  }
+  .blog-index__list {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: 0.75rem;
+  }
+  .blog-index__item a {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1rem 1.25rem;
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-card);
+    background: var(--color-surface-alt);
+    text-decoration: none;
+    color: inherit;
+  }
+  .blog-index__item a:hover {
+    border-color: var(--color-brand);
+    text-decoration: none;
+  }
+  .blog-index__date {
+    color: var(--color-muted);
+    font-size: 0.9rem;
+  }
+  .blog-index__empty {
+    padding: 2rem 1rem;
+    border: 1px dashed var(--color-line);
+    border-radius: var(--radius-card);
+    color: var(--color-muted);
+  }
+</style>

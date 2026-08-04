@@ -1,0 +1,141 @@
+---
+/**
+ * Licence and attribution block (PRD 5.2 module 14).
+ *
+ * ── WHY THIS IS NOT OPTIONAL ────────────────────────────────────────────────
+ * Every game bundle on this site is someone else's work, redistributed under a
+ * permissive licence. Nearly all of those licences — MIT, Apache-2.0, the CC-BY
+ * family, Zlib — require the credit and the licence notice to travel with the
+ * copy. Omitting this block does not merely look ungrateful; it terminates the
+ * permission that makes hosting the game legal, and it is the first thing a
+ * DMCA complaint will point at.
+ *
+ * `attributionRendered` is authored in the content file rather than assembled
+ * here, because some licences require a specific wording that a template cannot
+ * guess. The schema makes the field mandatory.
+ * ────────────────────────────────────────────────────────────────────────────
+ */
+import { toIsoDate, toMonthYear } from '@/lib/utils/date';
+
+export interface Props {
+  /** The credit line exactly as the content file states it. */
+  attributionRendered: string;
+  /** Licence identifier, e.g. `MIT`. */
+  license: string;
+  /** Link to the licence text. */
+  licenseUrl?: string | undefined;
+  /** Original author or studio. */
+  author: string;
+  /** The author's own site or profile. */
+  authorUrl?: string | undefined;
+  /** Where the bundle came from — repository or download page. */
+  sourceUrl?: string | undefined;
+  /** Licence covering art and audio, when it differs from the code licence. */
+  assetsLicense?: string | undefined;
+  /** When the licence was last checked by hand. */
+  verifiedAt?: Date | undefined;
+  /** Heading id so the section can be labelled. */
+  headingId?: string;
+}
+
+const {
+  attributionRendered,
+  license,
+  licenseUrl,
+  author,
+  authorUrl,
+  sourceUrl,
+  assetsLicense,
+  verifiedAt,
+  headingId = 'attribution-heading',
+} = Astro.props;
+
+/** Outbound links that exist for this game. */
+const links: { label: string; href: string }[] = [];
+
+if (sourceUrl !== undefined && sourceUrl !== '') {
+  links.push({ label: 'Original source', href: sourceUrl });
+}
+if (licenseUrl !== undefined && licenseUrl !== '') {
+  links.push({ label: `${license} licence text`, href: licenseUrl });
+}
+if (authorUrl !== undefined && authorUrl !== '') {
+  links.push({ label: `More from ${author}`, href: authorUrl });
+}
+
+/** Only worth a line of its own when it differs from the code licence. */
+const showAssetsLicense: boolean =
+  assetsLicense !== undefined &&
+  assetsLicense !== '' &&
+  assetsLicense.toLowerCase() !== 'same as code license';
+---
+
+<section class="game-section attribution" aria-labelledby={headingId} id="attribution">
+  <h2 class="game-section__title" id={headingId}>Licence &amp; Attribution</h2>
+
+  <p class="attribution__line">{attributionRendered}</p>
+
+  {showAssetsLicense && <p class="attribution__assets">Art and audio: {assetsLicense}</p>}
+
+  {
+    links.length > 0 && (
+      <ul class="attribution__links">
+        {links.map((link) => (
+          <li>
+            {/* `nofollow` on outbound licence links: these are obligations, not
+                editorial endorsements, and every game page carries them. */}
+            <a href={link.href} rel="noopener nofollow" target="_blank">
+              {link.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    )
+  }
+
+  {
+    verifiedAt !== undefined && (
+      <p class="attribution__verified">
+        Licence verified{' '}
+        <time datetime={toIsoDate(verifiedAt)}>{toMonthYear(verifiedAt)}</time>.
+      </p>
+    )
+  }
+</section>
+
+<style>
+  .attribution {
+    padding: 1.1rem 1.25rem;
+    background: var(--color-surface-alt);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-card);
+  }
+
+  .attribution__line {
+    margin: 0;
+    font-weight: 600;
+    color: var(--color-ink);
+  }
+
+  .attribution__assets {
+    margin-block: 0.4rem 0;
+    font-size: 0.9rem;
+    color: var(--color-body);
+  }
+
+  .attribution__links {
+    list-style: none;
+    padding: 0;
+    margin-block: 0.7rem 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 1.25rem;
+    font-size: 0.9rem;
+  }
+
+  .attribution__verified {
+    margin-block: 0.7rem 0;
+    font-size: 0.8rem;
+    color: var(--color-muted);
+  }
+</style>

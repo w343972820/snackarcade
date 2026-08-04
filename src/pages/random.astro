@@ -1,0 +1,145 @@
+---
+/**
+ * "Surprise Me" — URL: /random/
+ *
+ * WHY THIS PAGE EXISTS AS A REAL ROUTE
+ * ------------------------------------
+ * The homepage hero has two calls to action and this is one of them. It pointed
+ * at `/random/`, which did not exist, so the second-most-prominent button on
+ * the site returned 404 — the kind of thing a human reviewer finds in the first
+ * thirty seconds.
+ *
+ * HOW IT BEHAVES
+ * --------------
+ * With JavaScript: an inline script picks one published game and calls
+ * `location.replace()`, so the visitor lands on a game and the Back button
+ * still returns to wherever they came from rather than bouncing off this page.
+ *
+ * Without JavaScript (and for crawlers): the full list of games is already in
+ * the HTML, so the page is a usable index rather than a blank redirect stub.
+ * That is also why it is safe to keep — there is no empty page here for anyone
+ * to find.
+ *
+ * It is `kind="utility"`, so `resolveIndexability` marks it noindex and the
+ * sitemap filter drops it. A jump page has no independent search value, and
+ * indexing one would create a duplicate of /all-games/.
+ */
+import { getPublishedGames } from '@/lib/content/games';
+import { gamePath } from '@/lib/utils/url';
+import type { Crumb } from '@/lib/seo/breadcrumbs';
+
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Breadcrumbs from '@/components/ui/Breadcrumbs.astro';
+
+const games = await getPublishedGames();
+const slugs: string[] = games.map((game) => game.id);
+
+const title = 'Play a Random Free Game';
+const description =
+  'Let us pick for you — jump straight into a random free browser game from the SnackArcade library. No download, no sign-up, just one click to play.';
+
+const crumbs: Crumb[] = [
+  { name: 'Home', href: '/' },
+  { name: 'Surprise Me', href: '/random/' },
+];
+
+/**
+ * Inline, dependency-free and tiny. The slug list is baked in at build time so
+ * the redirect needs no fetch and fires before the page paints.
+ */
+const redirectScript = `(function(){
+  var slugs = ${JSON.stringify(slugs)};
+  if (!slugs.length) return;
+  var pick = slugs[Math.floor(Math.random() * slugs.length)];
+  window.location.replace('/games/' + pick + '/');
+})();`;
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  kind="utility"
+  pathname="/random/"
+  itemCount={slugs.length}
+  source="src/pages/random.astro"
+>
+  <div class="container-content random-page">
+    <Breadcrumbs crumbs={crumbs} class="random-page__crumbs" />
+    <h1>Surprise Me</h1>
+    <p class="random-page__lead">
+      Sending you to a random game now. If nothing happens, pick one from the list below — every one
+      of them is free, runs in this tab and needs no account.
+    </p>
+
+    {
+      slugs.length === 0 ? (
+        <p class="random-page__empty">No games are published yet.</p>
+      ) : (
+        <ul class="random-page__list">
+          {games.map((game) => (
+            <li class="random-page__item">
+              <a class="random-page__link tap-target" href={gamePath(game.id)}>
+                {game.data.title}
+              </a>
+            </li>
+          ))}
+        </ul>
+      )
+    }
+  </div>
+
+  <script is:inline set:html={redirectScript} />
+</BaseLayout>
+
+<style>
+  .random-page {
+    padding-block: 1rem 2rem;
+  }
+
+  .random-page__crumbs {
+    margin-block-end: 1rem;
+  }
+
+  .random-page h1 {
+    font-size: clamp(1.6rem, 1.2rem + 2vw, 2.2rem);
+  }
+
+  .random-page__lead {
+    margin-block: 0.5rem 1.5rem;
+    color: var(--color-muted);
+    max-width: 60ch;
+  }
+
+  .random-page__list {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+  }
+
+  .random-page__link {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.6rem 1rem;
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-pill);
+    background: var(--color-surface-alt);
+    color: var(--color-ink);
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .random-page__link:hover {
+    border-color: var(--color-brand);
+    background: var(--color-brand-light);
+    text-decoration: none;
+  }
+
+  .random-page__empty {
+    padding: 2rem 1rem;
+    border: 1px dashed var(--color-line);
+    border-radius: var(--radius-card);
+    color: var(--color-muted);
+  }
+</style>

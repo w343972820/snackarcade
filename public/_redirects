@@ -1,0 +1,10 @@
+# Google Search Console is usually given /sitemap.xml. Astro emits a sharded
+# index at /sitemap-index.xml, so serve that content at the friendlier path.
+/sitemap.xml   /sitemap-index.xml   200
+
+# Common mistyped or legacy paths.
+/game/*        /games/:splat        301
+/category/*    /c/:splat            301
+/tag/*         /t/:splat            301
+/privacy       /privacy-policy/     301
+/tos           /terms/              301
