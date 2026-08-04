@@ -1,0 +1,36 @@
+sequenceDiagram
+  autonumber
+  participant CRON as GitHub Actions (schedule cron)
+  participant WF as daily-posts.yml
+  participant GEN as generate-daily-posts.mjs
+  participant DATA as content 数据源 (games/popular/updates)
+  participant BLOG as src/content/blog/
+  participant VAL as validate-content.mjs
+  participant GIT as git push main
+  participant CF as Cloudflare Pages
+  participant SITE as 生产站点
+
+  CRON->>WF: 每天 02:00 UTC 触发（或 workflow_dispatch 手动）
+  WF->>GEN: npm ci && node scripts/generate-daily-posts.mjs --type all
+  GEN->>DATA: 读取游戏清单 / popular.json / updates.json
+  alt 有可写内容（且同日同类型不存在）
+    GEN->>BLOG: 写 auto-YYYY-MM-DD-{type}.md（draft:true, ≥600 词）
+    GEN-->>WF: 打印 GENERATED: n file(s)
+  else 无新内容（或数据缺失）
+    GEN-->>WF: 打印 GENERATED: 0 file(s)
+  end
+  WF->>VAL: node scripts/validate-content.mjs（自校验，含 auto-* 必须 draft:true）
+  VAL-->>WF: 通过 / 失败（失败则中止，不 commit）
+  alt 有变更
+    WF->>GIT: git add + commit + push main
+    GIT->>CF: 触发 Pages 自动构建
+    CF->>CF: npm run build（prebuild 再次校验；draft 不进路由/不收录）
+    CF->>SITE: 部署完成（/blog/ 列表只显示非 draft）
+  else 无变更且最近提交 >30 天
+    WF->>GIT: keepalive：写 last-auto-run.json + commit + push（防 60 天停摆）
+  end
+  Note over SITE: —— 人工审核发布（质量红线）——
+  客户-->>BLOG: GitHub 网页端改 draft:false（可顺带润色正文）
+  客户-->>GIT: push
+  GIT->>CF: 再次构建部署
+  CF->>SITE: 文章上线 → /blog/ 可索引、进 sitemap（priority 0.6）

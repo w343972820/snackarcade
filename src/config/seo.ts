@@ -49,4 +49,6 @@ export const WORD_COUNT_FLOORS = {
   GAME_IFRAME: 400,
   CATEGORY_INTRO: 300,
   HOMEPAGE_EDITORIAL: 300,
+  /** Blog post body (markdown), enforced by `scripts/validate-content.mjs`. */
+  BLOG_POST: 600,
 } as const;

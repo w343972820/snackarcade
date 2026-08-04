@@ -13,6 +13,11 @@
     "trustLine": "No installs · No plugins · No account needed · Free forever"
   },
   "featuredSlugs": ["2048", "block-drop", "five-letters"],
+  "latestPosts": {
+    "heading": "Latest Posts",
+    "subheading": "Guides, how-tos and build notes from the SnackArcade team.",
+    "limit": 3
+  },
   "sections": [
     {
       "id": "featured",

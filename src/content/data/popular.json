@@ -1,0 +1,7 @@
+{
+  "schemaVersion": 1,
+  "source": "ga4-manual-export",
+  "exportedAt": "2026-08-04",
+  "note": "From GA4 report Pages and screens → top game pages by views. Update monthly. Until real data is pasted here, entries stays empty and no leaderboard renders — the site never fakes a ranking.",
+  "entries": []
+}

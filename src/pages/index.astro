@@ -14,6 +14,8 @@ import homepage from '@/content/data/homepage.json';
 import { SEO_THRESHOLDS } from '@/config/seo';
 import { SITE } from '@/config/site';
 import { getGamesBySlugs, getNewestGames, getPublishedGames } from '@/lib/content/games';
+import { getNewestPosts } from '@/lib/content/blog';
+import { getPopularGames } from '@/lib/content/popular';
 import { getCategoriesWithCounts } from '@/lib/content/taxonomy';
 import { siteGraph } from '@/components/seo/schema/siteGraph';
 import { itemListSchema } from '@/components/seo/schema/itemList';
@@ -22,6 +24,7 @@ import { categoryPath } from '@/lib/utils/url';
 import AdSlot from '@/components/ads/AdSlot.astro';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import GameGrid from '@/components/ui/GameGrid.astro';
+import PostCard from '@/components/ui/PostCard.astro';
 
 const allGames = await getPublishedGames();
 const featured = await getGamesBySlugs(homepage.featuredSlugs);
@@ -30,6 +33,16 @@ const categories = await getCategoriesWithCounts();
 
 /** Featured falls back to newest so the top of the page is never empty. */
 const featuredGames = featured.length > 0 ? featured : newest;
+
+/** Latest published posts; `limit` is editable in homepage.json. */
+const latestPosts = await getNewestPosts(homepage.latestPosts?.limit ?? 3);
+
+/**
+ * Most-played games, straight from the GA4 export in popular.json. Returns an
+ * empty array when the data is missing, expired or empty, so this section is
+ * simply not rendered — never faked.
+ */
+const popularGames = await getPopularGames(5);
 
 const gameCount: number = allGames.length;
 
@@ -86,6 +99,18 @@ const visibleCategories = categories.filter((entry) => entry.count > 0);
       <GameGrid games={featuredGames} eagerCount={4} headingLevel="h3" />
     </section>
 
+    {
+      popularGames.length > 0 && (
+        <section class="home__section" aria-labelledby="popular-heading">
+          <h2 id="popular-heading" class="home__heading">Most Played</h2>
+          <p class="home__sub">
+            The games visitors actually played the most, straight from our analytics.
+          </p>
+          <GameGrid games={popularGames} eagerCount={0} headingLevel="h3" />
+        </section>
+      )
+    }
+
     <AdSlot placement="header" class="home__ad" />
 
     <section class="home__section" aria-labelledby="new-heading">
@@ -113,6 +138,22 @@ const visibleCategories = categories.filter((entry) => entry.count > 0);
                   </span>
                 </a>
               </li>
+            ))}
+          </ul>
+        </section>
+      )
+    }
+
+    {
+      latestPosts.length > 0 && (
+        <section class="home__section" aria-labelledby="latest-posts-heading">
+          <h2 id="latest-posts-heading" class="home__heading">
+            {homepage.latestPosts.heading}
+          </h2>
+          <p class="home__sub">{homepage.latestPosts.subheading}</p>
+          <ul class="home__posts">
+            {latestPosts.map((post) => (
+              <PostCard post={post} headingLevel="h3" />
             ))}
           </ul>
         </section>
@@ -256,6 +297,26 @@ const visibleCategories = categories.filter((entry) => entry.count > 0);
   .home__category-count {
     font-size: 0.8rem;
     color: var(--color-muted);
+  }
+
+  .home__posts {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: 0.75rem;
+    grid-template-columns: 1fr;
+  }
+
+  @media (min-width: 640px) {
+    .home__posts {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .home__posts {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
   }
 
   .home__about {

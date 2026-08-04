@@ -26,6 +26,12 @@ export interface Props {
   pathname?: string;
   publishedAt?: Date | undefined;
   updatedAt?: Date | undefined;
+  /**
+   * Items on a listing page. Blog post pages MUST pass at least 1: the
+   * indexability rule noindexes `kind: 'blog'` pages with itemCount 0, which is
+   * meant for an empty blog index — a real post would otherwise ship noindex.
+   */
+  itemCount?: number;
   draft?: boolean;
   explicitNoindex?: boolean;
   ogImage?: string;
@@ -44,6 +50,7 @@ const {
   pathname,
   publishedAt,
   updatedAt,
+  itemCount,
   draft = false,
   explicitNoindex = false,
   ogImage,
@@ -60,6 +67,7 @@ const headline: string = h1 ?? title;
   description={description}
   kind={kind}
   pathname={pathname}
+  itemCount={itemCount}
   draft={draft}
   explicitNoindex={explicitNoindex}
   ogType="article"
@@ -74,6 +82,15 @@ const headline: string = h1 ?? title;
 
     <article class="article-page__body prose-content">
       <h1>{headline}</h1>
+
+      {
+        publishedAt !== undefined && (
+          <p class="article-page__published">
+            Published{' '}
+            <time datetime={toIsoDate(publishedAt)}>{toLongDate(publishedAt)}</time>
+          </p>
+        )
+      }
 
       {
         updatedAt !== undefined && (
@@ -104,6 +121,7 @@ const headline: string = h1 ?? title;
     font-size: clamp(1.6rem, 1.2rem + 1.8vw, 2.25rem);
   }
 
+  .article-page__published,
   .article-page__updated {
     margin-block-start: 0.4rem;
     font-size: 0.85rem;

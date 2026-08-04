@@ -57,6 +57,15 @@ export default defineConfig({
         if (pathname.startsWith('/collections/')) {
           return { ...item, priority: 0.7 };
         }
+        if (pathname === '/blog/') {
+          // The blog index is a live content hub, not an archival listing.
+          return { ...item, priority: 0.7, changefreq: 'weekly' };
+        }
+        if (pathname.startsWith('/blog/')) {
+          // Individual posts carry the site's editorial value; weekly keeps the
+          // sitemap honest about how often posts actually change.
+          return { ...item, priority: 0.6, changefreq: 'weekly' };
+        }
         if (pathname.startsWith('/t/')) {
           return { ...item, priority: 0.5 };
         }

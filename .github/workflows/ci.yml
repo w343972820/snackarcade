@@ -24,6 +24,26 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      # T04: the daily generator must be deterministic (same input → same
+      # output) and idempotent (a second run writes nothing). We prove both by
+      # running it twice against a fixed date, then restore the tree so the
+      # rest of the pipeline sees a pristine checkout.
+      - name: Verify daily generator idempotency
+        run: |
+          set -euo pipefail
+          D=2026-08-04
+          rm -f src/content/blog/auto-${D}-*.md src/content/data/last-auto-run.json
+          node scripts/generate-daily-posts.mjs --type all --date ${D} > /tmp/gen-1.txt
+          node scripts/generate-daily-posts.mjs --type all --date ${D} > /tmp/gen-2.txt
+          grep -q "GENERATED: 0 file" /tmp/gen-2.txt
+          rm -f src/content/blog/auto-${D}-*.md
+          node scripts/generate-daily-posts.mjs --type all --date ${D} > /tmp/gen-3.txt
+          diff /tmp/gen-1.txt /tmp/gen-3.txt
+          node scripts/validate-content.mjs
+          git checkout -- . 2>/dev/null || true
+          rm -f src/content/blog/auto-${D}-*.md
+          echo "Generator is deterministic and idempotent; generated drafts pass validation."
+
       - name: Unit tests
         run: npm test
 

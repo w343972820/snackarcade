@@ -33,13 +33,14 @@ export interface NavColumn {
 export const MAIN_NAV_STATIC: readonly NavLink[] = [
   { label: 'All Games', href: '/all-games/' },
   { label: 'New', href: '/new/' },
+  { label: 'Blog', href: '/blog/' },
 ];
 
 /**
  * How many category links the header may carry. Five items total is the
- * practical limit on mobile, and two of those are already taken above.
+ * practical limit on mobile, and three of those are already taken above.
  */
-export const MAIN_NAV_CATEGORY_LIMIT = 3;
+export const MAIN_NAV_CATEGORY_LIMIT = 2;
 
 /** How many category links the footer's Categories column may carry. */
 export const FOOTER_CATEGORY_LIMIT = 4;
@@ -60,6 +61,7 @@ export const FOOTER_STATIC_COLUMNS: readonly NavColumn[] = [
     links: [
       { label: 'All Games', href: '/all-games/' },
       { label: 'New Releases', href: '/new/' },
+      { label: 'Blog', href: '/blog/' },
       { label: 'Search', href: '/search/' },
     ],
   },

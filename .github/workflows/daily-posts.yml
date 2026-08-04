@@ -1,0 +1,60 @@
+name: Daily Auto Posts
+
+# Generates "data summary" blog drafts every day, validates them, and pushes
+# the result to main when anything changed. Cloudflare Pages picks up the push
+# and rebuilds automatically.
+#
+# Every generated file is draft:true — nothing is published without a human
+# flipping the flag to false in a later commit. The keepalive logic inside
+# scripts/generate-daily-posts.mjs guarantees the repo has activity at least
+# once every 30 days, far inside GitHub's 60-day cron pause window.
+
+on:
+  schedule:
+    # 02:00 UTC every day — quiet hours for US traffic and before most EU mornings.
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    name: Generate, validate, commit
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          # We push back to main, so a full history (not a shallow clone) is
+          # needed for the keepalive age check to see the real last commit.
+          fetch-depth: 0
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate daily draft posts
+        run: node scripts/generate-daily-posts.mjs --type all
+
+      - name: Validate content (auto-* must be drafts; body floors enforced)
+        run: node scripts/validate-content.mjs
+
+      - name: Commit and push when there are changes
+        run: |
+          if [ -n "$(git status --porcelain)" ]; then
+            git config user.name "SnackArcade Bot"
+            git config user.email "actions@users.noreply.github.com"
+            git add -A
+            git commit -m "chore(blog): daily auto-generated draft posts"
+            git push origin main
+            echo "Committed and pushed daily draft posts."
+          else
+            echo "No changes to commit — nothing was generated today."
+          fi

@@ -144,6 +144,59 @@ function checkEnvExample() {
   check('.env.example', exists, exists ? 'present' : 'missing — copy it from the repository.');
 }
 
+/**
+ * The "Most Played" leaderboard is driven by a manual GA4 export in
+ * src/content/data/popular.json. Informational only (never fails the doctor):
+ * the site itself already hides the section when the data is missing/expired.
+ */
+function checkPopularLeaderboard() {
+  const file = path.join(ROOT, 'src', 'content', 'data', 'popular.json');
+  if (!fs.existsSync(file)) {
+    check(
+      'Most Played leaderboard',
+      true,
+      'No popular.json yet — the Most Played section stays hidden until real GA4 data is exported. See docs/CONTENT-SOP.md.',
+    );
+    return;
+  }
+
+  try {
+    const data = JSON.parse(fs.readFileSync(file, 'utf8'));
+    const entries = Array.isArray(data.entries) ? data.entries.length : 0;
+    const exportedAt = String(data.exportedAt ?? '');
+    const time = Date.parse(`${exportedAt}T00:00:00Z`);
+    const days = Number.isFinite(time)
+      ? Math.floor((Date.now() - time) / 86_400_000)
+      : Number.NaN;
+
+    if (entries === 0) {
+      check(
+        'Most Played leaderboard',
+        true,
+        `popular.json has 0 entries — the section stays hidden (honest circuit breaker). Export GA4 data to fill it.`,
+      );
+    } else if (!Number.isFinite(days) || days > 60) {
+      check(
+        'Most Played leaderboard',
+        true,
+        `popular.json is stale (exported ${exportedAt}). Data older than 60 days is treated as missing — export a fresh GA4 report and update the file. See docs/CONTENT-SOP.md.`,
+      );
+    } else {
+      check(
+        'Most Played leaderboard',
+        true,
+        `popular.json has ${entries} entr${entries === 1 ? 'y' : 'ies'} exported ${exportedAt} (${days} day${days === 1 ? '' : 's'} ago).`,
+      );
+    }
+  } catch (error) {
+    check(
+      'Most Played leaderboard',
+      true,
+      `popular.json is not valid JSON (${String(error)}) — the section stays hidden.`,
+    );
+  }
+}
+
 function main() {
   process.stdout.write(`\n${pc.bold('SnackArcade health check')}\n\n`);
 
@@ -154,6 +207,7 @@ function main() {
   checkContent();
   checkAds();
   checkEnvExample();
+  checkPopularLeaderboard();
 
   let failures = 0;
   for (const result of results) {

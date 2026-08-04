@@ -1,0 +1,93 @@
+---
+/**
+ * Blog post card used on the blog index and the homepage "Latest Posts" block.
+ *
+ * Renders an <li> so it can be dropped straight into a <ul>. The class is
+ * exactly `post-card` (no modifier suffix) because the QA regression guard
+ * counts published posts by matching that class in the built /blog/ HTML.
+ */
+import type { BlogPost } from '@/lib/content/blog';
+import { excerptOf } from '@/lib/content/blog';
+import { toIsoDate, toLongDate } from '@/lib/utils/date';
+import { blogPath } from '@/lib/utils/url';
+
+export interface Props {
+  /** The post to display. */
+  post: BlogPost;
+  /** Show the excerpt under the title. Defaults to true. */
+  showExcerpt?: boolean;
+  /** Heading level for the card title, so the page outline stays valid. */
+  headingLevel?: 'h2' | 'h3';
+}
+
+const { post, showExcerpt = true, headingLevel = 'h3' } = Astro.props;
+
+const title: string = post.data.title;
+const dateLabel: string = toLongDate(post.data.publishedAt);
+const dateIso: string = toIsoDate(post.data.publishedAt);
+const excerpt: string = excerptOf(post.body ?? post.data.seo.description);
+const href: string = blogPath(post.id);
+
+const HeadingTag = headingLevel === 'h2' ? 'h2' : 'h3';
+---
+
+<li class="post-card">
+  <a href={href} class="post-card__link">
+    <span class="post-card__date">
+      <time datetime={dateIso}>{dateLabel}</time>
+    </span>
+    <HeadingTag class="post-card__title">{title}</HeadingTag>
+    {showExcerpt && <p class="post-card__excerpt">{excerpt}</p>}
+    <span class="post-card__more">Read the post</span>
+  </a>
+</li>
+
+<style>
+  .post-card {
+    list-style: none;
+  }
+
+  .post-card__link {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    padding: 1rem 1.25rem;
+    height: 100%;
+    background: var(--color-surface-alt);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-card);
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .post-card__link:hover {
+    border-color: var(--color-brand);
+    text-decoration: none;
+  }
+
+  .post-card__date {
+    font-size: 0.8rem;
+    color: var(--color-muted);
+  }
+
+  .post-card__title {
+    font-size: 1.02rem;
+    line-height: 1.35;
+    color: var(--color-ink);
+    margin: 0;
+  }
+
+  .post-card__excerpt {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--color-body);
+    line-height: 1.5;
+  }
+
+  .post-card__more {
+    margin-block-start: 0.25rem;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--color-brand-dark);
+  }
+</style>

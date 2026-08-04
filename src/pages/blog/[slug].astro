@@ -4,11 +4,16 @@
  *
  * getStaticPaths emits one route per non-draft post in src/content/blog. With no
  * posts authored the index page shows its empty state and nothing is generated here.
+ *
+ * The "Related Games" block at the bottom is driven by `relatedGameSlugs` in the
+ * post frontmatter. When the list is empty the block is not rendered at all.
  */
 import type { GetStaticPaths } from 'astro';
 import { getCollection, render } from 'astro:content';
 
 import ArticleLayout from '@/layouts/ArticleLayout.astro';
+import GameGrid from '@/components/ui/GameGrid.astro';
+import { getRelatedGames } from '@/lib/content/blog';
 import { pageBreadcrumbs } from '@/lib/seo/breadcrumbs';
 
 export const getStaticPaths = (async () => {
@@ -32,6 +37,8 @@ const data = entry.data;
 const crumbs = pageBreadcrumbs(data.title, `/blog/${slug}/`);
 const pathname = `/blog/${slug}/`;
 
+const relatedGames = await getRelatedGames(entry);
+
 const { Content } = await render(entry);
 ---
 
@@ -42,10 +49,40 @@ const { Content } = await render(entry);
   h1={data.title}
   crumbs={crumbs}
   pathname={pathname}
+  itemCount={1}
   publishedAt={data.publishedAt}
   updatedAt={data.updatedAt}
   source={`src/pages/blog/${slug}.astro`}
   showAds={false}
 >
   <Content />
+
+  {
+    relatedGames.length > 0 && (
+      <section class="blog-post__related" aria-labelledby="related-games-heading">
+        <h2 id="related-games-heading">Related Games</h2>
+        <p class="blog-post__related-sub">
+          The games this post talks about — each with a full guide and controls.
+        </p>
+        <GameGrid games={relatedGames} eagerCount={0} headingLevel="h3" />
+      </section>
+    )
+  }
 </ArticleLayout>
+
+<style>
+  .blog-post__related {
+    margin-block-start: 3rem;
+    padding-block-start: 2rem;
+    border-top: 1px solid var(--color-line);
+  }
+
+  .blog-post__related h2 {
+    font-size: 1.3rem;
+  }
+
+  .blog-post__related-sub {
+    margin-block: 0.3rem 1.1rem;
+    color: var(--color-muted);
+  }
+</style>

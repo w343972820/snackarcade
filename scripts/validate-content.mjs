@@ -22,6 +22,8 @@ import pc from 'picocolors';
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const GAMES_DIR = path.join(ROOT, 'src', 'content', 'games');
 const CATEGORIES_DIR = path.join(ROOT, 'src', 'content', 'categories');
+const BLOG_DIR = path.join(ROOT, 'src', 'content', 'blog');
+const COLLECTIONS_DIR = path.join(ROOT, 'src', 'content', 'collections');
 const TAGS_FILE = path.join(ROOT, 'src', 'content', 'data', 'tags.json');
 const ASSETS_DIR = path.join(ROOT, 'src', 'assets', 'games');
 const GAMES_SRC = path.join(ROOT, 'games-src');
@@ -230,6 +232,39 @@ function listMarkdown(dir) {
     .readdirSync(dir)
     .filter((name) => name.endsWith('.md'))
     .sort();
+}
+
+/**
+ * Count words in a markdown body, mirroring src/lib/content/wordcount.ts
+ * exactly. KEEP IN SYNC — if the rule changes here it must change there too,
+ * otherwise the build could pass validation and still fail the editorial floor
+ * (or the other way round, which is just baffling for the site owner).
+ *
+ * Rule: split on whitespace, ignore empty fragments. Markdown syntax
+ * characters are stripped first so `**bold**` counts as one word.
+ * @param {string} input
+ * @returns {number}
+ */
+function countWords(input) {
+  if (typeof input !== 'string' || input.length === 0) return 0;
+  const stripped = input
+    // fenced code blocks
+    .replace(/```[\s\S]*?```/g, ' ')
+    // inline code
+    .replace(/`[^`]*`/g, ' ')
+    // images: drop entirely, alt text is not body copy
+    .replace(/!\[[^\]]*\]\([^)]*\)/g, ' ')
+    // links: keep the anchor text, drop the URL
+    .replace(/\[([^\]]*)\]\([^)]*\)/g, '$1')
+    // emphasis / strong / strikethrough markers
+    .replace(/[*_~]+/g, '')
+    // heading hashes and blockquote markers at line start
+    .replace(/^\s{0,3}(#{1,6}|>)\s*/gm, ' ')
+    // HTML comments
+    .replace(/<!--[\s\S]*?-->/g, ' ')
+    // raw HTML tags
+    .replace(/<\/?[a-z][^>]*>/gi, ' ');
+  return stripped.trim().split(/\s+/).filter(Boolean).length;
 }
 
 /* ============================================================================
@@ -491,6 +526,251 @@ function checkCategories() {
   }
 }
 
+/**
+ * Validate every file in src/content/blog.
+ *
+ * The Zod schema checks the shape; this function checks the things Zod cannot
+ * see: the 600-word body floor, real game references, trademark leakage and the
+ * hard rule that auto-generated drafts must stay drafts.
+ * @param {Set<string>} knownGameSlugs
+ */
+function checkBlog(knownGameSlugs) {
+  const files = listMarkdown(BLOG_DIR);
+
+  if (files.length === 0) {
+    warn(
+      'No blog posts in src/content/blog/. The /blog/ page stays an empty placeholder (and is noindexed) until you add at least one post.',
+    );
+    return;
+  }
+
+  /** Blog body word floor, keep in sync with WORD_COUNT_FLOORS.BLOG_POST. */
+  const BLOG_MIN_WORDS = 600;
+  /** Every post needs at least two links back into the game catalogue. */
+  const MIN_GAME_LINKS = 2;
+
+  for (const fileName of files) {
+    const slug = fileName.replace(/\.md$/, '');
+    const rel = `src/content/blog/${fileName}`;
+    const raw = fs.readFileSync(path.join(BLOG_DIR, fileName), 'utf8');
+
+    /** @type {{data: Record<string, any>, content: string}} */
+    let parsed;
+    try {
+      parsed = matter(raw);
+    } catch (error) {
+      fail(
+        rel,
+        'frontmatter',
+        `The settings block at the top of this file could not be read: ${String(error)}`,
+        'Check that the file starts with --- on line 1, ends the block with another --- line, and that every value with a colon in it is wrapped in quotes.',
+      );
+      continue;
+    }
+
+    const data = parsed.data;
+
+    /* ---- Required fields ---------------------------------------------- */
+    const requiredFields = [
+      ['title', 'title'],
+      ['seo.title', 'seo.title'],
+      ['seo.description', 'seo.description'],
+      ['publishedAt', 'publishedAt'],
+      ['updatedAt', 'updatedAt'],
+    ];
+    for (const [field, label] of requiredFields) {
+      const value = readField(data, field);
+      if (value === undefined || value === null || String(value).trim() === '') {
+        fail(
+          rel,
+          field,
+          `This blog post is missing "${label}".`,
+          `Add "${label}: ..." to the settings block at the top of the file.`,
+        );
+      }
+    }
+
+    /* ---- Author convention --------------------------------------------- */
+    const author = String(data?.author ?? '');
+    if (author !== '' && author !== 'SnackArcade Team') {
+      fail(
+        rel,
+        'author',
+        `The author is "${author}", but every post on this site is signed "SnackArcade Team".`,
+        'Change author to "SnackArcade Team". If you later introduce named writers, update the site-wide convention first.',
+      );
+    } else if (author === '') {
+      warn(
+        `${rel}: no "author" set. The schema defaults to "SnackArcade", but the site convention is "SnackArcade Team" — add the line to be explicit.`,
+      );
+    }
+
+    /* ---- Slug shape ---------------------------------------------------- */
+    if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug)) {
+      fail(
+        rel,
+        'filename',
+        `"${fileName}" is not a valid blog slug.`,
+        'Use lowercase letters, numbers and hyphens only, e.g. how-to-play-2048.md. The file name becomes the URL.',
+      );
+    }
+
+    /* ---- Auto-generated files must stay drafts -------------------------- */
+    if (slug.startsWith('auto-') && data?.draft !== true) {
+      fail(
+        rel,
+        'draft',
+        'This file is auto-generated (its name starts with "auto-") but "draft" is not true.',
+        'Set draft: true. Auto-generated posts are data summaries that must be reviewed by a human before publishing.',
+      );
+    }
+
+    /* ---- Body word floor ------------------------------------------------ */
+    const words = countWords(parsed.content);
+    if (words < BLOG_MIN_WORDS) {
+      fail(
+        rel,
+        'body',
+        `This post has ${words} words but needs at least ${BLOG_MIN_WORDS}.`,
+        `Add roughly ${BLOG_MIN_WORDS - words} more words of original writing. Thin posts are the most common reason AdSense rejects a site.`,
+      );
+    }
+
+    /* ---- Internal links back to the game catalogue ---------------------- */
+    const gameLinks = parsed.content.match(/\[[^\]]*\]\(\/games\/[a-z0-9-]+\/?\)/g) ?? [];
+    if (gameLinks.length < MIN_GAME_LINKS) {
+      fail(
+        rel,
+        'body',
+        `This post has ${gameLinks.length} link(s) to game pages but needs at least ${MIN_GAME_LINKS}.`,
+        'Add at least two links like [Play 2048](/games/2048/) in the body. Internal links are how readers and crawlers find the games.',
+      );
+    }
+
+    /* ---- relatedGameSlugs must point at real games ---------------------- */
+    for (const gameSlug of Array.isArray(data?.relatedGameSlugs) ? data.relatedGameSlugs : []) {
+      if (!knownGameSlugs.has(String(gameSlug))) {
+        fail(
+          rel,
+          'relatedGameSlugs',
+          `"${gameSlug}" is not a game on this site, so the "Related Games" block would link to a page that does not exist.`,
+          `Use a real game slug: ${[...knownGameSlugs].sort().join(', ')}.`,
+        );
+      }
+    }
+
+    /* ---- Trademarks in user-facing text --------------------------------- */
+    const haystack = (collectStrings(data).join('\n') + parsed.content).toLowerCase();
+    for (const tm of TRADEMARKS) {
+      if (haystack.includes(tm.word)) {
+        fail(
+          rel,
+          'title / seo / body text',
+          `The word "${tm.word}" appears in text that visitors and Google can see. "${tm.word}" is a registered trademark of ${tm.owner}.`,
+          `Rename it to "${tm.useInstead}" everywhere in this file, including the title, seo.title, seo.description and body text.`,
+        );
+      }
+    }
+  }
+}
+
+/**
+ * Validate every file in src/content/collections.
+ * @param {Set<string>} knownGameSlugs
+ */
+function checkCollections(knownGameSlugs) {
+  const files = listMarkdown(COLLECTIONS_DIR);
+
+  if (files.length === 0) {
+    warn(
+      'No collections in src/content/collections/. The /collections/ pages stay empty until you add one.',
+    );
+    return;
+  }
+
+  for (const fileName of files) {
+    const slug = fileName.replace(/\.md$/, '');
+    const rel = `src/content/collections/${fileName}`;
+
+    /** @type {{data: Record<string, any>, content: string}} */
+    let parsed;
+    try {
+      parsed = matter(fs.readFileSync(path.join(COLLECTIONS_DIR, fileName), 'utf8'));
+    } catch (error) {
+      fail(
+        rel,
+        'frontmatter',
+        `The settings block at the top of this file could not be read: ${String(error)}`,
+        'Check that the file starts with --- on line 1, ends the block with another --- line, and that every value with a colon in it is wrapped in quotes.',
+      );
+      continue;
+    }
+
+    const data = parsed.data;
+
+    /* ---- gameSlugs must point at real games ----------------------------- */
+    const gameSlugs = Array.isArray(data?.gameSlugs) ? data.gameSlugs : [];
+    if (gameSlugs.length === 0) {
+      fail(
+        rel,
+        'gameSlugs',
+        'This collection lists no games.',
+        'Add at least one real game slug to "gameSlugs".',
+      );
+    }
+    for (const gameSlug of gameSlugs) {
+      if (!knownGameSlugs.has(String(gameSlug))) {
+        fail(
+          rel,
+          'gameSlugs',
+          `"${gameSlug}" is not a game on this site, so the collection would link to a page that does not exist.`,
+          `Use a real game slug: ${[...knownGameSlugs].sort().join(', ')}.`,
+        );
+      }
+    }
+
+    /* ---- Indexability expectation is a note, not an error ---------------- */
+    if (gameSlugs.length < 10) {
+      warn(
+        `${rel}: ${gameSlugs.length} game(s). Collection pages are only indexed once they list at least 10 games — this is the designed behaviour, not an error. Keep adding games and the page becomes indexable automatically.`,
+      );
+    }
+
+    /* ---- Year sanity ----------------------------------------------------- */
+    const year = Number(data?.year);
+    const currentYear = new Date().getUTCFullYear();
+    if (Number.isFinite(year) && (year < 2000 || year > currentYear + 1)) {
+      fail(
+        rel,
+        'year',
+        `The year "${year}" looks wrong.`,
+        `Use a real year between 2000 and ${currentYear + 1}, or remove the "year" line.`,
+      );
+    }
+
+    /* ---- Body substance (soft) ------------------------------------------- */
+    const words = countWords(parsed.content);
+    if (words < 80) {
+      warn(
+        `${rel}: the collection intro is ${words} words; aim for at least 80 so the page explains why this set of games is worth playing.`,
+      );
+    }
+
+    /* ---- Trademarks in user-facing text --------------------------------- */
+    const haystack = (collectStrings(data).join('\n') + parsed.content).toLowerCase();
+    for (const tm of TRADEMARKS) {
+      if (haystack.includes(tm.word)) {
+        fail(
+          rel,
+          'title / seo / body text',
+          `The word "${tm.word}" appears in text that visitors and Google can see. "${tm.word}" is a registered trademark of ${tm.owner}.`,
+          `Rename it to "${tm.useInstead}" everywhere in this file.`,
+        );
+      }
+    }
+  }
+}
+
 /* ============================================================================
    Load reference data
    ========================================================================== */
@@ -561,9 +841,12 @@ function main() {
   const knownTagIds = loadTagIds();
   const knownCategoryIds = loadCategoryIds();
   const manifestBySlug = loadManifest();
+  const knownGameSlugs = new Set(listMarkdown(GAMES_DIR).map((name) => name.replace(/\.md$/, '')));
 
   checkGames(knownTagIds, knownCategoryIds, manifestBySlug);
   checkCategories();
+  checkBlog(knownGameSlugs);
+  checkCollections(knownGameSlugs);
 
   if (warnings.length > 0) {
     process.stdout.write(`\n${pc.yellow('Notes:')}\n`);
@@ -574,8 +857,10 @@ function main() {
 
   if (problems.length === 0) {
     const gameCount = listMarkdown(GAMES_DIR).length;
+    const blogCount = listMarkdown(BLOG_DIR).length;
+    const collectionCount = listMarkdown(COLLECTIONS_DIR).length;
     process.stdout.write(
-      `\n${pc.green('✔')} Content check passed — ${gameCount} game page(s), ${knownCategoryIds.size} categories, ${knownTagIds.size} tags.\n\n`,
+      `\n${pc.green('✔')} Content check passed — ${gameCount} game page(s), ${knownCategoryIds.size} categories, ${knownTagIds.size} tags, ${blogCount} blog post(s), ${collectionCount} collection(s).\n\n`,
     );
     return;
   }
