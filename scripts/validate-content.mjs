@@ -192,16 +192,20 @@ function measureBundle(dir) {
 }
 
 /**
- * Allowed difference for the bundleBytes check: ±5% or ±5KB, whichever is
+ * Allowed difference for the bundleBytes check: ±10% or ±5KB, whichever is
  * larger. The byte count can legitimately differ between Windows and Linux
  * checkouts because git converts LF line endings to CRLF on Windows, making
- * the same files measure a little bigger there. The value still has to be in
- * the right ballpark so the deploy-budget report stays honest.
+ * the same files measure a little bigger there. Text-heavy bundles (large JSON
+ * word lists, for example) can differ by up to ~9%, so the tolerance needs to
+ * be wider than the old 5%. The value still has to be in the right ballpark so
+ * the deploy-budget report stays honest. The lasting fix is the .gitattributes
+ * rule that marks games-src/ as -text, which stops the line-ending conversion
+ * at the source.
  * @param {number} actual The measured size on this machine, in bytes.
  * @returns {number}
  */
 function byteTolerance(actual) {
-  return Math.max(actual * 0.05, 5 * 1024);
+  return Math.max(actual * 0.1, 5 * 1024);
 }
 
 /**
@@ -472,7 +476,7 @@ function checkGames(knownTagIds, knownCategoryIds, manifestBySlug) {
             rel,
             'source.bundleBytes',
             `This says ${declaredBytes} bytes but the folder is actually ${actual.bytes} bytes (a difference of ${Math.abs(declaredBytes - actual.bytes)} bytes).`,
-            `Change source.bundleBytes to ${actual.bytes}, or keep the difference within the ${Math.round(tolerance)}-byte tolerance (5% or 5KB, whichever is larger). The tolerance covers line-ending differences between Windows and Linux checkouts — the same files measure a little bigger on Windows because git converts LF to CRLF.`,
+            `Change source.bundleBytes to ${actual.bytes}, or keep the difference within the ${Math.round(tolerance)}-byte tolerance (10% or 5KB, whichever is larger). The tolerance covers line-ending differences between Windows and Linux checkouts — the same files measure a little bigger on Windows because git converts LF to CRLF. The lasting fix is the .gitattributes rule that marks games-src/ as -text so the checkouts agree byte-for-byte.`,
           );
         }
 
