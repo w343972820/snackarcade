@@ -192,6 +192,29 @@ function measureBundle(dir) {
 }
 
 /**
+ * Allowed difference for the bundleBytes check: ±5% or ±5KB, whichever is
+ * larger. The byte count can legitimately differ between Windows and Linux
+ * checkouts because git converts LF line endings to CRLF on Windows, making
+ * the same files measure a little bigger there. The value still has to be in
+ * the right ballpark so the deploy-budget report stays honest.
+ * @param {number} actual The measured size on this machine, in bytes.
+ * @returns {number}
+ */
+function byteTolerance(actual) {
+  return Math.max(actual * 0.05, 5 * 1024);
+}
+
+/**
+ * True when a declared bundleBytes value is close enough to the measured size.
+ * @param {number} declared The value in the game frontmatter.
+ * @param {number} actual The measured size on this machine, in bytes.
+ * @returns {boolean}
+ */
+function bundleBytesAccepted(declared, actual) {
+  return Math.abs(declared - actual) <= byteTolerance(actual);
+}
+
+/**
  * Flatten any frontmatter value into searchable strings.
  * @param {unknown} value
  * @returns {string[]}
@@ -442,12 +465,14 @@ function checkGames(knownTagIds, knownCategoryIds, manifestBySlug) {
             `Change source.bundleFileCount to ${actual.fileCount}. This number is used to check the site stays under the hosting file limit, so it has to be right.`,
           );
         }
-        if (Number(data.source.bundleBytes) !== actual.bytes) {
+        const declaredBytes = Number(data.source.bundleBytes);
+        if (!bundleBytesAccepted(declaredBytes, actual.bytes)) {
+          const tolerance = byteTolerance(actual.bytes);
           fail(
             rel,
             'source.bundleBytes',
-            `This says ${data.source.bundleBytes} bytes but the folder is actually ${actual.bytes} bytes.`,
-            `Change source.bundleBytes to ${actual.bytes}.`,
+            `This says ${declaredBytes} bytes but the folder is actually ${actual.bytes} bytes (a difference of ${Math.abs(declaredBytes - actual.bytes)} bytes).`,
+            `Change source.bundleBytes to ${actual.bytes}, or keep the difference within the ${Math.round(tolerance)}-byte tolerance (5% or 5KB, whichever is larger). The tolerance covers line-ending differences between Windows and Linux checkouts — the same files measure a little bigger on Windows because git converts LF to CRLF.`,
           );
         }
 
