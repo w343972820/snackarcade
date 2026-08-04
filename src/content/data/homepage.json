@@ -15,7 +15,7 @@
   "featuredSlugs": ["2048", "block-drop", "five-letters"],
   "latestPosts": {
     "heading": "Latest Posts",
-    "subheading": "Guides, how-tos and build notes from the SnackArcade team.",
+    "subheading": "Guides, tips and game round-ups written by the SnackArcade team.",
     "limit": 3
   },
   "sections": [
