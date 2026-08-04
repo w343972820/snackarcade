@@ -1,0 +1,12 @@
+# Game bundles under games-src/ must checkout byte-identical on every platform.
+#
+# Without this rule, git (with core.autocrlf=true on Windows) converts LF line
+# endings to CRLF at checkout, so the same text files measure bigger on Windows
+# than on Linux CI. That made the bundleBytes content check fail on CI even
+# though it passed locally. `-text` disables line-ending conversion for every
+# file under games-src/, so all platforms see the exact same bytes.
+#
+# The playable bundles themselves are copied into public/play/ by
+# scripts/sync-local-games.mjs, which copies bytes as-is, so this rule has no
+# effect on the deployed site.
+games-src/** -text
