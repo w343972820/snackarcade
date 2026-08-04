@@ -173,7 +173,25 @@ const PLACEMENTS: Readonly<Record<AdPlacementId, AdPlacement>> = {
    Public configuration object
    --------------------------------------------------------------------------- */
 
-export const adsConfig = {
+/**
+ * The public configuration object.
+ *
+ * The explicit annotation is deliberate: without it, TypeScript's const-object
+ * property narrowing collapses `network` to the literal `'adsense'`, which makes
+ * the `switch` in `hasCredentials()` and the comparisons in `adsActive()` /
+ * `describeAdState()` fail to type-check ("no overlap"). With `network: AdNetwork`
+ * the union survives, so switching networks later stays type-safe.
+ */
+export const adsConfig: {
+  readonly enabled: boolean;
+  readonly network: AdNetwork;
+  readonly publisherId: string;
+  readonly mediavineSiteId: string;
+  readonly placements: Readonly<Record<AdPlacementId, AdPlacement>>;
+  readonly maxPerPage: number;
+  readonly lazyRootMargin: string;
+  readonly gameAdGapPx: number;
+} = {
   /** The master switch. When false, not one byte of ad code is emitted. */
   enabled: ENABLED,
 
@@ -208,7 +226,7 @@ export const adsConfig = {
    * an account-level violation rather than a page-level one.
    */
   gameAdGapPx: 150,
-} as const;
+};
 
 /* ---------------------------------------------------------------------------
    Derived state

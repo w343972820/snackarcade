@@ -10,7 +10,7 @@ import type { GetStaticPaths } from 'astro';
 import { getCollection } from 'astro:content';
 
 import { getPublishedGames } from '@/lib/content/games';
-import { tagPath, tagPagePath } from '@/lib/utils/url';
+import { tagPagePath } from '@/lib/utils/url';
 import { tagBreadcrumbs } from '@/lib/seo/breadcrumbs';
 import { countTagOccurrences, shouldGenerateTagPage } from '@/lib/seo/routing';
 import { itemListSchema } from '@/components/seo/schema/itemList';

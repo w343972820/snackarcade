@@ -115,8 +115,8 @@ const adLoader: string =
       pathname={pathname}
       robots={indexability.robots}
       ogType={ogType}
-      ogImage={ogImage}
-      ogImageAlt={ogImageAlt}
+      {...(ogImage !== undefined ? { ogImage } : {})}
+      {...(ogImageAlt !== undefined ? { ogImageAlt } : {})}
       canonicalOverride={canonicalOverride}
       publishedAt={publishedAt}
       updatedAt={updatedAt}

@@ -66,12 +66,12 @@ const headline: string = h1 ?? title;
   title={title}
   description={description}
   kind={kind}
-  pathname={pathname}
-  itemCount={itemCount}
+  {...(pathname !== undefined ? { pathname } : {})}
+  {...(itemCount !== undefined ? { itemCount } : {})}
   draft={draft}
   explicitNoindex={explicitNoindex}
   ogType="article"
-  ogImage={ogImage}
+  {...(ogImage !== undefined ? { ogImage } : {})}
   publishedAt={publishedAt}
   updatedAt={updatedAt}
   jsonLdNodes={jsonLdNodes}

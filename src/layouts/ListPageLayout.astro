@@ -63,14 +63,14 @@ const {
   title={title}
   description={description}
   kind={kind}
-  pathname={pathname}
+  {...(pathname !== undefined ? { pathname } : {})}
   itemCount={itemCount}
   pageNumber={pageNumber}
   explicitNoindex={explicitNoindex}
   canonicalOverride={canonicalOverride}
   prevUrl={prevUrl}
   nextUrl={nextUrl}
-  ogImage={ogImage}
+  {...(ogImage !== undefined ? { ogImage } : {})}
   jsonLdNodes={jsonLdNodes}
   source={source}
 >

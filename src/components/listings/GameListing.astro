@@ -78,11 +78,11 @@ const nextUrl: string | undefined = pageNumber < totalPages ? hrefFor(pageNumber
   nextUrl={nextUrl}
   jsonLdNodes={jsonLdNodes}
   source={source}
-  lede={lede}
+  {...(lede !== undefined ? { lede } : {})}
 >
   <slot name="intro" />
 
-  <GameGrid games={games} eagerCount={8} headingLevel="h3" emptyMessage={emptyMessage} />
+  <GameGrid games={games} eagerCount={8} headingLevel="h3" {...(emptyMessage !== undefined ? { emptyMessage } : {})} />
 
   <Fragment slot="pagination">
     <Pagination current={pageNumber} total={totalPages} hrefFor={hrefFor} />

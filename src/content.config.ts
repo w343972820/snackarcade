@@ -221,13 +221,15 @@ const games = defineCollection({
         content: z.object({
           intro: z
             .string()
-            .refine(
-              (value) => countWords(value) >= 60,
-              (value) =>
-                ({
-                  message: `"content.intro" needs at least 60 words, currently ${countWords(value)}. This is the opening paragraph a reader sees under the game — make it specific to this game.`,
-                }) as { message: string },
-            ),
+            .superRefine((value, ctx) => {
+              const words = countWords(value);
+              if (words < 60) {
+                ctx.addIssue({
+                  code: 'custom',
+                  message: `"content.intro" needs at least 60 words, currently ${words}. This is the opening paragraph a reader sees under the game — make it specific to this game.`,
+                });
+              }
+            }),
           about: z
             .array(
               z
@@ -313,29 +315,22 @@ const games = defineCollection({
       })
 
       /* ---- Cross-field rules ---- */
-      .refine(
-        (game) => {
-          const total = countGameBodyWords(game.content);
-          const floor =
-            game.source.sourceType === 'iframe'
-              ? WORD_COUNT_FLOORS.GAME_IFRAME
-              : WORD_COUNT_FLOORS.GAME_SELF_HOSTED;
-          return total >= floor;
-        },
-        (game) => {
-          const total = countGameBodyWords(game.content);
-          const floor =
-            game.source.sourceType === 'iframe'
-              ? WORD_COUNT_FLOORS.GAME_IFRAME
-              : WORD_COUNT_FLOORS.GAME_SELF_HOSTED;
-          return {
+      .superRefine((game, ctx) => {
+        const total = countGameBodyWords(game.content);
+        const floor =
+          game.source.sourceType === 'iframe'
+            ? WORD_COUNT_FLOORS.GAME_IFRAME
+            : WORD_COUNT_FLOORS.GAME_SELF_HOSTED;
+        if (total < floor) {
+          ctx.addIssue({
+            code: 'custom',
             message:
               `This page has ${total} words of original text but needs at least ${floor}. ` +
               `Add roughly ${floor - total} more, ideally in "content.tips" or "content.about" — ` +
               'those sections carry the most search value. Thin pages are the most common reason AdSense rejects a site.',
-          } as { message: string };
-        },
-      )
+          });
+        }
+      })
       .refine(
         (game) => game.license.license !== 'author-permission' || Boolean(game.license.permissionEmail),
         {

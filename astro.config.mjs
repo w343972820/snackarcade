@@ -1,6 +1,6 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
-import sitemap from '@astrojs/sitemap';
+import sitemap, { ChangeFreqEnum } from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
 
 import { SITE_URL } from './src/config/site-url.mjs';
@@ -46,30 +46,30 @@ export default defineConfig({
       serialize(item) {
         const pathname = new URL(item.url).pathname;
         if (pathname === '/') {
-          return { ...item, priority: 1.0, changefreq: 'daily' };
+          return { ...item, priority: 1.0, changefreq: ChangeFreqEnum.DAILY };
         }
         if (pathname.startsWith('/games/')) {
           return { ...item, priority: 0.9 };
         }
         if (pathname.startsWith('/c/')) {
-          return { ...item, priority: 0.8, changefreq: 'daily' };
+          return { ...item, priority: 0.8, changefreq: ChangeFreqEnum.DAILY };
         }
         if (pathname.startsWith('/collections/')) {
           return { ...item, priority: 0.7 };
         }
         if (pathname === '/blog/') {
           // The blog index is a live content hub, not an archival listing.
-          return { ...item, priority: 0.7, changefreq: 'weekly' };
+          return { ...item, priority: 0.7, changefreq: ChangeFreqEnum.WEEKLY };
         }
         if (pathname.startsWith('/blog/')) {
           // Individual posts carry the site's editorial value; weekly keeps the
           // sitemap honest about how often posts actually change.
-          return { ...item, priority: 0.6, changefreq: 'weekly' };
+          return { ...item, priority: 0.6, changefreq: ChangeFreqEnum.WEEKLY };
         }
         if (pathname.startsWith('/t/')) {
           return { ...item, priority: 0.5 };
         }
-        return { ...item, priority: 0.4, changefreq: 'monthly' };
+        return { ...item, priority: 0.4, changefreq: ChangeFreqEnum.MONTHLY };
       },
     }),
   ],

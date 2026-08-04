@@ -72,10 +72,6 @@ export const getStaticPaths = (async () => {
   return games.map((game) => ({ params: { slug: game.id }, props: { game } }));
 }) satisfies GetStaticPaths;
 
-interface Props {
-  game: Game;
-}
-
 const { game } = Astro.props;
 const data = game.data;
 const slug: string = game.id;

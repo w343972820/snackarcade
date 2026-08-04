@@ -48,7 +48,11 @@ function resolvePopularFile(): string {
       'popular.json',
     ),
   ];
-  return candidates.find((candidate) => fs.existsSync(candidate)) ?? candidates[0];
+  for (const candidate of candidates) {
+    if (fs.existsSync(candidate)) return candidate;
+  }
+  // candidates is never empty; fall back to the first for a clearer read error.
+  return candidates[0]!;
 }
 
 const POPULAR_FILE = resolvePopularFile();
