@@ -285,8 +285,16 @@ function measureGameHeight(frame: HTMLIFrameElement): number | null {
 function parseAspectRatio(root: HTMLElement): readonly [number, number] {
   const raw = root.style.getPropertyValue('--game-aspect') || '16 / 9';
   const parts = raw.split('/').map((part) => Number.parseFloat(part.trim()));
-  const width = Number.isFinite(parts[0]) && parts[0] > 0 ? parts[0] : 16;
-  const height = Number.isFinite(parts[1]) && parts[1] > 0 ? parts[1] : 9;
+  // `split('/')` always yields at least one element and `parseFloat` always
+  // returns a number, but under `noUncheckedIndexedAccess` the index type is
+  // still `number | undefined`. Read each part into a local and treat a
+  // missing or non-finite value as "not provided" so the fallback applies.
+  const rawWidth = parts[0];
+  const rawHeight = parts[1];
+  const width =
+    rawWidth !== undefined && Number.isFinite(rawWidth) && rawWidth > 0 ? rawWidth : 16;
+  const height =
+    rawHeight !== undefined && Number.isFinite(rawHeight) && rawHeight > 0 ? rawHeight : 9;
   return [width, height];
 }
 
