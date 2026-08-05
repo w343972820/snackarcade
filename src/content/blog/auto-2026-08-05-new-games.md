@@ -1,0 +1,131 @@
+---
+title: "SnackArcade new games — 2026-08-05"
+seo:
+  title: "New Games Added 2026-08-05 | SnackArcade"
+  description: "A factual round-up of the games published on SnackArcade on 2026-08-05: what each one is, who made it, and how to play."
+relatedGameSlugs: ["brick-breaker", "bubble-shooter", "checkers", "gem-match", "gomoku", "maze"]
+author: "SnackArcade Team"
+draft: true
+publishedAt: 2026-08-05
+updatedAt: 2026-08-05
+---
+# New Games on SnackArcade — 2026-08-05
+
+This post lists the games that were published on SnackArcade on 2026-08-05. Each entry is a factual summary taken from the game's own page. All of the games below run directly in the browser with no download and no sign-up, and each one has a full guide, a controls table and real tips on its page.
+
+## Brick Breaker
+
+[Play Brick Breaker](/games/brick-breaker/) — Brick Breaker is the brick-smashing arcade classic in its cleanest form: a wall of coloured bricks at the top, a paddle at the bottom, and a ball that bounces between them. Move the paddle to keep the ball alive, use it to smash every brick, and clear the wall before the ball escapes. The rules take ten seconds to learn, the difficulty ramps with every level, and each game is a short, satisfying burst of reflex and anticipation. Play it free in your browser with no download and no account.
+
+The brick-breaking format has been a fixture of arcades and home computers since the late 1970s, and it remains one of the most instantly readable games ever made. You understand what to do in seconds — keep the ball up, break the bricks — yet the simple loop hides real skill: angling the paddle, reading the ball's trajectory and planning which bricks to hit first.
+
+- Developer: igameproject
+- Genre: Arcade, Retro
+- Runs on: desktop, tablet and mobile browsers
+- No download, no sign-up, no plugins
+
+Read the full guide: [Brick Breaker guide and controls](/games/brick-breaker/)
+
+## Bubble Shooter
+
+[Play Bubble Shooter](/games/bubble-shooter/) — Bubble Shooter is the matching puzzle that feels like an arcade game: a ceiling full of coloured bubbles, a launcher at the bottom, and one simple goal — fire bubbles into the cluster to match three or more of the same colour and make them pop. Every pop drops the cluster closer to the line at the bottom, and you win by clearing the whole ceiling before it reaches you. It is easy to pick up, endlessly replayable, and runs free in your browser with no download and no account.
+
+The bubble-shooting format became a worldwide casual favourite in the late 1990s and has never gone away. Its genius is the one-shot-one-result loop: you aim, you fire, and the cluster reacts immediately. Every shot is a small decision about angle and colour, and the best shots pop several bubbles at once and drop whole chains.
+
+- Developer: Rembound (Remy)
+- Genre: Puzzle, Arcade
+- Runs on: desktop, tablet and mobile browsers
+- No download, no sign-up, no plugins
+
+Read the full guide: [Bubble Shooter guide and controls](/games/bubble-shooter/)
+
+## Checkers
+
+[Play Checkers](/games/checkers/) — Checkers is the board game almost everyone has played and almost nobody has mastered. Twelve pieces a side move diagonally across an eight by eight board, capturing by jumping, and the goal is simple: take all of your opponent's pieces or block them so they cannot move. The rules take a minute to learn, the strategy takes years to master, and it is the perfect two-player game for one screen. Play it free in your browser against a friend with no download and no account.
+
+Checkers — also called draughts — is one of the oldest board games still played today, with variants found across the world for centuries. It looks simpler than chess, but it is a genuine strategy game: the first player to understand the power of the king and the value of position will beat a player who just jumps at every capture.
+
+- Developer: gartz
+- Genre: Board, Strategy
+- Runs on: desktop, tablet and mobile browsers
+- No download, no sign-up, no plugins
+
+Read the full guide: [Checkers guide and controls](/games/checkers/)
+
+## Gem Match
+
+[Play Gem Match](/games/gem-match/) — Gem Match is the match-3 puzzle in its cleanest form: a board full of colourful gems, and one move you are allowed to make — swap two adjacent gems to line up three or more of the same colour. Every match clears the gems and scores points, new gems fall from the top, and chain reactions can send your score soaring. The rules are obvious in ten seconds, the puzzle depth lasts for hours, and it runs free in your browser with no download and no account.
+
+The match-3 format became the most popular casual puzzle genre in the world because it is instantly readable: swap, match, clear, repeat. Underneath that simple loop is a real puzzle. Every swap is a decision about the whole board, because a single match can cascade into a chain reaction that clears far more than three gems.
+
+- Developer: Rembound (Remy)
+- Genre: Puzzle, Match-3
+- Runs on: desktop, tablet and mobile browsers
+- No download, no sign-up, no plugins
+
+Read the full guide: [Gem Match guide and controls](/games/gem-match/)
+
+## Gomoku
+
+[Play Gomoku](/games/gomoku/) — Gomoku is the five-in-a-row board game that plays like chess but takes ten seconds to learn. Two players take turns placing black and white stones on the intersections of a grid, and the first to line up five stones in any direction — horizontally, vertically or diagonally — wins. It is one of the oldest board games in Asia, and it is the perfect two-player duel for one screen. Play it free in your browser with no download and no account.
+
+Gomoku, also called five in a row, has been played for centuries and is a favourite game across Asia. The rules could not be simpler — place a stone, try to make five in a line — but the strategy is surprisingly deep. The first player holds a real advantage, and both players must balance attack and defence on every move.
+
+- Developer: Tran Huu Dat
+- Genre: Board, Strategy
+- Runs on: desktop, tablet and mobile browsers
+- No download, no sign-up, no plugins
+
+Read the full guide: [Gomoku guide and controls](/games/gomoku/)
+
+## Maze
+
+[Play Maze](/games/maze/) — Maze is the classic puzzle of finding your way through a labyrinth of walls, from the start to the finish, with nothing but your sense of direction. Every maze in this game is generated fresh, so no two runs are the same. It is a quiet, thoughtful game — no timer screaming at you, no enemies chasing you — just a wall of corridors and the question of which way to turn next. Play it free in your browser with no download and no account.
+
+Mazes are among the oldest puzzles in human history, carved into stone thousands of years ago and solved for fun ever since. The appeal is timeless: a maze is a problem you can see in full, and the solution is a path you find by looking and thinking rather than by luck.
+
+- Developer: Drew Silcock
+- Genre: Puzzle, Logic
+- Runs on: desktop, tablet and mobile browsers
+- No download, no sign-up, no plugins
+
+Read the full guide: [Maze guide and controls](/games/maze/)
+
+## Memory Match
+
+[Play Memory Match](/games/memory-match/) — Memory Match is the concentration game everyone knows: a grid of face-down cards, each hiding a picture, and one job — flip two cards at a time and find every matching pair. There is no timer pushing you and no way to lose except running out of patience. It is one of the oldest brain games in the world, equally loved by children and adults, and it runs free in your browser with no download and no account.
+
+The matching-card game has been played for generations as a way to train memory and attention. Its appeal is pure and simple: the rules take five seconds to learn, every game is different, and the challenge is entirely in your own head. The more pairs you remember, the faster you clear the board.
+
+- Developer: Jiten Rajpurohit
+- Genre: Puzzle, Memory, Brain Training
+- Runs on: desktop, tablet and mobile browsers
+- No download, no sign-up, no plugins
+
+Read the full guide: [Memory Match guide and controls](/games/memory-match/)
+
+## Reversi
+
+[Play Reversi](/games/reversi/) — Reversi is the classic strategy game of black and white discs, where the goal is not to build your own line but to flip your opponent's discs into your colour. Place a disc so it sandwiches a line of opponent discs between your new disc and one of your own, and every disc in that line flips to your colour. The rules are famously simple, yet the strategy is deep enough to reward a lifetime of study. Play it free in your browser against a friend with no download and no account.
+
+Reversi has been played since the late nineteenth century and is one of the most popular two-player board games in the world. Its appeal is the elegant inversion of most games: instead of capturing pieces, you convert them. Every move you make strengthens your position by turning the opponent's own discs against them.
+
+- Developer: zuramai
+- Genre: Board, Strategy
+- Runs on: desktop, tablet and mobile browsers
+- No download, no sign-up, no plugins
+
+Read the full guide: [Reversi guide and controls](/games/reversi/)
+
+## Snake
+
+[Play Snake](/games/snake/) — Snake is the arcade classic that has survived every technology shift since the 1970s: a snake that grows longer with every piece of food it eats, and one rule that decides everything — do not crash into the walls, and do not bite your own tail. It is the purest possible test of control and foresight, and it runs beautifully in a browser tab with no download and no account. The version here keeps the gameplay honest and simple: eat, grow, survive, and chase your own high score.
+
+Snake has been played in one form or another since the earliest arcade machines and home computers, and it became a global habit when a version shipped with mobile phones in the 1990s. Its appeal is timeless: the rules take five seconds to learn, every game is short, and the only opponent is your own nerve as the snake gets longer and the space gets tighter.
+
+- Developer: Felipe Freitas
+- Genre: Arcade, Retro
+- Runs on: desktop, tablet and mobile browsers
+- No download, no sign-up, no plugins
+
+Read the full guide: [Snake guide and controls](/games/snake/)
