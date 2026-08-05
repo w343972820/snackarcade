@@ -23,8 +23,8 @@ source:
   sourceType: self_hosted
   bundlePath: games-src/hangman
   entryFile: index.html
-  bundleFileCount: 34
-  bundleBytes: 1989102
+  bundleFileCount: 37
+  bundleBytes: 2064480
 
 taxonomy:
   primaryCategory: word

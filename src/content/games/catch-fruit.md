@@ -23,8 +23,8 @@ source:
   sourceType: self_hosted
   bundlePath: games-src/catch-fruit
   entryFile: index.html
-  bundleFileCount: 17
-  bundleBytes: 1078875
+  bundleFileCount: 18
+  bundleBytes: 6725967
 
 taxonomy:
   primaryCategory: arcade

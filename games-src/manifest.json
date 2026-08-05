@@ -192,8 +192,8 @@
         "Vendored the three CDN libraries (preloadjs, gsap, parallax) into vendor/ so the game works offline with no external requests."
       ],
       "bundle": {
-        "fileCount": 34,
-        "bytes": 1989102
+        "fileCount": 37,
+        "bytes": 2064480
       },
       "trademarkRisk": "none",
       "trademarkNote": "Hangman is a generic game name."
@@ -944,8 +944,8 @@
         "Modifications to avoid trademark words, vendor dependencies, and trim external assets are noted in commit history."
       ],
       "bundle": {
-        "fileCount": 17,
-        "bytes": 1078875
+        "fileCount": 18,
+        "bytes": 6725967
       },
       "trademarkRisk": "none",
       "trademarkNote": ""
