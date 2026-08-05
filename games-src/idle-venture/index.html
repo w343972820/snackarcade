@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Idle Venture — Play Online</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h1>Idle Venture</h1>
+  <p class="subtitle">Buy businesses, hire managers and grow your empire</p>
+
+  <div id="balance" class="balance">
+    <span class="coin">🪙</span>
+    <span id="coins">$0</span>
+    <span id="per-sec" class="per-sec"></span>
+  </div>
+
+  <div class="controls">
+    <select id="buy-qty">
+      <option value="1">Buy ×1</option>
+      <option value="10">Buy ×10</option>
+      <option value="100">Buy ×100</option>
+    </select>
+    <button id="reset" type="button">Reset</button>
+  </div>
+
+  <div id="businesses" class="businesses"></div>
+
+  <div id="upgrades" class="upgrades"></div>
+
+  <div id="toast" class="toast"></div>
+
+  <p class="attribution">
+    Based on 0xVenture Capitalist by bitcraft3r (MIT) &middot; This static version is original to this site
+  </p>
+
+  <script src="app.js"></script>
+</body>
+</html>

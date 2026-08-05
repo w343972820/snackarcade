@@ -1,0 +1,106 @@
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: linear-gradient(160deg, #1f2937 0%, #111827 100%);
+  color: #f9fafb;
+  font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px 12px 32px;
+}
+h1 { margin: 0 0 4px; font-size: 24px; letter-spacing: 0.5px; }
+.subtitle { margin: 0 0 16px; color: #9ca3af; font-size: 13px; }
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 14px;
+}
+.controls button,
+.controls select {
+  background: #374151;
+  color: #f9fafb;
+  border: 1px solid #4b5563;
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-size: 14px;
+  cursor: pointer;
+}
+.controls button:hover,
+.controls select:hover { background: #4b5563; }
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  width: min(92vw, 450px);
+  aspect-ratio: 1;
+  background: #0b1220;
+  border: 3px solid #9ca3af;
+  border-radius: 6px;
+  overflow: hidden;
+  user-select: none;
+}
+.cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #334155;
+  font-size: clamp(18px, 5vw, 30px);
+  font-weight: 600;
+  cursor: pointer;
+  background: #111827;
+  color: #e5e7eb;
+  transition: background 0.12s;
+}
+.cell.given { color: #f9fafb; font-weight: 800; }
+.cell.selected { background: #1d4ed8; color: #fff; }
+.cell.same { background: #1e3a8a; }
+.cell.error { background: #7f1d1d; color: #fecaca; }
+.cell.hint { color: #fbbf24; }
+.cell:nth-child(3n) { border-right: 2px solid #9ca3af; }
+.cell:nth-child(9n) { border-right: none; }
+.cell:nth-child(n+19):nth-child(-n+27),
+.cell:nth-child(n+46):nth-child(-n+54),
+.cell:nth-child(n+73):nth-child(-n+81) { border-bottom: 2px solid #9ca3af; }
+
+#status {
+  margin: 14px 0 0;
+  min-height: 22px;
+  font-size: 15px;
+  font-weight: 600;
+  text-align: center;
+  color: #fbbf24;
+}
+
+.numpad {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: center;
+  margin-top: 14px;
+  max-width: 460px;
+}
+.numpad button {
+  width: 44px;
+  height: 44px;
+  background: #374151;
+  color: #f9fafb;
+  border: 1px solid #4b5563;
+  border-radius: 8px;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.numpad button:hover { background: #4b5563; }
+.numpad button.erase { width: auto; padding: 0 16px; background: #7f1d1d; }
+
+.attribution {
+  margin-top: 18px;
+  color: #6b7280;
+  font-size: 11px;
+  text-align: center;
+}

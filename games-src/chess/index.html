@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Chess — Play Online</title>
+  <link rel="stylesheet" href="css/chessboard-1.0.0.min.css" />
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: linear-gradient(160deg, #1f2937 0%, #111827 100%);
+      color: #f9fafb;
+      font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 16px 12px 32px;
+    }
+    h1 {
+      margin: 0 0 4px;
+      font-size: 24px;
+      letter-spacing: 0.5px;
+    }
+    .subtitle {
+      margin: 0 0 16px;
+      color: #9ca3af;
+      font-size: 13px;
+    }
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      margin-bottom: 14px;
+    }
+    .controls button,
+    .controls select {
+      background: #374151;
+      color: #f9fafb;
+      border: 1px solid #4b5563;
+      border-radius: 8px;
+      padding: 8px 14px;
+      font-size: 14px;
+      cursor: pointer;
+    }
+    .controls button:hover,
+    .controls select:hover {
+      background: #4b5563;
+    }
+    #board-wrap {
+      width: min(92vw, 480px);
+    }
+    #board { width: 100%; }
+    #status {
+      margin: 14px 0 0;
+      min-height: 22px;
+      font-size: 15px;
+      font-weight: 600;
+      text-align: center;
+      color: #fbbf24;
+    }
+    #moves {
+      margin-top: 10px;
+      max-width: 480px;
+      width: min(92vw, 480px);
+      background: rgba(17, 24, 39, 0.6);
+      border: 1px solid #374151;
+      border-radius: 8px;
+      padding: 10px 12px;
+      font-family: "Consolas", "Menlo", monospace;
+      font-size: 13px;
+      color: #d1d5db;
+      min-height: 40px;
+      max-height: 160px;
+      overflow-y: auto;
+      line-height: 1.6;
+    }
+    .attribution {
+      margin-top: 18px;
+      color: #6b7280;
+      font-size: 11px;
+      text-align: center;
+    }
+    .attribution a { color: #9ca3af; }
+  </style>
+</head>
+<body>
+  <h1>Chess</h1>
+  <p class="subtitle">Play against the computer or a friend</p>
+
+  <div class="controls">
+    <select id="mode">
+      <option value="computer">Computer opponent</option>
+      <option value="two">Two players</option>
+    </select>
+    <button id="new-game" type="button">New game</button>
+    <button id="undo" type="button">Undo</button>
+  </div>
+
+  <div id="board-wrap">
+    <div id="board"></div>
+  </div>
+
+  <div id="status">White to move</div>
+  <div id="moves"></div>
+
+  <p class="attribution">
+    Board: chessboard.js by Chris Oakman (MIT) &middot; Engine: chess.js by Jeff Hlywa (BSD-2-Clause)
+  </p>
+
+  <script src="js/jquery-3.4.1.min.js"></script>
+  <script src="js/chessboard-1.0.0.min.js"></script>
+  <script type="module" src="js/game.js"></script>
+</body>
+</html>

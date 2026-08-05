@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Nonogram — Play Online</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <h1>Nonogram</h1>
+  <p class="subtitle">Reveal the hidden picture by filling cells that match the number clues</p>
+
+  <div class="controls">
+    <select id="puzzle-select"></select>
+    <button id="new-puzzle" type="button">New puzzle</button>
+    <button id="check" type="button">Check</button>
+  </div>
+
+  <div id="board-wrap">
+    <canvas id="board" width="0" height="0"></canvas>
+  </div>
+
+  <div id="status" role="status"></div>
+
+  <p class="legend">
+    <span class="swatch fill"></span> Filled &nbsp;&middot;&nbsp;
+    <span class="swatch mark"></span> Marked empty
+  </p>
+
+  <p class="attribution">
+    Puzzle engine: Nonogram by Zhou Qi (HandsomeOne) (MIT) &middot; Interface: original to this site
+  </p>
+
+  <script src="nonogram.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

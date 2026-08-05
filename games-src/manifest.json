@@ -1,7 +1,7 @@
 {
   "$comment": "Source-of-truth register for every self-hosted game bundle. `npm run sync:games` mirrors each folder listed here into public/play/<slug>/ so the site works with zero cloud services. Never add a game here without also recording its licence — src/pages/licenses.json.ts publishes this file's licence data and scripts/validate-content.mjs rejects the build if a licence is missing or forbidden.",
   "version": 1,
-  "updatedAt": "2026-08-04",
+  "updatedAt": "2026-08-05",
   "games": [
     {
       "slug": "2048",
@@ -69,6 +69,39 @@
       "trademarkNote": "TETRIS is a registered trademark of the Tetris Holding, LLC. The MIT licence covers the source code only and grants no trademark rights whatsoever. This bundle must ship as \"Block Drop\" — the word Tetris must never appear in the title, slug, URL, meta tags, headings or body copy. scripts/validate-content.mjs enforces this on every build."
     },
     {
+      "slug": "chess",
+      "title": "Chess",
+      "originalTitle": "chessboardjs + chess.js (assembled)",
+      "renamed": true,
+      "entryFile": "index.html",
+      "upstream": {
+        "repository": "https://github.com/oakmac/chessboardjs",
+        "commitRef": "master",
+        "downloadedAt": "2026-08-05"
+      },
+      "license": {
+        "spdx": "MIT",
+        "file": "LICENSE.chessboard.md",
+        "url": "https://github.com/oakmac/chessboardjs/blob/master/LICENSE.md",
+        "author": "Chris Oakman & Jeff Hlywa",
+        "authorUrl": "https://github.com/oakmac",
+        "assetsLicense": "Board UI MIT (chessboard.js); move engine BSD-2-Clause (chess.js by Jeff Hlywa); piece images are the standard Wikipedia SVG set distributed with chessboard.js under MIT",
+        "attributionRendered": "Board: chessboard.js by Chris Oakman (MIT) · Engine: chess.js by Jeff Hlywa (BSD-2-Clause)",
+        "verifiedAt": "2026-08-05"
+      },
+      "modifications": [
+        "Assembled a playable page from chessboard.js 1.0.0 (MIT) and chess.js 1.4.0 (BSD-2-Clause).",
+        "Wrote js/game.js — original glue code with a simple minimax computer opponent, legal-move highlighting, undo and two-player mode.",
+        "Kept both licence files: LICENSE.chessboard.md (MIT) and LICENSE.chessjs (BSD-2-Clause)."
+      ],
+      "bundle": {
+        "fileCount": 20,
+        "bytes": 249494
+      },
+      "trademarkRisk": "none",
+      "trademarkNote": "Chess is a generic game name."
+    },
+    {
       "slug": "five-letters",
       "title": "Five Letters",
       "originalTitle": "wordle-clone",
@@ -99,6 +132,265 @@
       },
       "trademarkRisk": "high-if-unrenamed",
       "trademarkNote": "WORDLE is a registered trademark of The New York Times Company. The MIT licence covers the source code only. This bundle must ship as \"Five Letters\" — the word Wordle must never appear in the title, slug, URL, meta tags, headings or body copy. scripts/validate-content.mjs enforces this on every build."
+    },
+    {
+      "slug": "four-in-a-row",
+      "title": "Four in a Row",
+      "originalTitle": "c4",
+      "renamed": true,
+      "entryFile": "index.html",
+      "upstream": {
+        "repository": "https://github.com/kenrick95/c4",
+        "commitRef": "master",
+        "downloadedAt": "2026-08-05"
+      },
+      "license": {
+        "spdx": "MIT",
+        "file": "LICENSE",
+        "url": "https://github.com/kenrick95/c4/blob/master/LICENSE",
+        "author": "Kenrick Chien",
+        "authorUrl": "https://github.com/kenrick95",
+        "assetsLicense": "same as code license",
+        "attributionRendered": "Four in a Row, based on c4 by Kenrick Chien · MIT License",
+        "verifiedAt": "2026-08-05"
+      },
+      "modifications": [
+        "Bundled the official production build (Vite output) from the author's GitHub Pages deployment of the same repository.",
+        "Rewrote asset URLs in index.html from absolute (https://kenrick95.github.io/c4/...) to relative so the game loads under /play/four-in-a-row/.",
+        "Renamed user-visible \"c4 - Connect Four\" text to \"Four in a Row\" — CONNECT FOUR is a Hasbro trademark."
+      ],
+      "bundle": {
+        "fileCount": 5,
+        "bytes": 30313
+      },
+      "trademarkRisk": "high-if-unrenamed",
+      "trademarkNote": "CONNECT FOUR is a registered trademark of Hasbro. The MIT licence covers code only. Bundle must ship as \"Four in a Row\" — the word \"Connect Four\" must not appear in title, slug, meta or body copy. The bundle's visible title was renamed; a Wikipedia article link mentioning the trademark remains as an external reference."
+    },
+    {
+      "slug": "hangman",
+      "title": "Hangman",
+      "originalTitle": "hangman-game",
+      "renamed": true,
+      "entryFile": "index.html",
+      "upstream": {
+        "repository": "https://github.com/abdoutech19/hangman-game",
+        "commitRef": "main",
+        "downloadedAt": "2026-08-05"
+      },
+      "license": {
+        "spdx": "MIT",
+        "file": "LICENSE",
+        "url": "https://github.com/abdoutech19/hangman-game/blob/main/LICENSE",
+        "author": "abdoutech19",
+        "authorUrl": "https://github.com/abdoutech19",
+        "assetsLicense": "same as code license",
+        "attributionRendered": "Hangman, based on hangman-game by abdoutech19 · MIT License",
+        "verifiedAt": "2026-08-05"
+      },
+      "modifications": [
+        "Converted all absolute asset paths (/css, /images, /audios, /scripts) to relative paths so the game runs under /play/hangman/.",
+        "Vendored the three CDN libraries (preloadjs, gsap, parallax) into vendor/ so the game works offline with no external requests."
+      ],
+      "bundle": {
+        "fileCount": 34,
+        "bytes": 1989102
+      },
+      "trademarkRisk": "none",
+      "trademarkNote": "Hangman is a generic game name."
+    },
+    {
+      "slug": "idle-venture",
+      "title": "Idle Venture",
+      "originalTitle": "0xVenture-Capitalist",
+      "renamed": true,
+      "entryFile": "index.html",
+      "upstream": {
+        "repository": "https://github.com/bitcraft3r/0xVenture-Capitalist",
+        "commitRef": "main",
+        "downloadedAt": "2026-08-05"
+      },
+      "license": {
+        "spdx": "MIT",
+        "file": "LICENSE",
+        "url": "https://github.com/bitcraft3r/0xVenture-Capitalist/blob/main/LICENSE",
+        "author": "bitcraft3r",
+        "authorUrl": "https://github.com/bitcraft3r",
+        "assetsLicense": "same as code license",
+        "attributionRendered": "Idle Venture, based on 0xVenture Capitalist by bitcraft3r · MIT License",
+        "verifiedAt": "2026-08-05"
+      },
+      "modifications": [
+        "The upstream project is a full Next.js + MongoDB app, so it cannot run as a static bundle. This folder contains a self-contained static implementation of the same idle-clicker mechanics.",
+        "Business, manager and upgrade data (names, costs, revenues, times, multipliers, milestone boosts) is transcribed verbatim from the upstream seed route (app/api/player/business/seed/[id]/route.ts).",
+        "Game logic and UI (index.html, style.css, app.js) are original to this site and released under MIT so the game runs fully offline with localStorage saves."
+      ],
+      "bundle": {
+        "fileCount": 6,
+        "bytes": 62186
+      },
+      "trademarkRisk": "none",
+      "trademarkNote": "No trademarked names. The original project title \"0xVenture Capitalist\" was renamed to avoid any association with the \"Capitalist\" game series."
+    },
+    {
+      "slug": "klondike-solitaire",
+      "title": "Klondike Solitaire",
+      "originalTitle": "js-solitaire",
+      "renamed": true,
+      "entryFile": "index.html",
+      "upstream": {
+        "repository": "https://github.com/rjanjic/js-solitaire",
+        "commitRef": "master",
+        "downloadedAt": "2026-08-05"
+      },
+      "license": {
+        "spdx": "MIT",
+        "file": "LICENSE",
+        "url": "https://github.com/rjanjic/js-solitaire/blob/master/LICENSE",
+        "author": "Radovan Janjic",
+        "authorUrl": "https://github.com/rjanjic",
+        "assetsLicense": "same as code license",
+        "attributionRendered": "Klondike Solitaire, based on js-solitaire by Radovan Janjic · MIT License",
+        "verifiedAt": "2026-08-05"
+      },
+      "modifications": [
+        "Bundled the author's production build (index.html + main.js) from the same repository so the game runs without a build step.",
+        "The card sprite is embedded in main.js as a base64 data URI, so the bundle is fully self-contained."
+      ],
+      "bundle": {
+        "fileCount": 3,
+        "bytes": 45064
+      },
+      "trademarkRisk": "none",
+      "trademarkNote": "Solitaire is a generic game category name, not a trademarked product title."
+    },
+    {
+      "slug": "mahjong-solitaire",
+      "title": "Mahjong Solitaire",
+      "originalTitle": "mah",
+      "renamed": true,
+      "entryFile": "index.html",
+      "upstream": {
+        "repository": "https://github.com/ffalt/mah",
+        "commitRef": "main",
+        "downloadedAt": "2026-08-05"
+      },
+      "license": {
+        "spdx": "MIT",
+        "file": "LICENSE",
+        "url": "https://github.com/ffalt/mah/blob/main/LICENSE",
+        "author": "ffalt",
+        "authorUrl": "https://github.com/ffalt",
+        "assetsLicense": "MIXED — code MIT; uni.svg tile set Public Domain (Shizhao); riichi.svg tile set CC-BY-4.0 (FluffyStuff); selected backgrounds under the Unsplash License. Full per-tile-set attribution in assets/svg/README.md.",
+        "attributionRendered": "Mahjong Solitaire (Mah) by ffalt · MIT License",
+        "verifiedAt": "2026-08-05"
+      },
+      "modifications": [
+        "Bundled the official production build (Angular AOT output with base-href \".\") from the author's GitHub Pages deployment of the same repository.",
+        "Changed <base href> to a relative path so the app loads under /play/mahjong-solitaire/.",
+        "Copied the full asset set (tiles, boards, i18n, sounds) from the source repository into the bundle."
+      ],
+      "bundle": {
+        "fileCount": 478,
+        "bytes": 10924637
+      },
+      "trademarkRisk": "none",
+      "trademarkNote": "Mahjong is a generic game category name. The app is titled \"Mah\"."
+    },
+    {
+      "slug": "minesweeper",
+      "title": "Minesweeper",
+      "originalTitle": "kaboom",
+      "renamed": true,
+      "entryFile": "index.html",
+      "upstream": {
+        "repository": "https://github.com/pwmarcz/kaboom",
+        "commitRef": "master",
+        "downloadedAt": "2026-08-05"
+      },
+      "license": {
+        "spdx": "MIT",
+        "file": "LICENSE",
+        "url": "https://github.com/pwmarcz/kaboom/blob/master/LICENSE",
+        "author": "Paweł Marczewski",
+        "authorUrl": "https://github.com/pwmarcz",
+        "assetsLicense": "same as code license",
+        "attributionRendered": "Minesweeper, based on Kaboom by Paweł Marczewski · MIT License",
+        "verifiedAt": "2026-08-05"
+      },
+      "modifications": [
+        "Bundled the game source as-is (index.html, index.js, lib/, sat.js, sprites.svg, style.css) with its MIT LICENSE.",
+        "No code changes — the upstream game already uses only relative paths."
+      ],
+      "bundle": {
+        "fileCount": 9,
+        "bytes": 409542
+      },
+      "trademarkRisk": "none",
+      "trademarkNote": "Minesweeper is a generic game name."
+    },
+    {
+      "slug": "nonogram",
+      "title": "Nonogram",
+      "originalTitle": "Nonogram",
+      "renamed": false,
+      "entryFile": "index.html",
+      "upstream": {
+        "repository": "https://github.com/HandsomeOne/Nonogram",
+        "commitRef": "master",
+        "downloadedAt": "2026-08-05"
+      },
+      "license": {
+        "spdx": "MIT",
+        "file": "LICENSE.md",
+        "url": "https://github.com/HandsomeOne/Nonogram/blob/master/LICENSE.md",
+        "author": "HandsomeOne (Zhou Qi)",
+        "authorUrl": "https://github.com/HandsomeOne",
+        "assetsLicense": "same as code license",
+        "attributionRendered": "Nonogram by HandsomeOne · MIT License",
+        "verifiedAt": "2026-08-05"
+      },
+      "modifications": [
+        "Bundled the prebuilt nonogram.min.js engine from the repository's docs/ folder.",
+        "Wrote index.html, style.css and app.js — original playable UI (canvas board, brush, check, six preset puzzles) using the upstream Nonogram.Game API."
+      ],
+      "bundle": {
+        "fileCount": 5,
+        "bytes": 30041
+      },
+      "trademarkRisk": "none",
+      "trademarkNote": "Nonogram is a generic puzzle category name."
+    },
+    {
+      "slug": "sudoku",
+      "title": "Sudoku",
+      "originalTitle": "sudoku.js (engine)",
+      "renamed": true,
+      "entryFile": "index.html",
+      "upstream": {
+        "repository": "https://github.com/robatron/sudoku.js",
+        "commitRef": "master",
+        "downloadedAt": "2026-08-05"
+      },
+      "license": {
+        "spdx": "MIT",
+        "file": "LICENSE",
+        "url": "https://github.com/robatron/sudoku.js/blob/master/LICENSE",
+        "author": "Robert McGuire",
+        "authorUrl": "https://github.com/robatron",
+        "assetsLicense": "Puzzle engine MIT (sudoku.js); the game interface is original to this site",
+        "attributionRendered": "Puzzle engine: sudoku.js by Robert McGuire · MIT License",
+        "verifiedAt": "2026-08-05"
+      },
+      "modifications": [
+        "Bundled the sudoku.js engine from the repository.",
+        "Wrote index.html, style.css and app.js — original playable UI (9×9 grid, difficulty levels, check, solve, clear, keyboard + numpad input) using the upstream sudoku.generate/sudoku.solve API."
+      ],
+      "bundle": {
+        "fileCount": 5,
+        "bytes": 38565
+      },
+      "trademarkRisk": "none",
+      "trademarkNote": "Sudoku is a generic puzzle category name."
     }
   ]
 }
