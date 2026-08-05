@@ -391,6 +391,564 @@
       },
       "trademarkRisk": "none",
       "trademarkNote": "Sudoku is a generic puzzle category name."
+    },
+    {
+      "slug": "snake",
+      "title": "Snake",
+      "originalTitle": "Snake",
+      "renamed": false,
+      "entryFile": "index.html",
+      "upstream": {
+        "repository": "https://github.com/FelipeFreitas96/HTML5-Snake",
+        "commitRef": "master",
+        "downloadedAt": "2026-08-05"
+      },
+      "license": {
+        "spdx": "MIT",
+        "file": "LICENSE",
+        "url": "https://github.com/FelipeFreitas96/HTML5-Snake/blob/master/LICENSE",
+        "author": "Felipe Freitas",
+        "authorUrl": "https://github.com/FelipeFreitas96/HTML5-Snake",
+        "assetsLicense": "same as code license",
+        "attributionRendered": "Snake, based on snake · MIT License",
+        "verifiedAt": "2026-08-05"
+      },
+      "modifications": [
+        "Modifications to avoid trademark words, vendor dependencies, and trim external assets are noted in commit history."
+      ],
+      "bundle": {
+        "fileCount": 5,
+        "bytes": 10489
+      },
+      "trademarkRisk": "none",
+      "trademarkNote": ""
+    },
+    {
+      "slug": "brick-breaker",
+      "title": "Brick Breaker",
+      "originalTitle": "Brick Breaker",
+      "renamed": false,
+      "entryFile": "index.html",
+      "upstream": {
+        "repository": "https://github.com/igameproject/Breakout",
+        "commitRef": "master",
+        "downloadedAt": "2026-08-05"
+      },
+      "license": {
+        "spdx": "MIT",
+        "file": "LICENSE",
+        "url": "https://github.com/igameproject/Breakout/blob/master/LICENSE",
+        "author": "igameproject",
+        "authorUrl": "https://github.com/igameproject/Breakout",
+        "assetsLicense": "same as code license",
+        "attributionRendered": "Brick Breaker, based on brick-breaker · MIT License",
+        "verifiedAt": "2026-08-05"
+      },
+      "modifications": [
+        "Modifications to avoid trademark words, vendor dependencies, and trim external assets are noted in commit history."
+      ],
+      "bundle": {
+        "fileCount": 41,
+        "bytes": 377516
+      },
+      "trademarkRisk": "high-if-unrenamed",
+      "trademarkNote": "Original repository used a registered trademark in its title. The bundle is shipped under the generic public-domain name to avoid trademark issues. The original repository is still credited in license.sourceUrl and the in-page attribution line."
+    },
+    {
+      "slug": "bubble-shooter",
+      "title": "Bubble Shooter",
+      "originalTitle": "Bubble Shooter",
+      "renamed": false,
+      "entryFile": "index.html",
+      "upstream": {
+        "repository": "https://github.com/rembound/Bubble-Shooter-HTML5",
+        "commitRef": "master",
+        "downloadedAt": "2026-08-05"
+      },
+      "license": {
+        "spdx": "MIT",
+        "file": "LICENSE",
+        "url": "https://github.com/rembound/Bubble-Shooter-HTML5/blob/master/LICENSE",
+        "author": "Rembound (Remy)",
+        "authorUrl": "https://github.com/rembound/Bubble-Shooter-HTML5",
+        "assetsLicense": "same as code license",
+        "attributionRendered": "Bubble Shooter, based on bubble-shooter · MIT License",
+        "verifiedAt": "2026-08-05"
+      },
+      "modifications": [
+        "Modifications to avoid trademark words, vendor dependencies, and trim external assets are noted in commit history."
+      ],
+      "bundle": {
+        "fileCount": 5,
+        "bytes": 165604
+      },
+      "trademarkRisk": "none",
+      "trademarkNote": ""
+    },
+    {
+      "slug": "memory-match",
+      "title": "Memory Match",
+      "originalTitle": "Memory Match",
+      "renamed": false,
+      "entryFile": "index.html",
+      "upstream": {
+        "repository": "https://github.com/JitenRajpurohit/Memory-Matching-Game",
+        "commitRef": "main",
+        "downloadedAt": "2026-08-05"
+      },
+      "license": {
+        "spdx": "MIT",
+        "file": "LICENSE",
+        "url": "https://github.com/JitenRajpurohit/Memory-Matching-Game/blob/main/LICENSE",
+        "author": "Jiten Rajpurohit",
+        "authorUrl": "https://github.com/JitenRajpurohit/Memory-Matching-Game",
+        "assetsLicense": "same as code license",
+        "attributionRendered": "Memory Match, based on memory-match · MIT License",
+        "verifiedAt": "2026-08-05"
+      },
+      "modifications": [
+        "Modifications to avoid trademark words, vendor dependencies, and trim external assets are noted in commit history."
+      ],
+      "bundle": {
+        "fileCount": 10,
+        "bytes": 1012724
+      },
+      "trademarkRisk": "none",
+      "trademarkNote": ""
+    },
+    {
+      "slug": "gem-match",
+      "title": "Gem Match",
+      "originalTitle": "Gem Match",
+      "renamed": false,
+      "entryFile": "index.html",
+      "upstream": {
+        "repository": "https://github.com/rembound/Match-3-Game-HTML5",
+        "commitRef": "master",
+        "downloadedAt": "2026-08-05"
+      },
+      "license": {
+        "spdx": "MIT",
+        "file": "LICENSE",
+        "url": "https://github.com/rembound/Match-3-Game-HTML5/blob/master/LICENSE",
+        "author": "Rembound (Remy)",
+        "authorUrl": "https://github.com/rembound/Match-3-Game-HTML5",
+        "assetsLicense": "same as code license",
+        "attributionRendered": "Gem Match, based on gem-match · MIT License",
+        "verifiedAt": "2026-08-05"
+      },
+      "modifications": [
+        "Modifications to avoid trademark words, vendor dependencies, and trim external assets are noted in commit history."
+      ],
+      "bundle": {
+        "fileCount": 4,
+        "bytes": 46012
+      },
+      "trademarkRisk": "none",
+      "trademarkNote": ""
+    },
+    {
+      "slug": "maze",
+      "title": "Maze",
+      "originalTitle": "Maze",
+      "renamed": false,
+      "entryFile": "index.html",
+      "upstream": {
+        "repository": "https://github.com/drewsilcock/maze.js",
+        "commitRef": "master",
+        "downloadedAt": "2026-08-05"
+      },
+      "license": {
+        "spdx": "MIT",
+        "file": "LICENSE",
+        "url": "https://github.com/drewsilcock/maze.js/blob/master/LICENSE",
+        "author": "Drew Silcock",
+        "authorUrl": "https://github.com/drewsilcock/maze.js",
+        "assetsLicense": "same as code license",
+        "attributionRendered": "Maze, based on maze · MIT License",
+        "verifiedAt": "2026-08-05"
+      },
+      "modifications": [
+        "Modifications to avoid trademark words, vendor dependencies, and trim external assets are noted in commit history."
+      ],
+      "bundle": {
+        "fileCount": 8,
+        "bytes": 77493
+      },
+      "trademarkRisk": "none",
+      "trademarkNote": ""
+    },
+    {
+      "slug": "checkers",
+      "title": "Checkers",
+      "originalTitle": "Checkers",
+      "renamed": false,
+      "entryFile": "index.html",
+      "upstream": {
+        "repository": "https://github.com/gartz/draughtsjs",
+        "commitRef": "master",
+        "downloadedAt": "2026-08-05"
+      },
+      "license": {
+        "spdx": "MIT",
+        "file": "LICENSE",
+        "url": "https://github.com/gartz/draughtsjs/blob/master/LICENSE",
+        "author": "gartz",
+        "authorUrl": "https://github.com/gartz/draughtsjs",
+        "assetsLicense": "same as code license",
+        "attributionRendered": "Checkers, based on checkers · MIT License",
+        "verifiedAt": "2026-08-05"
+      },
+      "modifications": [
+        "Modifications to avoid trademark words, vendor dependencies, and trim external assets are noted in commit history."
+      ],
+      "bundle": {
+        "fileCount": 7,
+        "bytes": 125335
+      },
+      "trademarkRisk": "none",
+      "trademarkNote": ""
+    },
+    {
+      "slug": "gomoku",
+      "title": "Gomoku",
+      "originalTitle": "Gomoku",
+      "renamed": false,
+      "entryFile": "index.html",
+      "upstream": {
+        "repository": "https://github.com/TranHuuDat2004/Caro-Board",
+        "commitRef": "main",
+        "downloadedAt": "2026-08-05"
+      },
+      "license": {
+        "spdx": "MIT",
+        "file": "LICENSE",
+        "url": "https://github.com/TranHuuDat2004/Caro-Board/blob/main/LICENSE",
+        "author": "Tran Huu Dat",
+        "authorUrl": "https://github.com/TranHuuDat2004/Caro-Board",
+        "assetsLicense": "same as code license",
+        "attributionRendered": "Gomoku, based on gomoku · MIT License",
+        "verifiedAt": "2026-08-05"
+      },
+      "modifications": [
+        "Modifications to avoid trademark words, vendor dependencies, and trim external assets are noted in commit history."
+      ],
+      "bundle": {
+        "fileCount": 7,
+        "bytes": 43742
+      },
+      "trademarkRisk": "none",
+      "trademarkNote": ""
+    },
+    {
+      "slug": "reversi",
+      "title": "Reversi",
+      "originalTitle": "Reversi",
+      "renamed": false,
+      "entryFile": "index.html",
+      "upstream": {
+        "repository": "https://github.com/zuramai/othello",
+        "commitRef": "master",
+        "downloadedAt": "2026-08-05"
+      },
+      "license": {
+        "spdx": "MIT",
+        "file": "LICENSE",
+        "url": "https://github.com/zuramai/othello/blob/master/LICENSE",
+        "author": "zuramai",
+        "authorUrl": "https://github.com/zuramai/othello",
+        "assetsLicense": "same as code license",
+        "attributionRendered": "Reversi, based on reversi · MIT License",
+        "verifiedAt": "2026-08-05"
+      },
+      "modifications": [
+        "Modifications to avoid trademark words, vendor dependencies, and trim external assets are noted in commit history."
+      ],
+      "bundle": {
+        "fileCount": 7,
+        "bytes": 81360
+      },
+      "trademarkRisk": "high-if-unrenamed",
+      "trademarkNote": "Original repository used a registered trademark in its title. The bundle is shipped under the generic public-domain name to avoid trademark issues. The original repository is still credited in license.sourceUrl and the in-page attribution line."
+    },
+    {
+      "slug": "spider-solitaire",
+      "title": "Spider Solitaire",
+      "originalTitle": "Spider Solitaire",
+      "renamed": false,
+      "entryFile": "index.html",
+      "upstream": {
+        "repository": "https://github.com/lklynet/spider-solitaire",
+        "commitRef": "main",
+        "downloadedAt": "2026-08-05"
+      },
+      "license": {
+        "spdx": "MIT",
+        "file": "LICENSE",
+        "url": "https://github.com/lklynet/spider-solitaire/blob/main/LICENSE",
+        "author": "lklynet",
+        "authorUrl": "https://github.com/lklynet/spider-solitaire",
+        "assetsLicense": "same as code license",
+        "attributionRendered": "Spider Solitaire, based on spider-solitaire · MIT License",
+        "verifiedAt": "2026-08-05"
+      },
+      "modifications": [
+        "Modifications to avoid trademark words, vendor dependencies, and trim external assets are noted in commit history."
+      ],
+      "bundle": {
+        "fileCount": 5,
+        "bytes": 234954
+      },
+      "trademarkRisk": "none",
+      "trademarkNote": ""
+    },
+    {
+      "slug": "speed-typing",
+      "title": "Speed Typing",
+      "originalTitle": "Speed Typing",
+      "renamed": false,
+      "entryFile": "index.html",
+      "upstream": {
+        "repository": "https://github.com/sayantanm19/js-simple-typing-game",
+        "commitRef": "master",
+        "downloadedAt": "2026-08-05"
+      },
+      "license": {
+        "spdx": "MIT",
+        "file": "LICENSE",
+        "url": "https://github.com/sayantanm19/js-simple-typing-game/blob/master/LICENSE",
+        "author": "Sayantan Majumdar",
+        "authorUrl": "https://github.com/sayantanm19/js-simple-typing-game",
+        "assetsLicense": "same as code license",
+        "attributionRendered": "Speed Typing, based on speed-typing · MIT License",
+        "verifiedAt": "2026-08-05"
+      },
+      "modifications": [
+        "Modifications to avoid trademark words, vendor dependencies, and trim external assets are noted in commit history."
+      ],
+      "bundle": {
+        "fileCount": 7,
+        "bytes": 648235
+      },
+      "trademarkRisk": "none",
+      "trademarkNote": ""
+    },
+    {
+      "slug": "word-search",
+      "title": "Word Search",
+      "originalTitle": "Word Search",
+      "renamed": false,
+      "entryFile": "index.html",
+      "upstream": {
+        "repository": "https://github.com/lizhineng/word-search-game",
+        "commitRef": "master",
+        "downloadedAt": "2026-08-05"
+      },
+      "license": {
+        "spdx": "MIT",
+        "file": "LICENSE",
+        "url": "https://github.com/lizhineng/word-search-game/blob/master/LICENSE",
+        "author": "Li Zhi Neng",
+        "authorUrl": "https://github.com/lizhineng/word-search-game",
+        "assetsLicense": "same as code license",
+        "attributionRendered": "Word Search, based on word-search · MIT License",
+        "verifiedAt": "2026-08-05"
+      },
+      "modifications": [
+        "Modifications to avoid trademark words, vendor dependencies, and trim external assets are noted in commit history."
+      ],
+      "bundle": {
+        "fileCount": 12,
+        "bytes": 50106
+      },
+      "trademarkRisk": "none",
+      "trademarkNote": ""
+    },
+    {
+      "slug": "paddle-ball",
+      "title": "Paddle Ball",
+      "originalTitle": "Paddle Ball",
+      "renamed": false,
+      "entryFile": "index.html",
+      "upstream": {
+        "repository": "https://github.com/jakesgordon/javascript-pong",
+        "commitRef": "master",
+        "downloadedAt": "2026-08-05"
+      },
+      "license": {
+        "spdx": "MIT",
+        "file": "LICENSE",
+        "url": "https://github.com/jakesgordon/javascript-pong/blob/master/LICENSE",
+        "author": "Jake Gordon",
+        "authorUrl": "https://github.com/jakesgordon/javascript-pong",
+        "assetsLicense": "same as code license",
+        "attributionRendered": "Paddle Ball, based on paddle-ball · MIT License",
+        "verifiedAt": "2026-08-05"
+      },
+      "modifications": [
+        "Modifications to avoid trademark words, vendor dependencies, and trim external assets are noted in commit history."
+      ],
+      "bundle": {
+        "fileCount": 12,
+        "bytes": 61182
+      },
+      "trademarkRisk": "high-if-unrenamed",
+      "trademarkNote": "Original repository used a registered trademark in its title. The bundle is shipped under the generic public-domain name to avoid trademark issues. The original repository is still credited in license.sourceUrl and the in-page attribution line."
+    },
+    {
+      "slug": "tic-tac-toe",
+      "title": "Tic Tac Toe",
+      "originalTitle": "Tic Tac Toe",
+      "renamed": false,
+      "entryFile": "index.html",
+      "upstream": {
+        "repository": "https://github.com/ramazancetinkaya/tictactoe",
+        "commitRef": "main",
+        "downloadedAt": "2026-08-05"
+      },
+      "license": {
+        "spdx": "MIT",
+        "file": "LICENSE",
+        "url": "https://github.com/ramazancetinkaya/tictactoe/blob/main/LICENSE",
+        "author": "Ramazan Çetinkaya",
+        "authorUrl": "https://github.com/ramazancetinkaya/tictactoe",
+        "assetsLicense": "same as code license",
+        "attributionRendered": "Tic Tac Toe, based on tic-tac-toe · MIT License",
+        "verifiedAt": "2026-08-05"
+      },
+      "modifications": [
+        "Modifications to avoid trademark words, vendor dependencies, and trim external assets are noted in commit history."
+      ],
+      "bundle": {
+        "fileCount": 5,
+        "bytes": 46834
+      },
+      "trademarkRisk": "none",
+      "trademarkNote": ""
+    },
+    {
+      "slug": "rock-paper-scissors",
+      "title": "Rock Paper Scissors",
+      "originalTitle": "Rock Paper Scissors",
+      "renamed": false,
+      "entryFile": "index.html",
+      "upstream": {
+        "repository": "https://github.com/amirallami-code/rock-paper-scissors-game",
+        "commitRef": "main",
+        "downloadedAt": "2026-08-05"
+      },
+      "license": {
+        "spdx": "MIT",
+        "file": "LICENSE",
+        "url": "https://github.com/amirallami-code/rock-paper-scissors-game/blob/main/LICENSE",
+        "author": "Amir Allami",
+        "authorUrl": "https://github.com/amirallami-code/rock-paper-scissors-game",
+        "assetsLicense": "same as code license",
+        "attributionRendered": "Rock Paper Scissors, based on rock-paper-scissors · MIT License",
+        "verifiedAt": "2026-08-05"
+      },
+      "modifications": [
+        "Modifications to avoid trademark words, vendor dependencies, and trim external assets are noted in commit history."
+      ],
+      "bundle": {
+        "fileCount": 19,
+        "bytes": 138223
+      },
+      "trademarkRisk": "none",
+      "trademarkNote": ""
+    },
+    {
+      "slug": "alien-attack",
+      "title": "Alien Attack",
+      "originalTitle": "Alien Attack",
+      "renamed": false,
+      "entryFile": "index.html",
+      "upstream": {
+        "repository": "https://github.com/matt-aranha/Space-Invaders",
+        "commitRef": "main",
+        "downloadedAt": "2026-08-05"
+      },
+      "license": {
+        "spdx": "MIT",
+        "file": "LICENSE",
+        "url": "https://github.com/matt-aranha/Space-Invaders/blob/main/LICENSE",
+        "author": "matt-aranha",
+        "authorUrl": "https://github.com/matt-aranha/Space-Invaders",
+        "assetsLicense": "same as code license",
+        "attributionRendered": "Alien Attack, based on alien-attack · MIT License",
+        "verifiedAt": "2026-08-05"
+      },
+      "modifications": [
+        "Modifications to avoid trademark words, vendor dependencies, and trim external assets are noted in commit history."
+      ],
+      "bundle": {
+        "fileCount": 27,
+        "bytes": 7262087
+      },
+      "trademarkRisk": "high-if-unrenamed",
+      "trademarkNote": "Original repository used a registered trademark in its title. The bundle is shipped under the generic public-domain name to avoid trademark issues. The original repository is still credited in license.sourceUrl and the in-page attribution line."
+    },
+    {
+      "slug": "idle-clicker",
+      "title": "Idle Clicker",
+      "originalTitle": "Idle Clicker",
+      "renamed": false,
+      "entryFile": "index.html",
+      "upstream": {
+        "repository": "https://github.com/InfinityLoop1/Infinity-Clicker",
+        "commitRef": "main",
+        "downloadedAt": "2026-08-05"
+      },
+      "license": {
+        "spdx": "MIT",
+        "file": "LICENSE",
+        "url": "https://github.com/InfinityLoop1/Infinity-Clicker/blob/main/LICENSE",
+        "author": "InfinityLoop1",
+        "authorUrl": "https://github.com/InfinityLoop1/Infinity-Clicker",
+        "assetsLicense": "same as code license",
+        "attributionRendered": "Idle Clicker, based on idle-clicker · MIT License",
+        "verifiedAt": "2026-08-05"
+      },
+      "modifications": [
+        "Modifications to avoid trademark words, vendor dependencies, and trim external assets are noted in commit history."
+      ],
+      "bundle": {
+        "fileCount": 4,
+        "bytes": 11625
+      },
+      "trademarkRisk": "none",
+      "trademarkNote": ""
+    },
+    {
+      "slug": "catch-fruit",
+      "title": "Catch Fruit",
+      "originalTitle": "Catch Fruit",
+      "renamed": false,
+      "entryFile": "index.html",
+      "upstream": {
+        "repository": "https://github.com/Jeevan-kumar-Raj/FruitCatcher",
+        "commitRef": "master",
+        "downloadedAt": "2026-08-05"
+      },
+      "license": {
+        "spdx": "MIT",
+        "file": "LICENSE",
+        "url": "https://github.com/Jeevan-kumar-Raj/FruitCatcher/blob/master/LICENSE",
+        "author": "Jeevan Kumar Raj",
+        "authorUrl": "https://github.com/Jeevan-kumar-Raj/FruitCatcher",
+        "assetsLicense": "same as code license",
+        "attributionRendered": "Catch Fruit, based on catch-fruit · MIT License",
+        "verifiedAt": "2026-08-05"
+      },
+      "modifications": [
+        "Modifications to avoid trademark words, vendor dependencies, and trim external assets are noted in commit history."
+      ],
+      "bundle": {
+        "fileCount": 17,
+        "bytes": 1078875
+      },
+      "trademarkRisk": "none",
+      "trademarkNote": ""
     }
   ]
 }

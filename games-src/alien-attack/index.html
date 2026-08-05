@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alien Attack</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="assets/icone(192x192).png">
+</head>
+<body>
+    <div class="stars"></div>
+    <div id="menu">
+        <h1>ALIEN<br>ATTACK</h1>
+        <h2>Use <kbd>A</kbd> or <kbd>&larr;</kbd>, <kbd>D</kbd> or <kbd>&rarr;</kbd> to move and <kbd>W</kbd> or <kbd>Space</kbd> to fire.<br>(Press <kbd>Esc</kbd> to pause.)<br><br>Don't let the descending aliens reach the bottom!</h2>
+        <button id="play-btn">&#9654; Play</button><br><br>
+        <button id="retornar-btn">&#8629; Home</button><br><br>
+        <img src="assets/Controle(192x192).png" alt="Controls">
+    </div>
+    <div id="game-container" style="position: relative; display: none;">
+        <div id="lives-container"></div>
+        <canvas id="space-invaders" width="1200" height="720"></canvas>
+        <button id="mute-btn">&#128263; Mute</button>
+    </div>
+    <audio id="bg-music" loop>
+        <source src="sons/music.mp3" type="audio/mpeg">
+    </audio>
+    <script>
+        const music = document.getElementById("bg-music");
+        music.volume = 0.15;
+        music.play();
+        { once: true };
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>

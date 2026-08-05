@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  	<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  	<script src="framework.js"></script>
+    <script src="game.js"></script>
+    <link rel="stylesheet" type="text/css" href="index.css">
+  </head>
+	<body>
+		<div class="gameArea">
+			Snake
+			<canvas width="600" 
+			        height="300">
+			</canvas>
+			<br>
+			<footer>
+			JavaScript/HTML5 canvas game
+			<br>
+			Felipe Freitas @ 2019
+			</footer>
+		</div>
+
+		<div class="scoreArea">
+			Score:<br>
+			<div class="highscoreArea"></div>
+		</div>
+	</body> 
+	<script>
+		// Global Vars
+		var sqmSize = 10
+
+		// Initing game
+		var game = new Game()
+		var name = prompt("What is your name?\n(If left blank, you will not be added to the local high score table)", "");
+
+		game.content((obj) => {
+			var score = new Score(10, 10)
+			var snake = new Snake(score, name)
+			var food = new Food(score, snake)
+			var keyboard = new Keyboard()
+
+			keyboard.addKey(snake, 38, () => snake.setDirection(0)) // Up (0)
+			keyboard.addKey(snake, 39, () => snake.setDirection(1)) // Right (1)
+			keyboard.addKey(snake, 40, () => snake.setDirection(2)) // Down (2)
+			keyboard.addKey(snake, 37, () => snake.setDirection(3)) // Left (3)
+
+			obj.appendObject(food)
+			obj.appendObject(snake)
+			obj.appendObject(score)
+		})
+
+		game.start()
+		game.highscoreList()
+	</script>
+</html>

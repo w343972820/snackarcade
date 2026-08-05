@@ -80,13 +80,13 @@
   {
     "id": "logic",
     "name": "Logic",
-    "description": "Puzzles solved by deduction rather than speed, where every move follows from information already visible on the board.",
+    "description": "Puzzles solved by deduction rather than speed, where every move follows from information already visible on the board. Rewarding for thinkers.",
     "forceNoindex": false
   },
   {
     "id": "high-score",
     "name": "High Score",
-    "description": "Games with no ending, only a number — you play until you lose and the goal is beating your own previous best result.",
+    "description": "Games with no ending, only a number — you play until you lose and the goal is beating your previous best. A personal-best chase keeps every run meaningful.",
     "forceNoindex": false
   },
   {
@@ -152,7 +152,7 @@
   {
     "id": "family-friendly",
     "name": "Family Friendly",
-    "description": "Games with no violence, no chat with strangers and no content that needs a parent to check it before a child plays.",
+    "description": "Games with no violence, no chat with strangers and no content that needs a parent to check it before a child plays. Safe for the whole family.",
     "forceNoindex": false
   }
 ]

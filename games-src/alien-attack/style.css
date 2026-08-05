@@ -1,0 +1,171 @@
+body {
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: black;
+  color: white;
+  font-family: Arial, sans-serif;
+}
+
+#menu {
+  text-align: center;
+}
+
+/* Estilo Retrô para o Botão Principal (com brilho) */
+#play-btn {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 24px;
+    padding: 15px 30px;
+    width: 300px;
+    
+    /* Paleta de Cores Verde Adaptada */
+    background: black;
+    border: 2px solid #035002; /* Borda verde escuro */
+    color: #19c917;           /* Texto verde claro */
+    text-shadow: 0 0 10px #00ff3c; /* Leve brilho no texto */
+    
+    /* Estilo do Botão do Menu Principal */
+    cursor: pointer;
+    border-radius: 8px; /* Cantos arredondados */
+    transition: 0.3s;
+}
+
+/* Efeito de brilho no hover, adaptado para verde */
+#play-btn:hover {
+    background: #03b830; /* Fundo fica verde */
+    color: black;        /* Texto fica preto */
+    box-shadow: 0 0 20px #01831b, 0 0 40px  #01831b; /* Brilho verde escuro */
+}
+
+#retornar-btn {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 24px;
+    padding: 15px 30px;
+    
+    /* Paleta de Cores Azul Adaptada */
+    background: black;
+    border: 2px solid #035002; /* Borda verde escuro */
+    color: #19c917;           /* Texto verde claro */
+    text-shadow: 0 0 10px #00ff3c; /* Leve brilho no texto */
+    
+    /* Estilo do Botão do Menu Principal */
+    cursor: pointer;
+    border-radius: 8px; /* Cantos arredondados */
+    transition: 0.3s;
+}
+
+/* Efeito de brilho no hover, adaptado para verde */
+#retornar-btn:hover {
+    background: #03b830; /* Fundo fica verde */
+    color: black;        /* Texto fica preto */
+    box-shadow: 0 0 20px #01831b, 0 0 40px  #01831b; /* Brilho verde escuro */
+}
+
+/* Estilo Retrô para o Botão de Mute */
+
+#mute-btn {
+  position: absolute; /* Mude de 'fixed' para 'absolute' */
+  top: 10px;          /* Distância do topo do container */
+  left: 10px;        /* Distância da direita do container */
+  background: #232946;
+  color: #fff;
+  border: 2px solid #49dd1c;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 12px;
+  padding: 6px 10px;
+  cursor: pointer;
+  z-index: 101;       /* Aumentei para garantir que fique acima do #lives-container */
+  border-radius: 6px;
+  user-select: none;
+}
+
+#mute-btn:hover {
+  background: #1cdd39;
+}
+
+#mute-btn:active {
+  transform: translateY(1px);
+  box-shadow: 0 1px 0 #c44259;
+}
+
+/* Efeito de botão sendo pressionado */
+#mute-btn:active {
+  transform: translateY(1px);
+  box-shadow: 0 1px 0 #c44259;
+}
+
+#lives-container {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  padding: 8px 12px;
+  border-radius: 8px;
+  z-index: 100;
+}
+
+#lives-container img{
+  width: 50px;
+  height: 50px;
+  image-rendering: pixelated;
+  transition: transform 0.2s ease-in-out;
+}
+
+#lives-container img:hover {
+  transform: scale(1.2);
+}
+
+canvas {
+  background-image: url(assets/space-final-1200.png);
+  background-size: cover;
+  display: block;
+  margin: auto;
+}
+
+/* Estilo para o título principal do jogo */
+#menu h1 {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 5em; /* Tamanho grande para o título */
+    color: #0f0; /* Verde clássico de arcade */
+    text-shadow: 4px 4px 0px #004d00; /* Efeito de sombra 3D */
+    line-height: 1.2;
+}
+
+/* Estilo para o texto de instrução */
+#menu h2 {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 1em; /* Tamanho menor para instruções */
+    color: #fff; /* Cor branca para boa leitura */
+    line-height: 1.5; /* Espaçamento entre linhas */
+    margin-top: 40px;
+}
+
+/* Garante que o texto dentro da tag <kbd> também use a fonte */
+#menu h2 kbd {
+    font-family: inherit; /* Herda a fonte do h2 */
+    font-size: 2em; /* Mantém o mesmo tamanho do texto */
+}
+
+/* Container que segura o canvas e o efeito CRT */
+#game-container {
+  position: relative;
+  display: inline-block; /* Ajusta o tamanho ao conteúdo */
+  box-shadow: 0 0 40px rgba(45, 44, 44, 0.5); /* Brilho neon opcional */
+}
+
+.stars {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  background: radial-gradient(2px 2px at 20px 30px, #fff 50%, transparent 51%),
+                    radial-gradient(1px 1px at 70px 120px, #fff 50%, transparent 51%);
+  background-repeat: repeat;
+  background-size: 200px 200px;
+  z-index: -1;
+}
+@keyframes moveStars {
+  from { background-position: 0 0; }
+  to { background-position: -10000px 5000px; }
+}

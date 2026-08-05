@@ -16,6 +16,12 @@ public/play/
 # publish cache
 .publish-cache.json
 
+# scratch artefacts from the engineer (upstream code set aside during the
+# 18-game integration pass; kept out of git so the working tree stays clean)
+.removed-*
+.download-meta.json
+.download-tmp/
+
 # env
 .env
 .env.local
