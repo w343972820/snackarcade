@@ -102,6 +102,25 @@
   contain: layout paint;
 }
 
+/* Once the game is running, `game-player.ts` measures the game's real height
+   and grows the stage to fit it (`--fit-height`), up to what the viewport can
+   show. The explicit height wins over `aspect-ratio`, so the poster keeps its
+   16:9 reservation before Play and the running game gets as much room as the
+   screen can give it. */
+.game-player__stage--fit {
+  aspect-ratio: auto;
+  height: var(--fit-height, auto);
+}
+
+/* Fullscreen restores the stage to the whole viewport; the fit height must not
+   survive into fullscreen or the game would stay at its windowed size. */
+.game-player__stage--fit:fullscreen,
+.game-player__stage--fit:-webkit-full-screen {
+  aspect-ratio: auto;
+  width: 100%;
+  height: 100%;
+}
+
 .game-player__poster {
   position: absolute;
   inset: 0;
