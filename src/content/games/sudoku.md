@@ -5,7 +5,7 @@ draft: false
 
 seo:
   title: "Play Sudoku Free — Number Puzzle | SnackArcade"
-  description: "Play Sudoku free in your browser across four difficulty levels. Fill the grid so every row, column and box holds the digits 1 to 9. Full rules and tips."
+  description: "Play Sudoku free in your browser across five difficulty levels. Fill the grid so every row, column and box holds the digits 1 to 9. Full rules and tips."
   targetKeywords:
     - sudoku online
     - play sudoku free
@@ -51,7 +51,7 @@ content:
     every column and every 3 by 3 box must contain the digits 1 to 9 exactly once. The
     puzzle gives you a few starting digits and your job is to fill in the rest using pure
     logic. There is no arithmetic — only deduction — which is why it appeals to everyone
-    from students to grandmothers. Play it free in your browser across four difficulty
+    from students to grandmothers. Play it free in your browser across five difficulty
     levels, with a notes mode for keeping track of candidates, and no download.
 
   about:
@@ -70,7 +70,7 @@ content:
     - >-
       This page uses the sudoku.js puzzle engine by Robert McGuire, released under the MIT
       licence, wrapped in an original interface designed for this site. The engine generates
-      and validates puzzles across four difficulty levels, and the interface adds the notes
+      and validates puzzles across five difficulty levels, and the interface adds the notes
       mode and error checking that make digital sudoku more pleasant than paper. Everything
       runs in your browser with no download and no account.
 
@@ -93,8 +93,8 @@ content:
         exactly once. Satisfy all three and the puzzle is solved.
     - step: "Choose your difficulty."
       detail: >-
-        Start with an easy puzzle to learn the flow, then work up through medium and hard
-        to expert as your elimination skills improve.
+        Start with an easy puzzle to learn the flow, then work up through medium, hard,
+        very hard and insane as your elimination skills improve.
 
   controls:
     - action: "Select a cell"
@@ -116,8 +116,8 @@ content:
       desktop: "Click the Restart button"
       mobile: "Tap the Restart button"
     - action: "Choose difficulty"
-      desktop: "Select Easy, Medium, Hard or Expert before starting"
-      mobile: "Select Easy, Medium, Hard or Expert before starting"
+      desktop: "Select Easy, Medium, Hard, Very hard or Insane before starting"
+      mobile: "Select Easy, Medium, Hard, Very hard or Insane before starting"
     - action: "Fullscreen"
       desktop: "Click the fullscreen button above the grid"
       mobile: "Tap the fullscreen button above the grid"
@@ -155,7 +155,7 @@ content:
         easiest to solve. Attack the densest areas first and let them unlock the rest.
 
   features:
-    - "Sudoku across four difficulty levels from easy to expert"
+    - "Sudoku across five difficulty levels from easy to insane"
     - "Notes mode for keeping pencil marks in every cell"
     - "Error checking that keeps your logic honest"
     - "Runs entirely in your browser with no download or plugin"
@@ -181,8 +181,8 @@ content:
         on paper. Keeping notes is the standard technique for solving harder puzzles.
     - q: "How many difficulty levels are there?"
       a: >-
-        There are four: Easy, Medium, Hard and Expert. They differ in how many starting
-        digits are given and how many advanced techniques are needed.
+        There are five: Easy, Medium, Hard, Very hard and Insane. They differ in how many
+        starting digits are given and how many advanced techniques are needed.
     - q: "Do I need to be good at maths to play?"
       a: >-
         No. Sudoku uses no arithmetic at all — only the digits 1 to 9 as symbols. The
