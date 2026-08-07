@@ -1,0 +1,57 @@
+---
+title: "SnackArcade new games — 2026-08-07"
+seo:
+  title: "New Games Added 2026-08-07 | SnackArcade"
+  description: "A factual round-up of the games published on SnackArcade on 2026-08-07: what each one is, who made it, and how to play."
+relatedGameSlugs: ["alien-attack", "catch-fruit", "idle-clicker"]
+author: "SnackArcade Team"
+draft: true
+publishedAt: 2026-08-07
+updatedAt: 2026-08-07
+---
+# New Games on SnackArcade — 2026-08-07
+
+This post lists the games that were published on SnackArcade on 2026-08-07. Each entry is a factual summary taken from the game's own page. All of the games below run directly in the browser with no download and no sign-up, and each one has a full guide, a controls table and real tips on its page.
+
+## Alien Attack
+
+[Play Alien Attack](/games/alien-attack/) — Alien Attack is the retro alien-shooter in its purest arcade form: rows of alien ships descend toward you, and you control a cannon at the bottom of the screen, firing upward to stop them before they land. Every wave moves faster, every shot counts, and your only goal is to survive as long as you can and beat your high score. It is the classic vertical shooter that started the arcade era, rebuilt for your browser with no download and no account.
+
+The descending-alien shooter is one of the most famous arcade games ever made, and it defined an entire generation of early gaming. The format is simple and perfect: rows of enemies march side to side and drop toward you, you dodge and shoot, and the difficulty rises with every wave you clear.
+
+- Developer: matt-aranha
+- Genre: Action, Arcade, Shooter
+- Runs on: desktop, tablet and mobile browsers
+- No download, no sign-up, no plugins
+
+Read the full guide: [Alien Attack guide and controls](/games/alien-attack/)
+
+## Catch Fruit
+
+[Play Catch Fruit](/games/catch-fruit/) — Catch Fruit is the arcade game of moving a basket and catching fruit as it falls from the sky. Every piece you catch scores points, every one you miss costs you, and the longer you survive the faster the fruit falls. It is one of the most instantly readable games ever made — move, catch, score — and it is loved by children and adults alike. Play it free in your browser with no download and no account.
+
+The catch-the-falling-objects game has been a casual favourite for decades, because it turns a simple motor skill — moving something to catch something — into an increasingly tense test of timing. The rules are obvious from the first second, and the difficulty curve does the rest.
+
+- Developer: Jeevan Kumar Raj
+- Genre: Arcade, Casual
+- Runs on: desktop, tablet and mobile browsers
+- No download, no sign-up, no plugins
+
+Read the full guide: [Catch Fruit guide and controls](/games/catch-fruit/)
+
+## Idle Clicker
+
+[Play Idle Clicker](/games/idle-clicker/) — Idle Clicker is the incremental game in its cleanest form: one button, one counter, and a loop that quietly turns a few clicks into a growing empire of numbers. Click to earn, buy upgrades that multiply your income, and when the pace slows, reset your progress for a prestige bonus that makes the next run faster. It is the perfect background game — a tab you check every few minutes and watch grow. Play it free in your browser with your progress saved locally and no download.
+
+Idle games, also called incremental or clicker games, grew from a simple experiment: what if a game rewarded you for not playing? The answer is surprisingly compelling. You click to earn, buy an upgrade that earns for you, then buy upgrades that multiply the upgrades — and before long the game is a numbers puzzle you genuinely enjoy optimising.
+
+- Developer: InfinityLoop1
+- Genre: Idle, Clicker, Incremental
+- Runs on: desktop, tablet and mobile browsers
+- No download, no sign-up, no plugins
+
+Read the full guide: [Idle Clicker guide and controls](/games/idle-clicker/)
+
+## About SnackArcade
+
+SnackArcade is a small, hand-maintained collection of free browser games. Every game page includes original written content: a description of the game, a how-to-play section, a complete controls table for keyboard and touch, and tips written from actually playing the game. Games hosted directly on the site are open source or licensed for this use, and each one credits the developer who made it with a link back to the original source and its licence. The whole catalogue is playable on desktop, tablet and mobile browsers with no download and no sign-up.
