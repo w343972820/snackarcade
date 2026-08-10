@@ -71,4 +71,4 @@ These terms are governed by the laws of the jurisdiction in which the site opera
 
 ## 13. Contact
 
-Questions about these terms: **legal@snackarcade.com**
+Questions about these terms: **vicopeter007@gmail.com**
