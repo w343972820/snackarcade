@@ -15,12 +15,12 @@ The fastest route is email. Use the address that matches your subject so it gets
 
 | What it's about | Email |
 |---|---|
-| General questions, feedback, hello | **hello@snackarcade.com** |
-| A broken game or a wrong controls table | **bugs@snackarcade.com** |
-| Suggesting a game to add | **games@snackarcade.com** |
-| Privacy, data requests, GDPR and CCPA | **privacy@snackarcade.com** |
-| Copyright and DMCA notices | **dmca@snackarcade.com** |
-| Advertising and business enquiries | **hello@snackarcade.com** |
+| General questions, feedback, hello | **vicopeter007@gmail.com** |
+| A broken game or a wrong controls table | **vicopeter007@gmail.com** |
+| Suggesting a game to add | **vicopeter007@gmail.com** |
+| Privacy, data requests, GDPR and CCPA | **vicopeter007@gmail.com** |
+| Copyright and DMCA notices | **vicopeter007@gmail.com** |
+| Advertising and business enquiries | **vicopeter007@gmail.com** |
 
 Expect a reply within a few working days. Data-protection requests are answered within 30 days, as required by law.
 
@@ -43,9 +43,9 @@ Games under GPL, AGPL, or any Creative Commons licence with a NonCommercial (NC)
 
 ## If you made a game we host
 
-Every self-hosted game on this site credits its developer by name with a link to the original repository and licence. If your attribution is wrong, incomplete, or you would like the wording changed, email **hello@snackarcade.com** and it will be corrected quickly.
+Every self-hosted game on this site credits its developer by name with a link to the original repository and licence. If your attribution is wrong, incomplete, or you would like the wording changed, email **vicopeter007@gmail.com** and it will be corrected quickly.
 
-If you would prefer your game not be hosted here at all, that request is honoured without argument — email **dmca@snackarcade.com** or see the [DMCA page](/dmca/) for the formal process.
+If you would prefer your game not be hosted here at all, that request is honoured without argument — email **vicopeter007@gmail.com** or see the [DMCA page](/dmca/) for the formal process.
 
 ## What we cannot help with
 

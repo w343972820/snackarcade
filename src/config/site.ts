@@ -36,7 +36,7 @@ export const SITE: SiteConfig = {
   description:
     'Play free online games right in your browser. No download, no sign-up, no plugins. ' +
     'Puzzle, card, word and arcade games, each with a full how-to-play guide, controls and tips.',
-  email: 'hello@snackarcade.com',
+  email: 'vicopeter007@gmail.com',
   locale: 'en',
   ogLocale: 'en_US',
   defaultOgImage: '/og-default.png',

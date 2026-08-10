@@ -39,4 +39,4 @@ If a game is broken, a control table is wrong, or you think we've missed somethi
 
 SnackArcade is free and always will be. The site is supported by display advertising, which is why you'll see ads around — but never on top of — the games. We don't sell user data, we don't run pop-ups over gameplay, and we don't gate any game behind a payment. Details on what data is collected and how advertising cookies work are in our [Privacy Policy](/privacy-policy/).
 
-**Get in touch:** hello@snackarcade.com
+**Get in touch:** vicopeter007@gmail.com

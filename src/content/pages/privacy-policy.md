@@ -15,7 +15,7 @@ SnackArcade does not ask you to create an account, and we do not sell personal i
 
 ## Who is responsible
 
-SnackArcade is operated as an independent website. For any question about this policy or about data held on you, email **privacy@snackarcade.com**. We aim to respond within 30 days, which is the deadline set by both GDPR and the CCPA.
+SnackArcade is operated as an independent website. For any question about this policy or about data held on you, email **vicopeter007@gmail.com**. We aim to respond within 30 days, which is the deadline set by both GDPR and the CCPA.
 
 ## What we collect
 
@@ -59,7 +59,7 @@ If you are in the EEA or the UK you have the right to: access the personal data 
 
 The legal basis for advertising and analytics cookies is your consent. The legal basis for essential cookies and server logs is our legitimate interest in operating a secure website.
 
-To exercise any of these rights, email **privacy@snackarcade.com**. You also have the right to complain to your national data protection authority.
+To exercise any of these rights, email **vicopeter007@gmail.com**. You also have the right to complain to your national data protection authority.
 
 ## Your rights under the CCPA/CPRA (California)
 
@@ -69,7 +69,7 @@ California residents have the right to know what personal information is collect
 
 ## Children
 
-SnackArcade is a general-audience site and is not directed at children under 13. We do not knowingly collect personal information from children under 13. If you believe a child has provided us with personal information, email **privacy@snackarcade.com** and we will delete it.
+SnackArcade is a general-audience site and is not directed at children under 13. We do not knowingly collect personal information from children under 13. If you believe a child has provided us with personal information, email **vicopeter007@gmail.com** and we will delete it.
 
 ## Data retention and security
 

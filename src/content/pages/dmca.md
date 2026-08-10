@@ -9,7 +9,7 @@ showInFooter: true
 
 SnackArcade respects the intellectual property rights of others and expects visitors and contributors to do the same. This page explains how to report content you believe infringes your copyright, and what happens after you do.
 
-**Designated agent for copyright notices:** **dmca@snackarcade.com**
+**Designated agent for copyright notices:** **vicopeter007@gmail.com**
 
 ## Our position on hosted games
 
@@ -32,7 +32,7 @@ To be effective under 17 U.S.C. § 512(c)(3), your written notice must include *
 5. **A statement** that you have a good-faith belief that the disputed use is not authorised by the copyright owner, its agent, or the law.
 6. **A statement**, made under penalty of perjury, that the information in your notice is accurate and that you are the copyright owner or authorised to act on the owner's behalf.
 
-Send the complete notice to **dmca@snackarcade.com** with "DMCA Takedown Notice" in the subject line.
+Send the complete notice to **vicopeter007@gmail.com** with "DMCA Takedown Notice" in the subject line.
 
 **Please note:** under 17 U.S.C. § 512(f), anyone who knowingly materially misrepresents that material is infringing may be liable for damages, including costs and legal fees. If you are unsure whether the material is covered by a licence that permits its use here, it is worth checking the licence link on the game page first — or simply emailing us informally before filing.
 
@@ -45,7 +45,7 @@ Send the complete notice to **dmca@snackarcade.com** with "DMCA Takedown Notice"
 
 ## Informal requests from developers
 
-If you are the developer of a game hosted here and you simply want it taken down, you do not need to file a formal DMCA notice. Email **dmca@snackarcade.com** from an address associated with the project and say so. The game will be removed. No argument, no negotiation, no requirement to explain why.
+If you are the developer of a game hosted here and you simply want it taken down, you do not need to file a formal DMCA notice. Email **vicopeter007@gmail.com** from an address associated with the project and say so. The game will be removed. No argument, no negotiation, no requirement to explain why.
 
 The same applies to attribution: if the credit line, licence reference or source link on a game page is wrong, tell us and it will be corrected.
 
@@ -59,7 +59,7 @@ If your content was removed and you believe the removal was a mistake or a misid
 4. Your name, postal address and telephone number.
 5. A statement that you consent to the jurisdiction of the federal district court for the judicial district in which your address is located — or, if your address is outside the United States, any judicial district in which we may be found — and that you will accept service of process from the person who filed the original notice.
 
-Send counter-notices to **dmca@snackarcade.com**. We will forward a copy to the original complainant. If they do not file a court action within 10 to 14 business days, the material may be restored.
+Send counter-notices to **vicopeter007@gmail.com**. We will forward a copy to the original complainant. If they do not file a court action within 10 to 14 business days, the material may be restored.
 
 ## Repeat infringers
 
