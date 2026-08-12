@@ -1,7 +1,7 @@
 {
   "$comment": "Source-of-truth register for every self-hosted game bundle. `npm run sync:games` mirrors each folder listed here into public/play/<slug>/ so the site works with zero cloud services. Never add a game here without also recording its licence — src/pages/licenses.json.ts publishes this file's licence data and scripts/validate-content.mjs rejects the build if a licence is missing or forbidden.",
   "version": 1,
-  "updatedAt": "2026-08-05",
+  "updatedAt": "2026-08-12",
   "games": [
     {
       "slug": "2048",
@@ -949,6 +949,37 @@
       },
       "trademarkRisk": "none",
       "trademarkNote": ""
+    },
+    {
+      "slug": "15-puzzle",
+      "title": "15-Puzzle",
+      "originalTitle": "15-Puzzle",
+      "renamed": false,
+      "entryFile": "index.html",
+      "upstream": {
+        "repository": "https://github.com/arnisritins/15-Puzzle",
+        "commitRef": "master",
+        "downloadedAt": "2026-08-12"
+      },
+      "license": {
+        "spdx": "MIT",
+        "file": "LICENSE",
+        "url": "https://github.com/arnisritins/15-Puzzle/blob/master/LICENSE",
+        "author": "Arnis Ritiņš",
+        "authorUrl": "https://github.com/arnisritins",
+        "assetsLicense": "Same as code license — plain HTML/CSS/JavaScript with no third-party assets",
+        "attributionRendered": "15-Puzzle by Arnis Ritiņš · MIT License",
+        "verifiedAt": "2026-08-12"
+      },
+      "modifications": [
+        "No modifications — upstream bundle ships as-is. Pure vanilla HTML/CSS/JavaScript with zero external runtime dependencies."
+      ],
+      "bundle": {
+        "fileCount": 4,
+        "bytes": 7227
+      },
+      "trademarkRisk": "none",
+      "trademarkNote": "\"15-Puzzle\" is a generic description of the classic sliding puzzle, not a registered trademark. Nothing to rename."
     }
   ]
 }
