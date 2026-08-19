@@ -3,7 +3,7 @@ title: Privacy Policy
 seo:
   title: "Privacy Policy | SnackArcade"
   description: "How SnackArcade uses cookies, third-party advertising including Google AdSense, what data is collected, and your GDPR and CCPA rights and opt-out options."
-updatedAt: 2026-08-04
+updatedAt: 2026-08-19
 showInFooter: true
 ---
 
@@ -11,7 +11,7 @@ This policy explains what information SnackArcade collects when you visit, why i
 
 ## The short version
 
-SnackArcade does not ask you to create an account, and we do not sell personal information. The site is paid for by display advertising, and advertising is the reason cookies exist on this site at all. You can refuse non-essential cookies and still play every game.
+SnackArcade does not ask you to create an account, and we do not sell personal information. The site is intended to be paid for by display advertising. While advertising and analytics services are not yet enabled, this site does not set any advertising or analytics cookies, and it shows no cookie consent banner. If and when those services are enabled, you will be able to refuse non-essential cookies and still play every game, and the change will be reflected in this policy.
 
 ## Who is responsible
 
@@ -19,7 +19,7 @@ SnackArcade is operated as an independent website. For any question about this p
 
 ## What we collect
 
-**Information you give us.** If you email us or use the contact form, we receive the address you send from and whatever you write. We keep it only as long as needed to deal with the message.
+**Information you give us.** If you email us, we receive the address you send from and whatever you write. We keep it only as long as needed to deal with the message.
 
 **Information collected automatically.** Like nearly every website, our hosting provider records standard server request data: IP address, browser user-agent, the page requested, the referring page and a timestamp. This is used for security and to understand which pages are being read.
 
@@ -31,9 +31,9 @@ SnackArcade is operated as an independent website. For any question about this p
 
 We use cookies in two categories.
 
-**Essential cookies** remember your cookie choices and basic site preferences. Without them the consent banner would reappear on every page. These cannot be switched off because the site cannot function correctly without them.
+**Essential cookies** would only be set if a consent banner were active: one tiny cookie to remember your cookie preferences so the banner does not reappear on every page. While advertising and analytics services are not enabled, the site sets no essential cookies of its own.
 
-**Advertising cookies** are set by third-party advertising partners, not by us.
+**Advertising cookies** are set by third-party advertising partners, not by us, and only while an advertising network is enabled on the site.
 
 ### Google AdSense and the DoubleClick DART cookie
 
@@ -49,15 +49,15 @@ Third-party vendors and ad networks other than Google may also serve ads on this
 
 ## Consent, and how it works by region
 
-If you are in the European Economic Area, the United Kingdom or Switzerland, advertising and analytics storage is **denied by default** until you actively consent. The consent banner appears before any advertising cookie is set, and refusing does not restrict access to any game. You can change your choice at any time through the cookie preferences link in the site footer.
+When advertising or analytics services are enabled, visitors in the European Economic Area, the United Kingdom or Switzerland see a cookie consent banner and advertising and analytics storage is **denied by default** until they actively consent. The banner appears before any advertising or analytics cookie is set, and refusing does not restrict access to any game. While those services are not enabled — which is the case for the site as of the date at the top of this policy — the site sets no tracking cookies, so no consent banner is shown. The current opt-out path for any tracking that does run is therefore browser-level controls plus the Google Ads Settings and vendor opt-out links below; a future site-level "cookie preferences" link in the footer is part of the plan for when advertising is switched on, and this section will be updated at that time.
 
-Outside those regions, advertising cookies may be set on page load in line with local law, and you can still opt out using the links above.
+If advertising or analytics services are enabled, outside those regions advertising or analytics cookies may be set on page load in line with local law. Until that is the case, this site sets no such cookies at all. You can still opt out at any time using the Google and vendor links below.
 
 ## Your rights under GDPR (EEA and UK)
 
 If you are in the EEA or the UK you have the right to: access the personal data we hold about you; have inaccurate data corrected; have your data erased; restrict or object to processing, including profiling for advertising; receive your data in a portable format; and withdraw consent at any time without affecting processing that already happened.
 
-The legal basis for advertising and analytics cookies is your consent. The legal basis for essential cookies and server logs is our legitimate interest in operating a secure website.
+Where advertising and analytics services are enabled, the legal basis for those cookies is your consent. The legal basis for server logs is our legitimate interest in operating a secure website.
 
 To exercise any of these rights, email **vicopeter007@gmail.com**. You also have the right to complain to your national data protection authority.
 
@@ -65,7 +65,7 @@ To exercise any of these rights, email **vicopeter007@gmail.com**. You also have
 
 California residents have the right to know what personal information is collected and how it is used, to request deletion, to correct inaccurate information, and to opt out of the "sale" or "sharing" of personal information.
 
-**We do not sell personal information for money.** However, under the CCPA's broad definition, allowing third-party advertising cookies may be considered "sharing" for cross-context behavioural advertising. To opt out, refuse advertising cookies in the consent banner, use the cookie preferences link in the footer, or send a Global Privacy Control signal from your browser — we honour GPC. Exercising these rights will never result in a worse experience on this site.
+**We do not sell personal information for money.** However, under the CCPA's broad definition, allowing third-party advertising cookies may be considered "sharing" for cross-context behavioural advertising. To opt out, send a Global Privacy Control signal from your browser — we honour GPC — and, if and when advertising is enabled, refuse advertising cookies in the consent banner. Exercising these rights will never result in a worse experience on this site.
 
 ## Children
 
@@ -81,4 +81,4 @@ Game pages link to the original developers' repositories and licences, and some 
 
 ## Changes to this policy
 
-When this policy changes, the "last updated" date at the top of the page changes with it. Material changes affecting how advertising data is handled will also be surfaced in the consent banner.
+When this policy changes, the "last updated" date at the top of the page changes with it. Material changes affecting how advertising or analytics data is handled will also be surfaced in the consent banner once one is active on the site.

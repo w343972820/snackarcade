@@ -17,6 +17,7 @@
     "doctor": "node scripts/doctor.mjs",
     "sync:games": "node scripts/sync-local-games.mjs",
     "gen:covers": "node scripts/gen-covers.mjs",
+    "gen:og-default": "node scripts/gen-og-default.mjs",
     "new:game": "node scripts/new-game.mjs",
     "publish:games": "node scripts/publish-games.mjs",
     "test": "vitest run",
