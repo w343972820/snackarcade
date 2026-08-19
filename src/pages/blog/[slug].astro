@@ -5,15 +5,19 @@
  * getStaticPaths emits one route per non-draft post in src/content/blog. With no
  * posts authored the index page shows its empty state and nothing is generated here.
  *
- * The "Related Games" block at the bottom is driven by `relatedGameSlugs` in the
- * post frontmatter. When the list is empty the block is not rendered at all.
+ * Two blocks sit below the body. "Related Posts" (driven by src/lib/related/posts.ts)
+ * links to sibling posts so the blog section has its own internal-link network;
+ * it is not rendered when no sibling shares a signal. "Related Games" is driven
+ * by `relatedGameSlugs` in the post frontmatter; when the list is empty the
+ * block is not rendered at all.
  */
 import type { GetStaticPaths } from 'astro';
 import { getCollection, render } from 'astro:content';
 
 import ArticleLayout from '@/layouts/ArticleLayout.astro';
 import GameGrid from '@/components/ui/GameGrid.astro';
-import { getRelatedGames } from '@/lib/content/blog';
+import PostCard from '@/components/ui/PostCard.astro';
+import { getRelatedGames, getRelatedPosts } from '@/lib/content/blog';
 import { pageBreadcrumbs } from '@/lib/seo/breadcrumbs';
 
 export const getStaticPaths = (async () => {
@@ -38,6 +42,7 @@ const crumbs = pageBreadcrumbs(data.title, `/blog/${slug}/`);
 const pathname = `/blog/${slug}/`;
 
 const relatedGames = await getRelatedGames(entry);
+const relatedPosts = await getRelatedPosts(entry);
 
 const { Content } = await render(entry);
 ---
@@ -56,6 +61,22 @@ const { Content } = await render(entry);
   showAds={false}
 >
   <Content />
+
+  {
+    relatedPosts.length > 0 && (
+      <section class="blog-post__related" aria-labelledby="related-posts-heading">
+        <h2 id="related-posts-heading">Related Posts</h2>
+        <p class="blog-post__related-sub">
+          More guides, tips and game round-ups from the blog.
+        </p>
+        <ul class="blog-post__related-list">
+          {relatedPosts.map((post) => (
+            <PostCard post={post} headingLevel="h3" />
+          ))}
+        </ul>
+      </section>
+    )
+  }
 
   {
     relatedGames.length > 0 && (
@@ -84,5 +105,20 @@ const { Content } = await render(entry);
   .blog-post__related-sub {
     margin-block: 0.3rem 1.1rem;
     color: var(--color-muted);
+  }
+
+  .blog-post__related-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 0.75rem;
+    grid-template-columns: 1fr;
+  }
+
+  @media (min-width: 640px) {
+    .blog-post__related-list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
   }
 </style>

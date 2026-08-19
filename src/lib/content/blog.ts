@@ -9,6 +9,11 @@
 import { getCollection, type CollectionEntry } from 'astro:content';
 
 import { getGamesBySlugs, type Game } from '@/lib/content/games';
+import {
+  rankRelatedPosts,
+  rankPostsForGame,
+  type RelatedPostLike,
+} from '@/lib/related/posts';
 
 export type BlogPost = CollectionEntry<'blog'>;
 
@@ -73,4 +78,56 @@ export function excerptOf(body: string, maxLength: number = 160): string {
  */
 export async function getRelatedGames(post: BlogPost): Promise<Game[]> {
   return getGamesBySlugs(post.data.relatedGameSlugs);
+}
+
+/** Adapt a content-collection post to the plain shape the ranker uses. */
+function toRelatedPostLike(post: BlogPost): RelatedPostLike {
+  return {
+    id: post.id,
+    relatedGameSlugs: post.data.relatedGameSlugs,
+    publishedAt: post.data.publishedAt,
+  };
+}
+
+/**
+ * The posts most related to `post`, ordered by relevance then recency.
+ *
+ * Ranking lives in `src/lib/related/posts.ts` and is deterministic per build:
+ * shared `relatedGameSlugs` first, then same-month / close-date publication.
+ * The current post is never returned, and the result is empty when nothing
+ * shares a signal — callers render the module only when this is non-empty.
+ *
+ * @param post The blog post whose siblings are wanted.
+ * @param limit Maximum number of posts to return. Defaults to 3.
+ */
+export async function getRelatedPosts(post: BlogPost, limit: number = 3): Promise<BlogPost[]> {
+  const posts = await getPublishedPosts();
+  const slugs = rankRelatedPosts(toRelatedPostLike(post), posts.map(toRelatedPostLike), { limit });
+  return postsInOrder(posts, slugs);
+}
+
+/**
+ * The most recent posts that mention a game via `relatedGameSlugs`.
+ *
+ * Feeds the "Posts About {game}" module on game detail pages, so a game page
+ * links back into the blog section that talks about it.
+ *
+ * @param gameSlug Game id, e.g. `2048`.
+ * @param limit Maximum number of posts to return. Defaults to 2.
+ */
+export async function getPostsForGame(gameSlug: string, limit: number = 2): Promise<BlogPost[]> {
+  const posts = await getPublishedPosts();
+  const slugs = rankPostsForGame(gameSlug, posts.map(toRelatedPostLike), { limit });
+  return postsInOrder(posts, slugs);
+}
+
+/** Preserve the ranker's slug order, skipping any slug that disappeared. */
+function postsInOrder(posts: readonly BlogPost[], slugs: readonly string[]): BlogPost[] {
+  const byId = new Map<string, BlogPost>(posts.map((post: BlogPost) => [post.id, post]));
+  const result: BlogPost[] = [];
+  for (const id of slugs) {
+    const post = byId.get(id);
+    if (post !== undefined) result.push(post);
+  }
+  return result;
 }
