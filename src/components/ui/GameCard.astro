@@ -64,6 +64,15 @@ const Heading = headingLevel;
     </div>
   </a>
 
+  {/*
+   * Direct "play" entry point. The card title link goes to the same page, but
+   * a visitor scanning a grid should never have to hunt for the way in — the
+   * branded pill is the action that turns a look into a play session.
+   */}
+  <a class="game-card__play" href={href} aria-label={`Play ${title} now`}>
+    Play Now
+  </a>
+
   {
     taxonomy.tags.length > 0 && (
       <ul class="game-card__tags" aria-label="Tags">
@@ -131,6 +140,25 @@ const Heading = headingLevel;
     margin-block-start: 0.2rem;
     font-size: 0.8rem;
     color: var(--color-muted);
+  }
+
+  .game-card__play {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    margin: 0 0.8rem 0.8rem;
+    border-radius: var(--radius-pill);
+    background: var(--color-brand);
+    color: #fff;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .game-card__play:hover {
+    background: var(--color-brand-dark);
+    text-decoration: none;
   }
 
   .game-card__tags {

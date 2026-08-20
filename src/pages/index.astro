@@ -84,6 +84,13 @@ const visibleCategories = categories.filter((entry) => entry.count > 0);
         <a class="hero__cta tap-target" href={homepage.hero.secondaryCta.href}>
           {homepage.hero.secondaryCta.label}
         </a>
+        {
+          homepage.hero.browseCta && (
+            <a class="hero__cta hero__cta--browse tap-target" href={homepage.hero.browseCta.href}>
+              {homepage.hero.browseCta.label}
+            </a>
+          )
+        }
       </div>
 
       <p class="hero__trust">{homepage.hero.trustLine}</p>
@@ -231,6 +238,26 @@ const visibleCategories = categories.filter((entry) => entry.count > 0);
   .hero__cta--primary:hover {
     background: var(--color-brand-dark);
     border-color: var(--color-brand-dark);
+  }
+
+  /*
+   * Demoted "Browse All Games" entry. Stays in the hero for the visitors who
+   * want the full catalogue, but reads as a quiet text link so the two
+   * "play right now" buttons keep the visual weight.
+   */
+  .hero__cta--browse {
+    border-color: transparent;
+    background: transparent;
+    color: var(--color-muted);
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .hero__cta--browse:hover {
+    background: transparent;
+    color: var(--color-brand-dark);
   }
 
   .hero__trust {

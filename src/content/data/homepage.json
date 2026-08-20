@@ -3,12 +3,16 @@
     "h1": "Free Online Games. No Download, No Sign-Up, Just Play.",
     "subheadline": "Hand-picked browser games you can start in a single click — each one with a real how-to-play guide, full controls and pro tips. Works on desktop, tablet and phone.",
     "primaryCta": {
-      "label": "Browse All Games",
-      "href": "/all-games/"
+      "label": "Play 2048 Now",
+      "href": "/games/2048/"
     },
     "secondaryCta": {
       "label": "Surprise Me",
       "href": "/random/"
+    },
+    "browseCta": {
+      "label": "Browse All Games",
+      "href": "/all-games/"
     },
     "trustLine": "No installs · No plugins · No account needed · Free forever"
   },
