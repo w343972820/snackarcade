@@ -16,7 +16,7 @@
     },
     "trustLine": "No installs · No plugins · No account needed · Free forever"
   },
-  "featuredSlugs": ["2048", "block-drop", "five-letters"],
+  "featuredSlugs": ["2048", "block-drop", "five-letters", "snake", "sudoku", "mahjong-solitaire"],
   "latestPosts": {
     "heading": "Latest Posts",
     "subheading": "Guides, tips and game round-ups written by the SnackArcade team.",
