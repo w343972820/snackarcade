@@ -1,7 +1,7 @@
 {
   "$comment": "Source-of-truth register for every self-hosted game bundle. `npm run sync:games` mirrors each folder listed here into public/play/<slug>/ so the site works with zero cloud services. Never add a game here without also recording its licence — src/pages/licenses.json.ts publishes this file's licence data and scripts/validate-content.mjs rejects the build if a licence is missing or forbidden.",
   "version": 1,
-  "updatedAt": "2026-08-12",
+  "updatedAt": "2026-08-26",
   "games": [
     {
       "slug": "2048",
@@ -980,6 +980,35 @@
       },
       "trademarkRisk": "none",
       "trademarkNote": "\"15-Puzzle\" is a generic description of the classic sliding puzzle, not a registered trademark. Nothing to rename."
+    },
+    {
+      "slug": "freecell",
+      "title": "FreeCell",
+      "originalTitle": "FreeCell",
+      "renamed": false,
+      "entryFile": "index.html",
+      "upstream": {
+        "repository": "https://playsnackarcade.com/games/freecell/",
+        "commitRef": "self-developed",
+        "downloadedAt": "2026-08-26"
+      },
+      "license": {
+        "spdx": "MIT",
+        "file": "LICENSE",
+        "url": "https://playsnackarcade.com/games/freecell/",
+        "author": "SnackArcade",
+        "authorUrl": "https://playsnackarcade.com",
+        "assetsLicense": "same as code license",
+        "attributionRendered": "FreeCell by SnackArcade · MIT License",
+        "verifiedAt": "2026-08-26"
+      },
+      "modifications": [],
+      "bundle": {
+        "fileCount": 4,
+        "bytes": 19513
+      },
+      "trademarkRisk": "none",
+      "trademarkNote": "FreeCell is a public-domain game concept; this implementation is original and self-developed under MIT."
     }
   ]
 }

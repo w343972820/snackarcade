@@ -1,0 +1,206 @@
+/* FreeCell Solitaire — SnackArcade build, MIT License */
+:root {
+    --bg-top: #111827;
+    --bg-bottom: #1f2937;
+    --felt: #14342b;
+    --felt-edge: #0d241d;
+    --accent: #f97316;
+    --card-w: 64px;
+    --card-h: 90px;
+    --stack: 26px;
+    --gap: 10px;
+    --radius: 8px;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+    margin: 0;
+    padding: 0;
+    background: radial-gradient(circle at 50% 0%, var(--bg-top), var(--bg-bottom));
+    color: #f9fafb;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    min-height: 100%;
+}
+
+.freecell {
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 16px 14px 40px;
+}
+
+.freecell__bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 18px;
+}
+
+.freecell__title {
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    margin: 0;
+    color: #f9fafb;
+}
+
+.freecell__actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.btn {
+    background: var(--accent);
+    color: #111827;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: filter 0.15s ease;
+}
+.btn:hover { filter: brightness(1.08); }
+.btn:active { transform: translateY(1px); }
+
+.freecell__status {
+    font-size: 13px;
+    color: #9ca3af;
+    min-height: 18px;
+}
+
+.freecell__top {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--gap);
+    margin-bottom: 18px;
+}
+
+.cells {
+    display: flex;
+    gap: var(--gap);
+}
+
+.slot {
+    width: var(--card-w);
+    height: var(--card-h);
+    border-radius: var(--radius);
+    border: 2px dashed rgba(249, 250, 251, 0.25);
+    background: rgba(255, 255, 255, 0.03);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.slot--foundation {
+    border-style: solid;
+    border-color: rgba(249, 115, 22, 0.35);
+}
+
+.slot__hint {
+    font-size: 11px;
+    color: rgba(249, 250, 251, 0.3);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.freecell__tableau {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--gap);
+}
+
+.tableau__col {
+    display: flex;
+    flex-direction: column;
+    width: var(--card-w);
+    min-height: var(--card-h);
+    border-radius: var(--radius);
+    background: rgba(255, 255, 255, 0.02);
+    padding-top: 2px;
+}
+
+.tableau__col.drop-ok { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.card {
+    width: var(--card-w);
+    height: var(--card-h);
+    background: #fdfdfd;
+    border-radius: var(--radius);
+    border: 1px solid #d1d5db;
+    position: relative;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+    user-select: none;
+    cursor: pointer;
+    flex: 0 0 auto;
+}
+
+.tableau__col .card { margin-top: calc(-1 * (var(--card-h) - var(--stack))); }
+.tableau__col .card:first-child { margin-top: 0; }
+
+.card.red { color: #dc2626; }
+.card.black { color: #111827; }
+
+.card__corner {
+    position: absolute;
+    top: 4px;
+    left: 6px;
+    font-weight: 800;
+    font-size: 14px;
+    line-height: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.card__corner .s { font-size: 12px; }
+
+.card__pip {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+}
+
+.card.selected {
+    outline: 3px solid var(--accent);
+    outline-offset: 1px;
+    transform: translateY(-3px);
+}
+
+.card.moveable { box-shadow: 0 0 0 2px rgba(249, 115, 22, 0.5), 0 1px 2px rgba(0,0,0,0.35); }
+
+/* Win banner */
+.win {
+    position: fixed;
+    inset: 0;
+    background: rgba(17, 24, 39, 0.85);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 14px;
+    z-index: 10;
+}
+.win__title { font-size: 34px; font-weight: 900; color: var(--accent); }
+.win__sub { color: #f9fafb; font-size: 16px; }
+.win.hidden { display: none; }
+
+@media (max-width: 680px) {
+    :root { --card-w: 46px; --card-h: 66px; --stack: 18px; --gap: 6px; --radius: 6px; }
+    .card__corner { font-size: 11px; top: 3px; left: 4px; }
+    .card__corner .s { font-size: 9px; }
+    .card__pip { font-size: 20px; }
+    .freecell__title { font-size: 18px; }
+    .btn { padding: 7px 12px; font-size: 13px; }
+}
+
+@media (max-width: 440px) {
+    :root { --card-w: 38px; --card-h: 54px; --stack: 14px; --gap: 4px; }
+    .card__pip { font-size: 16px; }
+}

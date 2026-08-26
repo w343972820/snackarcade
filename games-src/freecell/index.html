@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>FreeCell Solitaire</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <main class="freecell" id="app">
+        <header class="freecell__bar">
+            <h1 class="freecell__title">FreeCell</h1>
+            <div class="freecell__actions">
+                <button type="button" id="new-game" class="btn">New Game</button>
+                <button type="button" id="undo" class="btn">Undo</button>
+                <span class="freecell__status" id="status" role="status" aria-live="polite"></span>
+            </div>
+        </header>
+
+        <section class="freecell__top" aria-label="Free cells and foundations">
+            <div class="cells cells--free" id="freecells" aria-label="Free cells"></div>
+            <div class="cells cells--foundations" id="foundations" aria-label="Foundations"></div>
+        </section>
+
+        <section class="freecell__tableau" id="tableau" aria-label="Tableau"></section>
+    </main>
+
+    <script src="main.js"></script>
+</body>
+</html>
