@@ -3,7 +3,7 @@ name: Puzzle & Logic
 h1Template: "Free {name} Games — Play {count} Brain Teasers Online"
 seo:
   titleTemplate: "{count} Best Free Puzzle Games Online ({year}) | {site}"
-  descriptionTemplate: "Play the best free puzzle games in your browser — no download needed. Every game has how-to-play steps, controls and tips. Updated {month} {year}."
+  descriptionTemplate: "Play the best free puzzle games in your browser — no download needed. Every game has how-to-play steps, controls and tips."
 faq:
   - q: "Are these puzzle games really free?"
     a: "Yes. Every puzzle game on this page is free to play in your browser with no payment, no trial period and no premium tier. The site is funded by display advertising placed around the game, never on top of it."

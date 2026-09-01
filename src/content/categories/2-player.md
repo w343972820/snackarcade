@@ -3,7 +3,7 @@ name: 2 Player
 h1Template: "Free {name} Games — Play {count} Games With a Friend"
 seo:
   titleTemplate: "{count} Best Free 2 Player Games Online ({year}) | {site}"
-  descriptionTemplate: "Play free 2 player games on one keyboard or one phone. Split controls listed on every page, no download and no room codes. Updated {month} {year}."
+  descriptionTemplate: "Play free 2 player games on one keyboard or one phone. Split controls listed on every page, no download and no room codes."
 faq:
   - q: "Do both players use the same keyboard?"
     a: "Yes. These games are designed for two people sharing one device. The standard split is WASD for player one and the arrow keys for player two, and every page lists the exact bindings before you start."

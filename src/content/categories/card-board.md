@@ -3,7 +3,7 @@ name: Card & Board
 h1Template: "Free {name} Games — Play {count} Classics Online"
 seo:
   titleTemplate: "{count} Best Free Card & Board Games ({year}) | {site}"
-  descriptionTemplate: "Play free card and board games in your browser — Solitaire, Mahjong, Chess and more. No download, full rules and tips on every page. Updated {month} {year}."
+  descriptionTemplate: "Play free card and board games in your browser — Solitaire, Mahjong, Chess and more. No download, full rules and tips on every page."
 faq:
   - q: "Do I need an account to play Solitaire here?"
     a: "No. Every card and board game on this page starts the moment you click it. There is no sign-up form, no email capture and no login wall between you and the first hand."

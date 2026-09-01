@@ -3,7 +3,7 @@ name: Action & Shooting
 h1Template: "Free {name} Games — Play {count} Action Games Online"
 seo:
   titleTemplate: "{count} Best Free Action & Shooting Games ({year}) | {site}"
-  descriptionTemplate: "Play free action and shooting games in your browser — no download, no plugins. Controls, tactics and tips written out on every page. Updated {month} {year}."
+  descriptionTemplate: "Play free action and shooting games in your browser — no download, no plugins. Controls, tactics and tips written out on every page."
 faq:
   - q: "Are these action games suitable for children?"
     a: "The games in this category are cartoon-style or abstract rather than realistic, and none contain graphic content. Parents should still check individual pages, which describe what each game actually involves."

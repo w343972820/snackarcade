@@ -3,7 +3,7 @@ name: Word & Trivia
 h1Template: "Free {name} Games — Play {count} Word Games Online"
 seo:
   titleTemplate: "{count} Best Free Word & Trivia Games ({year}) | {site}"
-  descriptionTemplate: "Play free word and trivia games in your browser — guessing games, anagrams and quizzes. No download, rules and tips on every page. Updated {month} {year}."
+  descriptionTemplate: "Play free word and trivia games in your browser — guessing games, anagrams and quizzes. No download, rules and tips on every page."
 faq:
   - q: "Is there a new puzzle every day?"
     a: "Daily-puzzle games reset on a fixed schedule and the page tells you which timezone that reset follows. Games without a daily mode let you start a fresh round whenever you like, as many times as you want."

@@ -3,7 +3,7 @@ name: Idle & Clicker
 h1Template: "Free {name} Games — Play {count} Incremental Games Online"
 seo:
   titleTemplate: "{count} Best Free Idle & Clicker Games ({year}) | {site}"
-  descriptionTemplate: "Play free idle and clicker games in your browser. Incremental progress, offline earnings and prestige systems explained on every page. Updated {month} {year}."
+  descriptionTemplate: "Play free idle and clicker games in your browser. Incremental progress, offline earnings and prestige systems explained on every page."
 faq:
   - q: "Do idle games keep running when I close the tab?"
     a: "It depends on the game. Some calculate offline earnings from the timestamp of your last visit, others only progress while the tab is open. Each page states which model that game uses."

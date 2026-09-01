@@ -3,7 +3,7 @@ name: Arcade & Retro
 h1Template: "Free {name} Games — Play {count} Retro Classics Online"
 seo:
   titleTemplate: "{count} Best Free Arcade & Retro Games ({year}) | {site}"
-  descriptionTemplate: "Play free arcade and retro games in your browser — stacking, dodging and high-score classics. No download, full controls on every page. Updated {month} {year}."
+  descriptionTemplate: "Play free arcade and retro games in your browser — stacking, dodging and high-score classics. No download, full controls on every page."
 faq:
   - q: "Are these the original arcade games?"
     a: "No. These are open-source remakes and original games built in the same style, credited to the developers who wrote them. Trademarked arcade titles are not hosted here, and no game claims to be an official release."

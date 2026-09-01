@@ -3,7 +3,7 @@ name: Racing & Driving
 h1Template: "Free {name} Games — Play {count} Driving Games Online"
 seo:
   titleTemplate: "{count} Best Free Racing & Driving Games ({year}) | {site}"
-  descriptionTemplate: "Play free racing and driving games in your browser — no download needed. Full controls, handling notes and tips on every page. Updated {month} {year}."
+  descriptionTemplate: "Play free racing and driving games in your browser — no download needed. Full controls, handling notes and tips on every page."
 faq:
   - q: "Do racing games work on a phone?"
     a: "Games with touch support use on-screen steering and pedal buttons, or device tilt where the developer implemented it. The controls table on each page states exactly which touch scheme that game uses."
