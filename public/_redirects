@@ -17,5 +17,10 @@
 /games/         /all-games/         301
 /games/tetris/  /games/block-drop/  301
 
+# A typo'd slug that shipped in memory-match-tips and was linked for five days
+# before being corrected. Google crawled it, so 301 it to the real post rather
+# than leaving a dead end.
+/blog/sudoku-strategy/  /blog/sudoku-strategies-for-beginners/  301
+
 https://www.playsnackarcade.com/* https://playsnackarcade.com/:splat 301
 http://www.playsnackarcade.com/* https://playsnackarcade.com/:splat 301
