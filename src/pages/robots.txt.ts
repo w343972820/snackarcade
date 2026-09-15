@@ -19,12 +19,15 @@ import { getGameOrigin } from '@/lib/utils/gameUrl';
  * Paths crawlers should never spend budget on.
  * `/play/` holds the raw playable bundles; the page that should rank is the
  * article at `/games/{slug}/`, and letting the bare bundle compete with it is
- * a duplicate-content own goal.
+ * a duplicate-content own goal. `/cdn-cgi/` is Cloudflare's own internal
+ * endpoint prefix (for example `/cdn-cgi/email-protection`); it serves no
+ * content page and only ever 404s, so any crawl budget spent there is wasted.
  */
 const DISALLOWED: readonly string[] = [
   '/search/',
   '/play/',
   '/api/',
+  '/cdn-cgi/',
   '/*?*',
 ];
 
