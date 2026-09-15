@@ -17,6 +17,8 @@ import { getCollection, render } from 'astro:content';
 import ArticleLayout from '@/layouts/ArticleLayout.astro';
 import GameGrid from '@/components/ui/GameGrid.astro';
 import PostCard from '@/components/ui/PostCard.astro';
+import { blogPostingSchema } from '@/components/seo/schema/blogPosting';
+import { breadcrumbListSchema } from '@/components/seo/schema/breadcrumbList';
 import { getRelatedGames, getRelatedPosts } from '@/lib/content/blog';
 import { pageBreadcrumbs } from '@/lib/seo/breadcrumbs';
 
@@ -41,6 +43,23 @@ const data = entry.data;
 const crumbs = pageBreadcrumbs(data.title, `/blog/${slug}/`);
 const pathname = `/blog/${slug}/`;
 
+/**
+ * BlogPosting plus the same breadcrumb trail the page renders visibly. Game
+ * pages already emitted both; blogs emitted nothing, which left search engines
+ * without a machine-readable headline or publish/modify date on any guide.
+ */
+const jsonLdNodes = [
+  blogPostingSchema({
+    title: data.seo.title,
+    description: data.seo.description,
+    path: pathname,
+    publishedAt: data.publishedAt,
+    updatedAt: data.updatedAt,
+    author: data.author,
+  }),
+  breadcrumbListSchema(crumbs),
+];
+
 const relatedGames = await getRelatedGames(entry);
 const relatedPosts = await getRelatedPosts(entry);
 
@@ -57,6 +76,7 @@ const { Content } = await render(entry);
   itemCount={1}
   publishedAt={data.publishedAt}
   updatedAt={data.updatedAt}
+  jsonLdNodes={jsonLdNodes}
   source={`src/pages/blog/${slug}.astro`}
   showAds={false}
 >
