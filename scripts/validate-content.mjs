@@ -863,6 +863,124 @@ function loadManifest() {
 }
 
 /* ============================================================================
+   Internal link targets
+   ========================================================================== */
+
+/**
+ * Routes the build emits that are not derived from a content file.
+ * Keep in sync with the page files in src/pages/. Trailing slashes matter —
+ * the site is built with `trailingSlash: 'always'`.
+ */
+const STATIC_ROUTES = new Set([
+  '/',
+  '/about/',
+  '/all-games/',
+  '/blog/',
+  '/collections/',
+  '/contact/',
+  '/dmca/',
+  '/licenses/',
+  '/new/',
+  '/privacy-policy/',
+  '/random/',
+  '/t/',
+  '/terms/',
+]);
+
+/** Normalise a link target to the leading-and-trailing-slash form the site emits. */
+function normaliseRoute(target) {
+  const stripped = target.split('#')[0].split('?')[0];
+  const leading = stripped.startsWith('/') ? stripped : `/${stripped}`;
+  return leading.endsWith('/') ? leading : `${leading}/`;
+}
+
+/** Every markdown link and `href` in a file, as raw targets. */
+function collectLinkTargets(raw) {
+  const targets = [];
+  for (const match of raw.matchAll(/\]\((\/[^)\s]*)\)/g)) targets.push(match[1]);
+  for (const match of raw.matchAll(/href="(\/[^"]*)"/g)) targets.push(match[1]);
+  return targets;
+}
+
+/** Every pathname the build emits a page for. */
+function buildRouteSet(knownGameSlugs, knownTagIds, knownCategoryIds) {
+  const routes = new Set(STATIC_ROUTES);
+
+  const addAll = (prefix, ids) => {
+    for (const id of ids) routes.add(`${prefix}${id}/`);
+  };
+
+  addAll('/games/', knownGameSlugs);
+  addAll(
+    '/blog/',
+    listMarkdown(BLOG_DIR).map((name) => name.replace(/\.md$/, '')),
+  );
+  addAll('/c/', knownCategoryIds);
+  // Permissive on purpose: tag pages are only emitted above
+  // SEO_THRESHOLDS.TAG_MIN_GAMES, and re-deriving that count here would mean a
+  // second copy of the routing rule. Accepting any known tag id keeps this check
+  // free of false positives, which is what matters for a build gate.
+  addAll('/t/', knownTagIds);
+  addAll(
+    '/collections/',
+    listMarkdown(COLLECTIONS_DIR).map((name) => name.replace(/\.md$/, '')),
+  );
+
+  return routes;
+}
+
+/**
+ * True when a target is not a page in this build: an external host, a
+ * self-hosted game file, a paginated listing, or a static asset.
+ */
+function isIgnorableTarget(target) {
+  if (/^https?:\/\//i.test(target) || target.startsWith('//')) return true;
+  if (target.startsWith('/play/')) return true;
+  if (/\/page\/\d+\/?$/.test(target)) return true;
+  const last = target.split('/').filter(Boolean).pop() ?? '';
+  return last.includes('.');
+}
+
+/**
+ * Fail the build when a link inside content points at a page this build does not
+ * emit. A 404 that Google finds and reports costs far more than one caught here.
+ *
+ * Added after /blog/sudoku-strategy/ (a typo for /blog/sudoku-strategies-for-
+ * beginners/) shipped and was crawled and reported in Search Console.
+ */
+function checkInternalLinks(knownGameSlugs, knownTagIds, knownCategoryIds) {
+  const routes = buildRouteSet(knownGameSlugs, knownTagIds, knownCategoryIds);
+
+  const sources = [
+    [GAMES_DIR, 'src/content/games'],
+    [BLOG_DIR, 'src/content/blog'],
+    [CATEGORIES_DIR, 'src/content/categories'],
+    [COLLECTIONS_DIR, 'src/content/collections'],
+  ];
+
+  for (const [dir, relDir] of sources) {
+    for (const fileName of listMarkdown(dir)) {
+      const rel = `${relDir}/${fileName}`;
+      const raw = fs.readFileSync(path.join(dir, fileName), 'utf8');
+      const reported = new Set();
+
+      for (const target of collectLinkTargets(raw)) {
+        if (isIgnorableTarget(target)) continue;
+        const route = normaliseRoute(target);
+        if (routes.has(route) || reported.has(route)) continue;
+        reported.add(route);
+        fail(
+          rel,
+          'internal link',
+          `This file links to "${target}", but the build emits no page at ${route}. Visitors and Google would both get a 404.`,
+          'Point the link at a route that exists. Blog slugs come from the .md file name in src/content/blog/; game slugs from src/content/games/. Run "npm run doctor" to print the current route list.',
+        );
+      }
+    }
+  }
+}
+
+/* ============================================================================
    Run
    ========================================================================== */
 
@@ -876,6 +994,7 @@ function main() {
   checkCategories();
   checkBlog(knownGameSlugs);
   checkCollections(knownGameSlugs);
+  checkInternalLinks(knownGameSlugs, knownTagIds, knownCategoryIds);
 
   if (warnings.length > 0) {
     process.stdout.write(`\n${pc.yellow('Notes:')}\n`);

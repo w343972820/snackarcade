@@ -56,7 +56,7 @@ The mistake is rushing to "beat a clock" that isn't there. A calm, deliberate pa
 
 ## Tip 6: Make It a Daily Brain Warm-Up
 
-Here is the angle most guides miss: Memory Match is the perfect *warm-up* before logic games. A two-minute round sharpens focus, then you move to something that needs sustained reasoning. On our site you can chain a quick Memory Match with a round of [Sudoku](/blog/sudoku-strategy/), a [Nonogram](/blog/nonogram-tips/), or a game of [FreeCell](/blog/freecell-strategy/) — all free, all no-timer, all in the same browser tab.
+Here is the angle most guides miss: Memory Match is the perfect *warm-up* before logic games. A two-minute round sharpens focus, then you move to something that needs sustained reasoning. On our site you can chain a quick Memory Match with a round of [Sudoku](/blog/sudoku-strategies-for-beginners/), a [Nonogram](/blog/nonogram-tips/), or a game of [FreeCell](/blog/freecell-strategy/) — all free, all no-timer, all in the same browser tab.
 
 That combination is why Memory Match earns a spot in our [best brain games for adults](/blog/best-brain-games-for-adults/) roundup. It is not the hardest puzzle on the site, but it is the fastest way to get your attention switched on before the harder ones. String three short games together and you have a ten-minute focus session that feels like play.
 
@@ -106,4 +106,4 @@ Memory improves with repetition and feedback, not lectures. Try this: open a sma
 
 ## Practice on a Board That Never Rushes You
 
-The fastest way to internalize these tips is to play them, not read them. On our [Memory Match game](/games/memory-match/) you can flip at your own pace, restart instantly, and climb from a small board to a full grid whenever you are ready. Clear a round, then jump to a [Sudoku](/blog/sudoku-strategy/) or [Nonogram](/blog/nonogram-tips/) for the logic half of your warm-up. No download, no account, no timer — just flip.
+The fastest way to internalize these tips is to play them, not read them. On our [Memory Match game](/games/memory-match/) you can flip at your own pace, restart instantly, and climb from a small board to a full grid whenever you are ready. Clear a round, then jump to a [Sudoku](/blog/sudoku-strategies-for-beginners/) or [Nonogram](/blog/nonogram-tips/) for the logic half of your warm-up. No download, no account, no timer — just flip.

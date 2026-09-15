@@ -1,0 +1,130 @@
+---
+/**
+ * Tags index.  URL: /t/
+ *
+ * WHY THIS PAGE EXISTS
+ * --------------------
+ * `tagBreadcrumbs()` (src/lib/seo/breadcrumbs.ts) renders "Home › Tags › {tag}",
+ * and the "Tags" crumb points at /t/. No route was ever generated for /t/, so
+ * every tag listing page emitted a link to a 404 — Google Search Console showed
+ * /t/ as "Not found (404)", crawled 2026-08-27.
+ *
+ * The project rule is that a link is only rendered when its target route exists
+ * (see the header of src/pages/t/[slug].astro and getRoutedCategories()). So the
+ * fix is to emit the route, not to drop the crumb.
+ *
+ * Only tags that clear `SEO_THRESHOLDS.TAG_MIN_GAMES` are linked. A tag below
+ * the threshold has no generated page, so it renders as plain text — the same
+ * treatment the chips on a game detail page get.
+ */
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Breadcrumbs from '@/components/ui/Breadcrumbs.astro';
+import { getTagsWithCounts } from '@/lib/content/taxonomy';
+import { tagPath } from '@/lib/utils/url';
+import type { Crumb } from '@/lib/seo/breadcrumbs';
+
+const tags = await getTagsWithCounts();
+const linked = tags.filter((entry) => entry.indexable);
+const thin = tags.filter((entry) => !entry.indexable);
+
+const title = 'Browse Games by Tag';
+const description =
+  'Every tag on SnackArcade in one place — browse free browser games by theme, mood or play style, then jump straight into any title.';
+
+const crumbs: Crumb[] = [
+  { name: 'Home', href: '/' },
+  { name: 'Tags', href: '/t/' },
+];
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  kind="tag"
+  pathname="/t/"
+  itemCount={linked.length}
+  source="src/pages/t/index.astro"
+>
+  <div class="container-content tags-page">
+    <Breadcrumbs crumbs={crumbs} class="tags-page__crumbs" />
+    <h1>Browse Games by Tag</h1>
+    <p class="tags-page__lead">
+      Tags cut across categories — use them to find games by mood or play style rather than by genre.
+      Every tag below leads to the games that carry it.
+    </p>
+
+    <ul class="tags-page__list">
+      {
+        linked.map((entry) => (
+          <li class="tags-page__item">
+            <a href={tagPath(entry.tag.id)}>
+              <span class="tags-page__name">{entry.tag.data.name}</span>
+              <span class="tags-page__count">
+                {entry.count} {entry.count === 1 ? 'game' : 'games'}
+              </span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+
+    {
+      thin.length > 0 && (
+        <p class="tags-page__thin">
+          Not shown above: {thin.map((entry) => entry.tag.data.name).join(', ')} — these tags are on
+          fewer than six games, so they are listed on the games themselves rather than on a page of
+          their own.
+        </p>
+      )
+    }
+  </div>
+</BaseLayout>
+
+<style>
+  .tags-page {
+    padding-block: 1rem 2rem;
+  }
+  .tags-page__crumbs {
+    margin-block-end: 1rem;
+  }
+  .tags-page h1 {
+    font-size: clamp(1.6rem, 1.2rem + 2vw, 2.2rem);
+  }
+  .tags-page__lead {
+    margin-block: 0.5rem 1.5rem;
+    color: var(--color-muted);
+    max-width: 60ch;
+  }
+  .tags-page__list {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: 0.75rem;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  }
+  .tags-page__item a {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1rem 1.25rem;
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-card);
+    background: var(--color-surface-alt);
+    text-decoration: none;
+    color: inherit;
+  }
+  .tags-page__item a:hover {
+    border-color: var(--color-brand);
+    text-decoration: none;
+  }
+  .tags-page__count {
+    color: var(--color-muted);
+    font-size: 0.9rem;
+  }
+  .tags-page__thin {
+    margin-block-start: 1.5rem;
+    color: var(--color-muted);
+    font-size: 0.9rem;
+    max-width: 70ch;
+  }
+</style>

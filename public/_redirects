@@ -9,5 +9,13 @@
 /privacy       /privacy-policy/     301
 /tos           /terms/              301
 
+# Bare and legacy paths Google has crawled and reported as 404 in Search Console.
+# /games/ is the natural parent of /games/{slug}/ a visitor may type; /all-games/
+# is the real listing. /games/tetris/ was crawled on 2026-08-22 — the site hosts
+# no Tetris, and Block Drop is the Tetris-style game (canvas-tetris source), so
+# that is where the request is sent.
+/games/         /all-games/         301
+/games/tetris/  /games/block-drop/  301
+
 https://www.playsnackarcade.com/* https://playsnackarcade.com/:splat 301
 http://www.playsnackarcade.com/* https://playsnackarcade.com/:splat 301
