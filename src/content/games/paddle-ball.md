@@ -115,7 +115,7 @@ content:
       desktop: "Select Computer or Two Player before starting"
       mobile: "Not available"
     - action: "Fullscreen"
-      desktop: "Click the fullscreen button above the court"
+      desktop: "Click the fullscreen button in the bar below the court"
       mobile: "Not available"
     - action: "Exit fullscreen"
       desktop: "Escape key"

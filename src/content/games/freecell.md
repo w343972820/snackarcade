@@ -106,8 +106,8 @@ content:
       desktop: "Press F11 or use your browser's native fullscreen control"
       mobile: "Hide the address bar or use your browser's fullscreen option"
     - action: "Fullscreen"
-      desktop: "Click the fullscreen button above the board"
-      mobile: "Tap the fullscreen button above the board"
+      desktop: "Click the fullscreen button in the bar below the board"
+      mobile: "Tap the fullscreen button in the bar below the board"
 
   # 5–8 tips, each body at least 30 characters.
   tips:

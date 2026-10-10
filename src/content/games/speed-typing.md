@@ -121,7 +121,7 @@ content:
       desktop: "Click the Restart button"
       mobile: "Not available"
     - action: "Fullscreen"
-      desktop: "Click the fullscreen button above the game"
+      desktop: "Click the fullscreen button in the bar below the game"
       mobile: "Not available"
     - action: "Exit fullscreen"
       desktop: "Escape key"

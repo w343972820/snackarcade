@@ -134,8 +134,8 @@ content:
       desktop: "Not available — use Solve to start over, or plan more carefully"
       mobile: "Not available"
     - action: "Fullscreen"
-      desktop: "Use your browser's zoom or fullscreen controls"
-      mobile: "Use your browser's zoom or fullscreen controls"
+      desktop: "Click the fullscreen button in the bar below the grid"
+      mobile: "Tap the fullscreen button in the bar below the grid"
 
   tips:
     - title: "Solve the top row first"
