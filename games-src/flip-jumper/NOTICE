@@ -1,0 +1,51 @@
+Flip Jumper
+===========
+
+This folder is a self-hosted copy of the open-source game originally titled
+"ONOFF", made by Daniel Marino and Brad Dunbar for js13kGames 2018.
+
+  Upstream repository : https://github.com/js13kGames/onoff   (gh-pages branch)
+  Original repository : https://github.com/starzonmyarmz/js13k-2018
+  License             : MIT  (full text kept in ./LICENSE, unchanged)
+  Copyright           : (c) 2018 Daniel Marino and Brad Dunbar
+  Author pages        : https://github.com/starzonmyarmz  ·  https://github.com/braddunbar
+
+The MIT License requires the licence text to travel with the code, so ./LICENSE
+is preserved exactly as published upstream. The authors' own pixel-art credit
+line at the bottom of the title screen is likewise untouched.
+
+Modifications made for SnackArcade
+----------------------------------
+  1. Added a <title> element ("Flip Jumper"); the upstream index.html declared
+     no <title> at all, and no <meta name="viewport"> either.
+  2. Renamed for the site: "ONOFF" -> "Flip Jumper". The two words of the big
+     title wordmark were redrawn as "FLIP" / "JUMPER" in the same blocky
+     two-tone style (light/dark paint on the two layer colours). Everything
+     else on that screen, including the authors' pixel-art credit line, is
+     unchanged.
+  3. Recoloured to the SnackArcade palette. Upstream shipped pure black on
+     white (#333 / #fff, page background #e5e5e5); the two CSS variables that
+     drive every colour in the game are now the site ink / player-stage colour
+     #0f172a and the site brand orange #f97316. The pair contrasts 6.37:1 both
+     ways round, so the ON/OFF layer inversion and the platform-vs-background
+     contrast (floor: 3:1) are both preserved. The title wordmark keeps its
+     two-tone treatment: the layer in play paints at 100%, the other at 60%.
+  4. Added on-screen touch controls (src/touch.js, #touch in index.html, the
+     "Touch Controls" block in styles.css). Left / Right / Jump / Toggle feed
+     exactly the same input state the keyboard uses (a / d / w / space), so no
+     game logic is duplicated. The panel appears only on coarse pointers or on
+     the first real touch, gives pressed-state feedback, and prevents the
+     browser defaults for scroll, zoom and long-press. The menu screens accept
+     the same keys (a / d / w) so the game is playable without a keyboard.
+
+No game logic, level data, art or audio was changed. src/levels.js, the level
+geometry, the physics and the Web Audio synthesis (src/tinymusic.js) are all
+byte-for-byte upstream.
+
+Zero external dependencies
+--------------------------
+Nothing here talks to the network. All graphics are inline SVG, all sound and
+music are synthesised at runtime with the Web Audio API (see src/tinymusic.js),
+and every file referenced by index.html is local to this folder. The only
+"http://" string in the source is the SVG XML namespace passed to
+document.createElementNS(), which is an API constant, not a request.

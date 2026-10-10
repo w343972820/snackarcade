@@ -1,7 +1,7 @@
 {
   "$comment": "Source-of-truth register for every self-hosted game bundle. `npm run sync:games` mirrors each folder listed here into public/play/<slug>/ so the site works with zero cloud services. Never add a game here without also recording its licence — src/pages/licenses.json.ts publishes this file's licence data and scripts/validate-content.mjs rejects the build if a licence is missing or forbidden.",
   "version": 1,
-  "updatedAt": "2026-08-26",
+  "updatedAt": "2026-10-10",
   "games": [
     {
       "slug": "2048",
@@ -1009,6 +1009,40 @@
       },
       "trademarkRisk": "none",
       "trademarkNote": "FreeCell is a public-domain game concept; this implementation is original and self-developed under MIT."
+    },
+    {
+      "slug": "flip-jumper",
+      "title": "Flip Jumper",
+      "originalTitle": "ONOFF",
+      "renamed": true,
+      "entryFile": "index.html",
+      "upstream": {
+        "repository": "https://github.com/js13kGames/onoff",
+        "commitRef": "gh-pages",
+        "downloadedAt": "2026-08-27"
+      },
+      "license": {
+        "spdx": "MIT",
+        "file": "LICENSE",
+        "url": "https://github.com/js13kGames/onoff/blob/gh-pages/LICENSE",
+        "author": "Daniel Marino and Brad Dunbar",
+        "authorUrl": "https://github.com/starzonmyarmz",
+        "assetsLicense": "Same as code license — inline SVG artwork, level data and Web Audio music all authored by the game's own authors; no third-party assets",
+        "attributionRendered": "Flip Jumper (originally \"ONOFF\") by Daniel Marino and Brad Dunbar · MIT License",
+        "verifiedAt": "2026-08-27"
+      },
+      "modifications": [
+        "Renamed for the site (ONOFF -> Flip Jumper) and given a <title> plus a viewport meta tag; upstream had neither.",
+        "Redrew the two-tone title wordmark as FLIP / JUMPER in the same blocky geometric style. The authors' pixel-art credit line under the menu is untouched.",
+        "Recoloured to the SnackArcade palette by changing the two CSS variables that drive every colour: ink #0f172a and brand orange #f97316 (6.37:1, so the ON/OFF layer inversion and the 3:1 platform-vs-background contrast both hold).",
+        "Added on-screen touch controls (src/touch.js + #touch in index.html) that feed the same input state as the keyboard; the panel appears only on coarse pointers or after the first real touch."
+      ],
+      "bundle": {
+        "fileCount": 22,
+        "bytes": 76708
+      },
+      "trademarkRisk": "none",
+      "trademarkNote": "Originally \"ONOFF\" — the authors' own original name for their js13kGames 2018 entry, not a third-party mark. Layer-flipping platforming with no licensed characters, names or artwork. Renamed to Flip Jumper for the site anyway."
     }
   ]
 }
