@@ -5,7 +5,7 @@ draft: false
 
 seo:
   title: "Play Maze Free — Logic Puzzle Game | SnackArcade"
-  description: "Play Maze free in your browser. Navigate a randomly generated maze from start to finish as fast as you can. Full controls, tips and FAQ. No download needed."
+  description: "Play Maze free in your browser. Beat the 20-second clock: collect every counter, then reach the exit of a randomly generated maze."
   targetKeywords:
     - maze game online
     - play maze free
@@ -34,8 +34,8 @@ taxonomy:
     - logic
     - single-player
     - no-download
-    - keyboard-only
-    - relaxing
+    - mobile-friendly
+    - quick-session
     - classic
     - open-source
     - no-signup
@@ -46,12 +46,13 @@ taxonomy:
 
 content:
   intro: >-
-    Maze is the classic puzzle of finding your way through a labyrinth of walls, from the
-    start to the finish, with nothing but your sense of direction. Every maze in this game
-    is generated fresh, so no two runs are the same. It is a quiet, thoughtful game — no
-    timer screaming at you, no enemies chasing you — just a wall of corridors and the
-    question of which way to turn next. Play it free in your browser with no download and
-    no account.
+    Finding the way through a maze is the oldest puzzle there is, but this version adds a clock
+    and a scavenger hunt. You start with 20 seconds on the timer, and reaching the exit is not
+    enough on its own — you also have to collect every counter scattered along the corridors.
+    Gold counters sit on the solution path and green ones are scattered at random, and each green
+    one is worth five extra seconds. That turns every junction into a real decision between the
+    short route and the rich one. Every maze is generated fresh, so no two runs are the same.
+    Play it free in your browser with no download and no account.
 
   about:
     - >-
@@ -60,98 +61,124 @@ content:
       you can see in full, and the solution is a path you find by looking and thinking
       rather than by luck.
     - >-
-      The game generates a random maze every time, so each run is a new challenge. Some
-      mazes are open and easy to read; others twist back on themselves and reward a careful
-      method. The most reliable technique is the wall-following rule — keep one hand on a
-      wall and walk — which always finds the exit of a simply connected maze.
+      The game generates a random maze every time, so each run is a new challenge. Every maze
+      is built as what programmers call a perfect maze — there is exactly one route between any
+      two points and no loops anywhere. That is why the old wall-following trick works here,
+      but read it carefully: it only walks you to the exit. It will not collect a single
+      counter on the way, and without every counter, the exit does not count.
     - >-
-      This version is based on an open-source maze game by Drew Silcock, released under the
-      MIT licence. It runs entirely in your browser and uses the arrow keys on desktop, so
-      you can start solving the moment the maze appears. No download, no sign-up and no
-      pressure to hurry.
+      This version is based on an open-source maze game by Drew Silcock, released under the MIT
+      licence, and it runs entirely in your browser. On desktop you steer with the arrow keys or
+      W A S D; on a phone you tap the top, bottom, left or right of the screen. Three sizes sit
+      on the menu — 10×10, 15×15 and 20×20 — and there is a hidden 50×50 monster for anyone who
+      finds the key. No download and no sign-up.
 
   howToPlay:
-    - step: "Look at the maze."
+    - step: "Look at the maze before you move."
       detail: >-
-        The maze is drawn as a grid of walls and corridors. Find the start point and the
-        finish point before you move — a quick look at the layout saves a lot of wandering.
-    - step: "Move with the arrow keys."
+        The maze is drawn as a grid of walls and corridors, with you at the top-left and the pink
+        exit square at the bottom-right. The clock does not start until your first move, so this
+        look costs you nothing.
+    - step: "Move with the arrow keys or WASD."
       detail: >-
-        Use the arrow keys to move through the corridors. You cannot pass through walls, so
-        every turn is a choice about which passage to follow.
-    - step: "Find the exit."
+        Use the arrow keys, or W A S D, to walk the corridors. You cannot pass through walls, so
+        every turn is a choice about which passage to follow. On a touchscreen, tap the top,
+        bottom, left or right of the screen instead.
+    - step: "Pick up every counter."
       detail: >-
-        Reach the finish point to complete the maze. Your time is recorded so you can try to
-        beat it on the next maze.
-    - step: "Use the wall-following trick."
+        Small circles sit in the corridors — gold ones on the solution path, green ones scattered
+        at random. You have to collect all of them before the exit will open. Every green counter
+        adds five seconds to the clock, so they are worth going out of your way for.
+    - step: "Watch the clock."
       detail: >-
-        Keep one hand on a wall and keep walking. In a maze with no loops, this rule
-        guarantees you reach the exit without retracing your steps in circles.
-    - step: "Generate a new maze."
+        You begin with 20 seconds and it starts ticking on your first move. The tally in the
+        corner shows how many counters you still need, and the timer turns orange under 10
+        seconds and red at 5, so you always know how much margin you have left.
+    - step: "Reach the exit."
       detail: >-
-        When you finish, generate another maze for a brand-new challenge. Every maze is
-        randomly built, so the game never repeats.
+        Once the board is clear of counters, walk to the pink square at the bottom-right to
+        finish. The game tells you how many seconds you had left over.
+    - step: "Play again or pick a new size."
+      detail: >-
+        On the win or lose screen, press Enter or tap the screen to go back to the menu, where
+        you can choose a different size or ask for a brand-new maze.
 
   controls:
     - action: "Move up"
       desktop: "Up arrow key or W"
-      mobile: "Swipe up"
+      mobile: "Tap the top of the screen"
     - action: "Move down"
       desktop: "Down arrow key or S"
-      mobile: "Swipe down"
+      mobile: "Tap the bottom of the screen"
     - action: "Move left"
       desktop: "Left arrow key or A"
-      mobile: "Swipe left"
+      mobile: "Tap the left of the screen"
     - action: "Move right"
       desktop: "Right arrow key or D"
-      mobile: "Swipe right"
-    - action: "Generate a new maze"
-      desktop: "Click the New Maze button"
-      mobile: "Tap the New Maze button"
-    - action: "Restart the current maze"
-      desktop: "Click the Restart button"
-      mobile: "Tap the Restart button"
+      mobile: "Tap the right of the screen"
+    - action: "Choose a difficulty"
+      desktop: "Click a difficulty box, or press E, M or H"
+      mobile: "Tap a difficulty box"
+    - action: "Pause or open the in-game menu"
+      desktop: "Escape key"
+      mobile: "Tap the pause button in the bottom-left corner"
+    - action: "Continue after pausing"
+      desktop: "Escape again, or press C"
+      mobile: "Tap Continue in the menu"
+    - action: "Restart the same maze"
+      desktop: "Escape, then press R"
+      mobile: "Open the menu, then tap Restart"
+    - action: "Return to the difficulty menu"
+      desktop: "Escape, then press Q"
+      mobile: "Open the menu, then tap Quit"
+    - action: "Play again after winning or losing"
+      desktop: "Enter key"
+      mobile: "Tap the screen"
     - action: "Fullscreen"
       desktop: "Click the fullscreen button above the maze"
       mobile: "Tap the fullscreen button above the maze"
     - action: "Exit fullscreen"
-      desktop: "Escape key"
+      desktop: "Escape key, or the fullscreen button"
       mobile: "Tap the fullscreen button again"
 
   tips:
     - title: "Study the layout before moving"
       body: >-
-        A maze is a puzzle you can see in full. Take a few seconds to trace the corridors
-        with your eyes and find the general direction of the exit before you take a single
-        step.
-    - title: "Follow one wall"
+        A maze is a puzzle you can see in full, and the clock stays frozen until your first
+        keypress. Use those free seconds to trace the corridors with your eyes and pick a first
+        direction before you take a single step.
+    - title: "Treat wall-following as a safety net, not a plan"
       body: >-
-        The classic wall-following rule never fails on a simply connected maze: keep a hand
-        on one wall and keep walking. It may not be the shortest route, but it always reaches
-        the exit.
-    - title: "Avoid retracing your steps"
+        Keeping one hand on a wall and walking will always bring you to the exit of a maze like
+        this one. That makes it a reliable rescue when you are lost — but it collects nothing, so
+        it cannot win a round on its own.
+    - title: "Detour for every green counter you can"
       body: >-
-        If you keep returning to the same junction, you are going in circles. Pick a new
-        direction at the junction and mark the dead end in your memory.
+        A green counter is worth five seconds, and five seconds is a long time on a 20-second
+        clock. On a tight maze, going a little out of your way for one usually pays for itself
+        twice over in saved panic.
     - title: "Work outward from the start"
       body: >-
-        Read the maze as a branching tree from the start point. Exploring one branch at a
-        time — rather than jumping between corridors — builds a clear mental map.
-    - title: "Do not rush"
+        Read the maze as a branching tree from the start point. Exploring one branch at a time —
+        rather than jumping between distant corridors — builds a mental map you can act on
+        quickly when the timer is running down.
+    - title: "Decide early when the clock is short"
       body: >-
-        There is no timer, so speed is optional. A slow, methodical run beats a frantic one,
-        and you will finish faster by thinking than by dashing.
+        With a few seconds left, do not waste them reading the board. Pick one target — the exit
+        or the nearest counter — and commit, because a hesitant move costs the same second as a
+        confident one.
     - title: "Learn to read dead ends"
       body: >-
         Corridors that narrow into a wall are dead ends. Spotting them early lets you avoid
-        entire useless branches and keeps you moving toward the exit.
+        entire useless branches, which matters far more here than in an untimed maze.
 
   features:
     - "Randomly generated mazes — a new puzzle every game"
-    - "Runs entirely in your browser with no download or plugin"
-    - "Keyboard controls on desktop and touch swipes on mobile"
-    - "No timer — play at your own pace"
-    - "Open source under the MIT licence with credit to the developer"
+    - "A 20-second countdown you extend by collecting green counters"
+    - "Every counter must be collected before the exit opens"
+    - "Four maze sizes, including a hidden 50×50 monster"
+    - "Keyboard controls on desktop and tap-to-move touch controls on mobile"
+    - "Runs entirely in your browser — no download and no sign-up"
 
   faq:
     - q: "Is Maze free to play?"
@@ -160,24 +187,32 @@ content:
         with no payment, no trial and no premium version.
     - q: "How do I control the player?"
       a: >-
-        Use the arrow keys on a desktop keyboard to move through the corridors, or swipe in
-        the direction you want to go on a touchscreen.
+        Use the arrow keys or W A S D on a desktop keyboard, or tap the top, bottom, left or
+        right of the screen on a touchscreen.
+    - q: "Is there a time limit?"
+      a: >-
+        Yes. You start each maze with 20 seconds, and the clock begins on your first move.
+        Collecting a green counter adds five seconds, so a long run depends on how many you
+        pick up on the way.
     - q: "Is every maze different?"
       a: >-
-        Yes. Each maze is generated randomly when you start, so no two games are the same
+        Yes. Each maze is generated fresh when you start it, so no two games are the same
         and the puzzle never runs out of layouts.
-    - q: "Can I play Maze on my phone?"
-      a: >-
-        Yes. Swipe in any direction to move through the corridors. The game works in
-        portrait and landscape on mobile browsers.
     - q: "Is there a guaranteed way to solve a maze?"
       a: >-
-        Yes — the wall-following rule. Keep one hand on a wall and keep walking, and you will
-        always reach the exit of a maze with no loops.
+        Not in this version. Keeping one hand on a wall will always lead you to the exit, but
+        you also have to collect every counter before the exit opens, so there is no single
+        trick that finishes a round for you.
+    - q: "Can I play Maze on my phone?"
+      a: >-
+        Yes. Tap the top, bottom, left or right of the screen to move in that direction, and
+        use the pause button in the bottom-left corner to open the menu. It works in portrait
+        and landscape.
     - q: "What happens when I reach the exit?"
       a: >-
-        Completing the maze records your time and you can generate a fresh maze to play
-        again, trying to beat your best time.
+        Reaching the exit finishes the maze only if you have collected every counter. The game
+        then shows how many seconds you had left to spare, and pressing Enter or tapping the
+        screen takes you back to the menu for another maze.
 
 info:
   developer: "Drew Silcock"
@@ -207,9 +242,9 @@ ratings:
   count: 0
 
 publishedAt: 2026-08-05
-updatedAt: 2026-08-05
+updatedAt: 2026-10-10
 ---
 
-Maze is proof that a puzzle needs no enemy, no clock and no score to be absorbing. It is
-just you, a wall of corridors, and the quiet satisfaction of finding the way out. The
-answer is always there — you only have to look.
+Maze is proof that a puzzle needs no enemy and no score to be absorbing — just you, a wall of
+corridors, and twenty seconds that always feel shorter than they should. The answer is always
+there. The question is whether you have time to find it.

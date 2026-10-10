@@ -108,9 +108,9 @@ content:
     - action: "See which letters are ruled out"
       desktop: "Read the colour of each key on the on-screen keyboard"
       mobile: "Read the colour of each key on the on-screen keyboard"
-    - action: "Start a new word"
-      desktop: "Reload the page"
-      mobile: "Reload the page"
+    - action: "Play a new word"
+      desktop: "Not available — a new word appears each day, at midnight"
+      mobile: "Not available — a new word appears each day, at midnight"
     - action: "Reveal the answer"
       desktop: "Use your final guess — the answer is shown if you lose"
       mobile: "Use your final guess — the answer is shown if you lose"
@@ -184,8 +184,10 @@ content:
         still be refused.
     - q: "Is there a new word every day?"
       a: >-
-        The game selects a word for the current puzzle and reloading the page starts a new one, so
-        you are not limited to a single attempt per day.
+        Yes. The game works the word out from the date, so there is one word per calendar day and
+        it changes at midnight in your own time zone — everyone playing today gets the same one.
+        Reloading the page restarts that same puzzle, so you can retry it as often as you like,
+        but you cannot skip ahead to tomorrow's word.
     - q: "Is this the same as other word guessing games?"
       a: >-
         It uses the same widely-used six-guess colour-feedback format but it is an independent
@@ -220,7 +222,7 @@ ratings:
   count: 0
 
 publishedAt: 2026-08-04
-updatedAt: 2026-08-04
+updatedAt: 2026-10-10
 ---
 
 Five Letters is the rare game where thinking longer genuinely helps. There is no clock and no
