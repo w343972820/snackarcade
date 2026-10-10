@@ -78,9 +78,11 @@ The shape of the curve falls out of that table. **Levels 1 to 14 and level 23 co
 
 ### Levels 24 and 25 Have No Floor
 
-This is the detail worth knowing before you get there: the last two levels contain **zero platforms**. There is nothing to stand on, nothing to jump from, and no way to stop falling. You begin in mid-air and the entire level is one long controlled descent past stacked spike walls, where the only tool you have is the flip key.
+This is the detail worth knowing before you get there: the last two levels contain **zero platforms**. There is nothing to stand on, nothing to jump from, and no way to stop falling. You begin in mid-air and the entire level is one long controlled descent past stacked spike walls.
 
-Play them as a timing problem rather than a platforming one. Watch the layer the spikes belong to, not the spikes themselves, and treat every flip as a commitment you can only undo one keypress later.
+The important part is that **you do not have to go through those walls**. Each one spans only part of the screen width, and they are staggered left and right, so the safe route is to drift sideways into whichever half is clear at that height. On the last two levels your left and right keys matter more than the flip key.
+
+Play them as a positioning problem rather than a timing one. A spike pair only blocks the width both halves share, so the answer is rarely to flip at the wall — it is to be somewhere else when you reach that height. Read the stagger, drift into the clear half, and treat every flip as a commitment you can only undo one keypress later.
 
 ## Three Levels Change Every Time You Load Them
 
@@ -111,7 +113,7 @@ The 52 spikes in the game are not all drawn facing up. Counted across every leve
 | Pointing left | 8 |
 | Pointing right | 8 |
 
-Roughly two-thirds of the spikes grow out of the ground, which means the other third are ceilings and walls — and a hazard you cannot see coming from below. Treat the space **above** you as being as dangerous as the floor, and remember that reaching upward into a jump can be the mistake rather than the safe option.
+Just over half of them — 28 of the 52 — grow out of the ground. That leaves 24 attached to ceilings and walls, and those are the ones you cannot see coming from below. Treat the space **above** you as being as dangerous as the floor, and remember that reaching upward into a jump can be the mistake rather than the safe option.
 
 The upside of layer-bound spikes is that they can be disarmed rather than dodged. If a route looks impossible, check which layer the spikes are on before you write the route off — flipping may not move you past them at all, it may simply delete them.
 
