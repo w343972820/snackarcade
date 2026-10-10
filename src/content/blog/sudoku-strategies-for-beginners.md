@@ -7,7 +7,7 @@ relatedGameSlugs: ["sudoku", "nonogram"]
 author: "SnackArcade Team"
 draft: false
 publishedAt: 2026-08-04
-updatedAt: 2026-08-04
+updatedAt: 2026-10-10
 ---
 
 # Sudoku Strategies for Beginners: Solve Your First Grid
@@ -22,9 +22,9 @@ Every row, every column and every 3 by 3 box must contain the digits 1 to 9 exac
 
 The fastest way to start is to scan the grid for cells with only one possible digit. Pick a row and look at which digits are already present. If a row already contains 1, 2, 4, 5, 7 and 8, then the empty cells in that row can only hold 3, 6 or 9. Now check each empty cell's column and box to eliminate more. When a cell is down to one possible digit, that digit is forced — fill it in immediately. Scanning rows, columns and boxes in turn will usually crack the first third of an easy puzzle on its own.
 
-## Technique Two: Notes and Pencil Marks
+## Technique Two: Tracking Candidates With Pencil Marks
 
-As the puzzle gets harder, your head will not be able to hold all the possibilities. That is what notes mode is for. In the game on [the Sudoku page](/games/sudoku/), you can switch to notes mode and jot every candidate digit into each empty cell — exactly like pencil marks on paper. The rule for writing notes is simple: a digit goes in a cell only if it is not already present in that cell's row, column or box. The notes are not a crutch; they are the working memory of the puzzle, and no serious Sudoku player solves hard grids without them.
+As the puzzle gets harder, your head will not be able to hold all the possibilities. The classic tool for this is the pencil mark: for each empty cell, write down every candidate digit that could legally go there. The version here on [the Sudoku page](/games/sudoku/) has no built-in pencil-mark tool, so you track the candidates yourself — on a scrap of paper beside you, or mentally, cell by cell. The rule for writing a candidate is simple: a digit belongs in a cell only if it is not already present in that cell's row, column or box. Pencil marks are not a crutch; they are the working memory of the puzzle, and no serious Sudoku player solves hard grids without them.
 
 ## Technique Three: Hidden Singles
 
@@ -40,7 +40,7 @@ The single biggest beginner mistake is checking only the row and column and forg
 
 ## Practice on the Right Difficulty
 
-Do not start on expert. The game here has four levels, and Easy is designed for learning the flow. Play easy puzzles until scanning feels automatic, then move to Medium, where notes start to matter. When you can finish a medium grid without guessing, try Hard. Each level is a step up in the number of techniques you need, and jumping straight to the top teaches you frustration instead of Sudoku.
+Do not start on the hardest level. The game here has five levels, and Easy is designed for learning the flow. Play easy puzzles until scanning feels automatic, then move to Medium, where candidate tracking starts to matter. When you can finish a medium grid without guessing, try Hard. Each level is a step up in the number of techniques you need, and jumping straight to the top teaches you frustration instead of Sudoku.
 
 ## The Closest Cousins
 
@@ -48,4 +48,4 @@ If the calm, deductive feel of Sudoku appeals to you, [Nonogram](/games/nonogram
 
 ## Solve Your First Grid Today
 
-Open [Sudoku](/games/sudoku/), pick Easy, and follow the order: scan for single candidates, write notes for every remaining cell, hunt hidden singles, then look for naked pairs. Check the row, the column and the box on every move. The first puzzle will take a while; the tenth will feel completely different. That is the whole pleasure of Sudoku — the grid gets faster the more you understand it.
+Open [Sudoku](/games/sudoku/), pick Easy, and follow the order: scan for single candidates, work out the candidates for every remaining cell, hunt hidden singles, then look for naked pairs. Check the row, the column and the box on every move. The first puzzle will take a while; the tenth will feel completely different. That is the whole pleasure of Sudoku — the grid gets faster the more you understand it.

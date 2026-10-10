@@ -7,7 +7,7 @@ relatedGameSlugs: ["2048", "block-drop", "five-letters"]
 author: "SnackArcade Team"
 draft: false
 publishedAt: 2026-08-01
-updatedAt: 2026-08-01
+updatedAt: 2026-10-10
 ---
 
 # Best Puzzle Games to Play in a Coffee Break
@@ -40,4 +40,4 @@ Short puzzles are not just entertainment — a focused five minutes of sliding t
 
 ## Try One Right Now
 
-Every game page on this site includes a written guide, a full controls table and real tips, so you never land on a game and wonder what to do. Start with [Play 2048](/games/2048/) if you want a classic, [Play Block Drop](/games/block-drop/) if you prefer falling blocks, or [Play Five Letters](/games/five-letters/) if words are your speed. All three load in seconds, save your progress, and fit comfortably inside a coffee break.
+Every game page on this site includes a written guide, a full controls table and real tips, so you never land on a game and wonder what to do. Start with [Play 2048](/games/2048/) if you want a classic, [Play Block Drop](/games/block-drop/) if you prefer falling blocks, or [Play Five Letters](/games/five-letters/) if words are your speed. All three load in seconds and fit comfortably inside a coffee break — and 2048 even saves your progress, so you can pick up exactly where you left off.

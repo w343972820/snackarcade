@@ -12,7 +12,7 @@ relatedGameSlugs: ["sudoku", "nonogram", "minesweeper", "2048", "chess", "memory
 author: "SnackArcade Team"
 draft: false
 publishedAt: 2026-08-07
-updatedAt: 2026-08-31
+updatedAt: 2026-10-10
 ---
 
 # Best Brain Games for Adults: Train Your Mind for Free
@@ -38,7 +38,7 @@ If you only have a minute, start here. Pick the row that matches the skill you w
 
 ## Sudoku for Deduction and Concentration
 
-[Sudoku](/games/sudoku/) is the purest deduction workout on the site. Every empty cell can only hold a digit that is not already in its row, column and box, and the whole puzzle is solved by eliminating possibilities. There is no arithmetic and no luck — just sustained concentration on a grid of constraints. The notes mode lets you keep pencil marks exactly like paper, and the four difficulty levels scale from a gentle warm-up to a genuine challenge. If you want to practise focused, methodical thinking, Sudoku is the game. A useful habit: when you feel stuck, stop guessing and list the candidates for the three hardest cells out loud — saying them forces your brain to actually compare them instead of hoping.
+[Sudoku](/games/sudoku/) is the purest deduction workout on the site. Every empty cell can only hold a digit that is not already in its row, column and box, and the whole puzzle is solved by eliminating possibilities. There is no arithmetic and no luck — just sustained concentration on a grid of constraints. The five difficulty levels scale from a gentle warm-up to a genuine challenge. If you want to practise focused, methodical thinking, Sudoku is the game. A useful habit: when you feel stuck, stop guessing and list the candidates for the three hardest cells out loud — saying them forces your brain to actually compare them instead of hoping.
 
 ## Nonogram for Logic and Pattern Recognition
 

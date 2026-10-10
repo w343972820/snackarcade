@@ -10,13 +10,13 @@ seo:
     - sudoku online
     - play sudoku free
     - sudoku for beginners
-    - sudoku with notes
+    - sudoku difficulty levels
     - how to solve sudoku
   noindexOverride: false
 
 media:
   cover: ../../assets/games/sudoku/cover.png
-  coverAlt: "Sudoku grid with some digits filled in and pencil notes in empty cells"
+  coverAlt: "Sudoku cover card with the game title and a decorative block grid"
   aspectRatio: [16, 9]
 
 source:
@@ -52,7 +52,7 @@ content:
     puzzle gives you a few starting digits and your job is to fill in the rest using pure
     logic. There is no arithmetic — only deduction — which is why it appeals to everyone
     from students to grandmothers. Play it free in your browser across five difficulty
-    levels, with a notes mode for keeping track of candidates, and no download.
+    levels, with an on-screen number pad, and no download.
 
   about:
     - >-
@@ -65,14 +65,15 @@ content:
       Solving Sudoku is a pure exercise in elimination. Every empty cell can only hold a
       digit that is not already present in its row, column and box. Easy puzzles can be
       solved by scanning for cells with a single possible digit; hard ones require keeping
-      track of candidates and testing chains of consequences. The notes mode on this page
-      lets you write candidate digits in cells, exactly like pencil marks on paper.
+      track of candidates and testing chains of consequences. On this page you enter each
+      digit from the on-screen number pad, and any digit that clashes with its row, column
+      or box is highlighted in red straight away.
     - >-
       This page uses the sudoku.js puzzle engine by Robert McGuire, released under the MIT
       licence, wrapped in an original interface designed for this site. The engine generates
-      and validates puzzles across five difficulty levels, and the interface adds the notes
-      mode and error checking that make digital sudoku more pleasant than paper. Everything
-      runs in your browser with no download and no account.
+      and validates puzzles across five difficulty levels, and the interface adds an
+      on-screen number pad, a Check button that flags wrong entries and a Solve button that
+      reveals the answer. Everything runs in your browser with no download and no account.
 
   howToPlay:
     - step: "Read the starting grid."
@@ -83,10 +84,11 @@ content:
       detail: >-
         Click or tap an empty cell and choose a digit. The digit is correct only if it does
         not already appear in that row, column or 3 by 3 box.
-    - step: "Use notes for candidates."
+    - step: "Check your work as you go."
       detail: >-
-        Before you commit, jot down the possible digits for each cell using the notes mode.
-        This is the digital version of pencil marks and is essential for harder puzzles.
+        Enter a digit from the number pad and the board flags it straight away if it is wrong.
+        You can also press the Check button at any point to validate every digit you have
+        filled in so far.
     - step: "Follow the three rules."
       detail: >-
         Every row, every column and every 3 by 3 box must contain each digit from 1 to 9
@@ -103,18 +105,18 @@ content:
     - action: "Enter a digit"
       desktop: "Press 1 to 9 on the keyboard, or click the number pad"
       mobile: "Tap a digit on the number pad"
-    - action: "Toggle notes mode"
-      desktop: "Click the Notes button, then click a digit"
-      mobile: "Tap the Notes button, then tap a digit"
+    - action: "Check your progress"
+      desktop: "Click the Check button to validate your entries"
+      mobile: "Tap the Check button to validate your entries"
     - action: "Clear a cell"
       desktop: "Press Backspace, or click the Erase button"
       mobile: "Tap the Erase button"
-    - action: "Undo last entry"
-      desktop: "Click the Undo button"
-      mobile: "Tap the Undo button"
-    - action: "Restart the puzzle"
-      desktop: "Click the Restart button"
-      mobile: "Tap the Restart button"
+    - action: "Reveal the solution"
+      desktop: "Click the Solve button to show the full answer"
+      mobile: "Tap the Solve button to show the full answer"
+    - action: "Deal a new puzzle"
+      desktop: "Click the New puzzle button"
+      mobile: "Tap the New puzzle button"
     - action: "Choose difficulty"
       desktop: "Select Easy, Medium, Hard, Very hard or Insane before starting"
       mobile: "Select Easy, Medium, Hard, Very hard or Insane before starting"
@@ -130,11 +132,10 @@ content:
       body: >-
         Start by finding cells with only one possible digit — a digit missing from its row,
         column and box all at once. Filling these easy cells cascades into more singles.
-    - title: "Use notes early and often"
+    - title: "Check your work before moving on"
       body: >-
-        Pencil in every candidate digit for a cell as soon as you can. The notes are not a
-        crutch; they are the working memory of the puzzle, and harder puzzles are nearly
-        impossible without them.
+        The Check button validates every digit you have entered and counts any that are
+        wrong. Run it whenever a section feels stuck so you never build on a mistake.
     - title: "Check rows, columns and boxes together"
       body: >-
         A digit may fit a row and column but be blocked by its box, or vice versa. Always
@@ -142,7 +143,7 @@ content:
     - title: "Hunt for hidden singles"
       body: >-
         When a digit can only go in one cell of a row, column or box — even if that cell
-        has several notes — it is a hidden single and it is forced. Find these before you
+        has several candidates — it is a hidden single and it is forced. Find these before you
         resort to testing chains.
     - title: "Look for naked pairs"
       body: >-
@@ -156,7 +157,7 @@ content:
 
   features:
     - "Sudoku across five difficulty levels from easy to insane"
-    - "Notes mode for keeping pencil marks in every cell"
+    - "An on-screen number pad with Check and Solve controls"
     - "Error checking that keeps your logic honest"
     - "Runs entirely in your browser with no download or plugin"
     - "Puzzle engine open source under the MIT licence with credit"
@@ -175,10 +176,11 @@ content:
       a: >-
         Yes. Tap a cell and choose a digit from the on-screen number pad. The game works in
         portrait and landscape on mobile browsers.
-    - q: "What is the notes mode for?"
+    - q: "How do I enter digits?"
       a: >-
-        Notes mode lets you write candidate digits into empty cells, just like pencil marks
-        on paper. Keeping notes is the standard technique for solving harder puzzles.
+        Select a cell, then type 1 to 9 on your keyboard or tap the on-screen number pad.
+        Backspace or the Erase button clears a cell, the Check button validates your entries
+        and the Solve button reveals the answer.
     - q: "How many difficulty levels are there?"
       a: >-
         There are five: Easy, Medium, Hard, Very hard and Insane. They differ in how many
@@ -221,7 +223,7 @@ ratings:
   count: 0
 
 publishedAt: 2026-08-04
-updatedAt: 2026-08-04
+updatedAt: 2026-10-10
 ---
 
 Sudoku is the rare puzzle that gets calmer the better you are at it. Beginners fight the

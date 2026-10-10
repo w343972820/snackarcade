@@ -1,15 +1,15 @@
 ---
 title: "Reversi"
-h1: "Play Reversi Online — Free 2 Player Board Game"
+h1: "Play Reversi Online — Free Board Game vs Computer"
 draft: false
 
 seo:
-  title: "Play Reversi Free — 2 Player Board Game | SnackArcade"
+  title: "Play Reversi Free — Board Game vs Computer | SnackArcade"
   description: "Play Reversi free in your browser. Flip your opponent's discs by sandwiching them between your own and own the board. Full rules, tips and FAQ. No download."
   targetKeywords:
     - reversi online
     - play reversi free
-    - reversi 2 player
+    - reversi against computer
     - disc flipping game
     - how to play reversi
   noindexOverride: false
@@ -34,7 +34,6 @@ taxonomy:
   tags:
     - classic
     - strategy
-    - two-player
     - no-download
     - brain-training
     - mobile-friendly
@@ -52,7 +51,7 @@ content:
     it sandwiches a line of opponent discs between your new disc and one of your own, and
     every disc in that line flips to your colour. The rules are famously simple, yet the
     strategy is deep enough to reward a lifetime of study. Play it free in your browser
-    against a friend with no download and no account.
+    against the computer, with no download and no account.
 
   about:
     - >-
@@ -68,8 +67,9 @@ content:
       legal move remains, and the player with more discs wins.
     - >-
       This version is based on an open-source HTML5 Canvas implementation by zuramai,
-      released under the MIT licence. It runs entirely in your browser and supports two
-      players sharing one screen. No download, no sign-up and no waiting for an opponent.
+      released under the MIT licence. It runs entirely in your browser and pits you against
+      a computer opponent — choose your colour and the computer takes the other side. No
+      download, no sign-up and no waiting for an opponent.
 
   howToPlay:
     - step: "Start with four discs."
@@ -84,14 +84,14 @@ content:
       detail: >-
         Every opponent disc in the flanked line — horizontally, vertically or diagonally —
         flips to your colour. Multiple lines can be flipped in a single move.
-    - step: "Pass or skip."
+    - step: "Only flanking moves are legal."
       detail: >-
-        If you have no legal move, you skip your turn and your opponent plays again. A move
-        that does not flank anything is never legal.
+        A move that does not flank at least one line of opponent discs is never legal. If you
+        have no legal move, the game ends at that point and the discs are counted.
     - step: "Own the board to win."
       detail: >-
-        The game ends when neither player can move. The player whose colour covers the most
-        discs wins the board.
+        The game ends as soon as the player to move has no legal move. The player whose
+        colour covers the most discs wins the board.
 
   controls:
     - action: "Place a disc"
@@ -100,21 +100,21 @@ content:
     - action: "See legal moves"
       desktop: "Legal squares are highlighted for the current player"
       mobile: "Legal squares are highlighted for the current player"
-    - action: "See whose turn it is"
-      desktop: "The turn indicator shows black or white"
-      mobile: "The turn indicator shows black or white"
+    - action: "Choose your colour"
+      desktop: "Click the black or white button before the game starts"
+      mobile: "Tap the black or white button before the game starts"
     - action: "See the disc count"
       desktop: "The black and white totals are shown beside the board"
       mobile: "The black and white totals are shown beside the board"
-    - action: "Pass your turn"
-      desktop: "Your turn is skipped automatically when no move is legal"
-      mobile: "Your turn is skipped automatically when no move is legal"
+    - action: "When you have no legal move"
+      desktop: "The game ends and the higher disc count wins"
+      mobile: "The game ends and the higher disc count wins"
     - action: "Restart the game"
-      desktop: "Click the New Game button"
-      mobile: "Tap the New Game button"
+      desktop: "Click the Replay button"
+      mobile: "Tap the Replay button"
     - action: "Fullscreen"
-      desktop: "Click the fullscreen button above the board"
-      mobile: "Tap the fullscreen button above the board"
+      desktop: "Click the fullscreen button in the bar below the board"
+      mobile: "Tap the fullscreen button in the bar below the board"
     - action: "Exit fullscreen"
       desktop: "Escape key"
       mobile: "Tap the fullscreen button again"
@@ -148,7 +148,7 @@ content:
         gives you more legal moves and more ways to force your opponent into bad ones.
 
   features:
-    - "Classic Reversi gameplay for two players on one screen"
+    - "Classic Reversi gameplay against a computer opponent"
     - "Runs entirely in your browser with no download or plugin"
     - "Legal moves highlighted for easy play"
     - "Full rules including multi-direction flanking"
@@ -166,16 +166,18 @@ content:
         player with the most discs at the end wins.
     - q: "Can two people play on the same computer?"
       a: >-
-        Yes. The game is designed for two players sharing one screen, taking turns placing
-        discs. No accounts or room codes are needed.
+        No — this version is single-player against the computer. You choose to play as black
+        or white before the game starts, and the computer takes the other colour.
     - q: "Can I play Reversi on my phone?"
       a: >-
-        Yes. Tap an empty highlighted square to place your disc. The game works in portrait
-        and landscape on mobile browsers.
+        Yes — tap an empty highlighted square to place your disc. The board is 600 pixels
+        wide, so on a phone only about half of it is visible at once and you have to scroll
+        sideways to reach the rest; a tablet or desktop shows the whole board without
+        scrolling.
     - q: "Why is my move not allowed?"
       a: >-
         A move is legal only if it flanks at least one line of opponent discs. If you have no
-        legal move, your turn is skipped automatically.
+        legal move at all, the game ends there and the discs are counted.
     - q: "How do I win at Reversi?"
       a: >-
         End the game with more discs of your colour than your opponent. The tips above cover
@@ -187,7 +189,7 @@ info:
   genre:
     - Board
     - Strategy
-  players: MultiPlayer
+  players: SinglePlayer
   technology: "HTML5 / JavaScript"
   platform:
     - Desktop
@@ -209,7 +211,7 @@ ratings:
   count: 0
 
 publishedAt: 2026-08-05
-updatedAt: 2026-08-05
+updatedAt: 2026-10-10
 ---
 
 Reversi is the rare game where your opponent's pieces become your own. Every move is a

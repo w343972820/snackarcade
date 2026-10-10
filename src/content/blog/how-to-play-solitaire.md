@@ -2,12 +2,12 @@
 title: "How to Play Klondike Solitaire: Rules for Beginners"
 seo:
   title: "How to Play Klondike Solitaire: Rules for Beginners"
-  description: "Learn how to play Klondike Solitaire with clear rules for the tableau, foundations and stock. Draw-one and draw-three explained, plus beginner strategies."
+  description: "Learn how to play Klondike Solitaire with clear rules for the tableau, foundations and stock. The stock draw rules explained, plus beginner strategies."
 relatedGameSlugs: ["klondike-solitaire", "mahjong-solitaire"]
 author: "SnackArcade Team"
 draft: false
 publishedAt: 2026-08-04
-updatedAt: 2026-08-04
+updatedAt: 2026-10-10
 ---
 
 # How to Play Klondike Solitaire: Rules for Beginners
@@ -24,7 +24,7 @@ Below the foundations are seven columns called the tableau. The first column has
 
 ## The Stock and the Waste
 
-When no useful tableau move is left, you draw from the stock pile in the corner. The card or cards you draw go to the waste pile, and the top card of the waste is playable. In draw-one mode you flip one card at a time. In draw-three mode you flip three at a time and only the top card of the three is available, which makes the game noticeably harder. The version on [the Klondike Solitaire page](/games/klondike-solitaire/) offers both modes so you can choose your challenge.
+When no useful tableau move is left, you draw from the stock pile in the corner. The card or cards you draw go to the waste pile, and the top card of the waste is playable. Solitaire comes in two stock styles: draw-one games let you flip one card at a time, while draw-three games flip three at a time and leave only the top card of the three playable, which makes the game noticeably harder. The version on [the Klondike Solitaire page](/games/klondike-solitaire/) uses the draw-three style, so every pass through the stock costs you more planning.
 
 ## Where the Strategy Actually Lives
 
@@ -32,7 +32,7 @@ Beginners treat Solitaire as luck, but most of the game is decision-making. The 
 
 ## Draw One vs Draw Three
 
-If you are new, start with draw-one mode. It gives you full control over the stock and a much higher win rate, which makes it the right place to learn the patterns. Draw-three is the traditional scoring mode and the one serious Solitaire players use, but it demands more planning because the stock hides two cards between every available one. Play both and you will quickly feel how different the two games are, even on the same deal.
+If you are learning the game, a draw-one deal is the most forgiving place to start: flipping one card at a time gives you full control over the stock and a much higher win rate, so the patterns are easier to see. Draw-three is the traditional, stricter style — and the one the [game here](/games/klondike-solitaire/) uses — because the stock hides two cards between every available one, so it demands more forward planning. Whichever style you play, you will quickly feel how much the stock rule changes the same deal.
 
 ## Common Mistakes to Avoid
 
@@ -44,4 +44,4 @@ Solitaire is one of the few games that is equally good for a two-minute break an
 
 ## Try a Deal Right Now
 
-Open [Klondike Solitaire](/games/klondike-solitaire/), choose draw-one to start, and play one deal with a single rule: never put a card on a foundation until you have checked what it uncovers. Expose hidden cards, keep your columns balanced, and fill empty spaces with Kings. Do that and your win rate will climb faster than you expect. The game page includes a full controls table and a tips section for when the basics feel easy.
+Open [Klondike Solitaire](/games/klondike-solitaire/) and play one deal with a single rule: never put a card on a foundation until you have checked what it uncovers. Expose hidden cards, keep your columns balanced, and fill empty spaces with Kings. Do that and your win rate will climb faster than you expect. The game page includes a full controls table and a tips section for when the basics feel easy.

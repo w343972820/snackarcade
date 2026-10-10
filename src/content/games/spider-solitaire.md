@@ -5,7 +5,7 @@ draft: false
 
 seo:
   title: "Play Spider Solitaire Free — No Download | SnackArcade"
-  description: "Play Spider Solitaire free in your browser. Build complete sequences from King down to Ace across eight tableau columns. Full rules, tips and FAQ."
+  description: "Play Spider Solitaire free in your browser. Build complete sequences from King down to Ace across ten tableau columns. Full rules, tips and FAQ."
   targetKeywords:
     - spider solitaire
     - spider solitaire free online
@@ -16,7 +16,7 @@ seo:
 
 media:
   cover: ../../assets/games/spider-solitaire/cover.png
-  coverAlt: "Spider Solitaire table with eight tableau columns of cards and suits being built"
+  coverAlt: "Spider Solitaire table with ten tableau columns of cards being built"
   aspectRatio: [16, 9]
 
 source:
@@ -47,25 +47,23 @@ taxonomy:
 content:
   intro: >-
     Spider Solitaire is the patience game that asks more of you than Klondike: two decks,
-    eight tableau columns, and the goal of building eight complete sequences from King down
-    to Ace, all in the same suit. You can move any card or ordered run onto a card one rank
-    higher, no matter the suit, and the challenge is managing eight columns of cards with
-    limited help from the stock. It is a deeper, slower, more strategic card puzzle that
-    runs free in your browser with no download and no account.
+    ten tableau columns, and the goal of building eight complete sequences from King down
+    to Ace. Every card is a spade, so any ordered run you build is already a same-suit run.
+    You move a card or an ordered run onto a card one rank higher, and the challenge is
+    managing ten columns of cards with limited help from the stock. It is a deeper, slower,
+    more strategic card puzzle that runs free in your browser with no download and no account.
 
   about:
     - >-
       Spider Solitaire has been a fixture of computer card games since the early days of
       home software, prized by players who find Klondike too easy. It uses two decks — 104
-      cards in total — and the full version is played with all four suits, which makes it
-      genuinely difficult. Most players start with the one-suit version, which is a much
-      more approachable puzzle.
+      cards in total — and this version is played entirely with spades, a single-suit game
+      that stays approachable while still taking real planning to finish.
     - >-
       The tableau has ten columns at the start of a game, with the first four columns
       holding six cards and the rest holding five. Only the top card of each column is face
       up. You build downward in descending rank — a 7 can go on an 8, a 6 on a 7 — and
-      although you can place any suit on any other, you can only move a run that is entirely
-      in the same suit.
+      because every card is a spade, a face-up card or an ordered run can be moved as a block.
     - >-
       This version is based on an open-source TypeScript implementation by lklynet, released
       under the MIT licence. It runs in your browser after a standard build step and offers
@@ -79,16 +77,16 @@ content:
         remaining cards sit in the stock at the bottom of the screen.
     - step: "Build downward in rank."
       detail: >-
-        Move a face-up card or a same-suit run onto a card one rank higher in another column.
-        Suits do not need to match when moving a single card.
-    - step: "Build same-suit sequences."
+        Move a face-up card or an ordered run onto a card one rank higher in another column,
+        or onto an empty column.
+    - step: "Build complete sequences."
       detail: >-
-        A complete sequence is King, Queen, Jack, 10, 9, 8, 7, 6, 5, 4, 3, 2, Ace — all in
-        the same suit. Complete sequences are removed from the board.
+        A complete sequence is King, Queen, Jack, 10, 9, 8, 7, 6, 5, 4, 3, 2, Ace, with all
+        thirteen cards face up in order. A completed sequence is removed from the board.
     - step: "Deal from the stock."
       detail: >-
         When no useful move is left, deal a new row of cards from the stock, one onto each
-        column. You can only deal when every column has at least one card.
+        of the ten columns. A deal always places one card on every column, even an empty one.
     - step: "Clear all eight sequences."
       detail: >-
         The game is won when all eight complete King-to-Ace sequences have been removed from
@@ -110,9 +108,9 @@ content:
     - action: "Restart the game"
       desktop: "Click the New Game button"
       mobile: "Tap the New Game button"
-    - action: "Choose suit difficulty"
-      desktop: "Select 1, 2 or 4 suits before dealing"
-      mobile: "Select 1, 2 or 4 suits before dealing"
+    - action: "Get a hint"
+      desktop: "Click the Hint button"
+      mobile: "Tap the Hint button"
     - action: "Fullscreen"
       desktop: "Click the fullscreen button above the table"
       mobile: "Tap the fullscreen button above the table"
@@ -121,16 +119,16 @@ content:
       mobile: "Tap the fullscreen button again"
 
   tips:
-    - title: "Start with one suit"
+    - title: "Learn the single-suit game"
       body: >-
-        The one-suit version is a genuine puzzle and the right place to learn the game. The
-        four-suit version is brutally hard — leave it until you can finish one-suit games
-        regularly.
-    - title: "Build same-suit runs early"
+        Every card here is a spade, so this is the approachable one-suit version of Spider.
+        It is still a genuine puzzle: finish it regularly and you will have learned the
+        run-building and space-clearing skills the game is built on.
+    - title: "Build ordered runs early"
       body: >-
-        A run that is entirely one suit can be moved as a block, which is the key to clearing
-        space. Sort your columns so that matching suits come together before you worry about
-        final sequences.
+        A run of cards in descending order moves as a block, which is the key to clearing
+        space. Rearrange your columns so that ordered runs come together before you worry
+        about final sequences.
     - title: "Do not empty a column carelessly"
       body: >-
         An empty column accepts any card or run, making it the most valuable resource on the
@@ -149,9 +147,9 @@ content:
         cards evenly keeps the whole tableau flexible.
 
   features:
-    - "Classic Spider Solitaire with 1, 2 and 4 suit modes"
+    - "Classic Spider Solitaire played with a single suit of spades"
     - "Runs entirely in your browser with no download or plugin"
-    - "Undo button and automatic card movement"
+    - "Hint and Undo buttons, plus double-click automatic card movement"
     - "Deep strategic card play for long sessions"
     - "Open source under the MIT licence with credit to the developer"
 
@@ -160,22 +158,23 @@ content:
       a: >-
         Yes, completely. The game is open source under the MIT licence and free to play here
         with no payment, no sign-up and no premium version.
-    - q: "What is the difference between 1, 2 and 4 suits?"
+    - q: "Is this the one-suit version of Spider?"
       a: >-
-        The number of suits controls the difficulty. One suit is the easiest and best for
-        learning; four suits uses both decks fully and is considered very hard.
+        Yes. Every card is a spade, so this is the single-suit version — the easiest and most
+        approachable way to play Spider Solitaire, and the best place to learn it.
     - q: "How do I win Spider Solitaire?"
       a: >-
-        Build eight complete sequences from King down to Ace, each entirely in one suit. Each
-        completed sequence is removed from the board, and clearing all eight wins the game.
+        Build eight complete sequences from King down to Ace. Each completed sequence is
+        removed from the board, and clearing all eight wins the game.
     - q: "Can I play Spider Solitaire on my phone?"
       a: >-
         Yes. Tap a card and tap its destination to move it, and tap the stock to deal. The
         game works in portrait and landscape on mobile browsers.
     - q: "Why can I not move a run?"
       a: >-
-        Only runs that are entirely in the same suit can be moved as a block. A mixed-suit
-        run must be broken down into its face-up cards and moved one at a time.
+        A run can only be moved as a block when its cards are all face up and in descending
+        order. If a face-down card or a break in the sequence is in the way, you can only move
+        the ordered part of the run.
     - q: "When should I deal from the stock?"
       a: >-
         Deal only when no useful tableau move remains and the columns are as sorted as you can
@@ -210,10 +209,10 @@ ratings:
   count: 0
 
 publishedAt: 2026-08-06
-updatedAt: 2026-08-06
+updatedAt: 2026-10-10
 ---
 
-Spider Solitaire is the card game for players who find Klondike too simple. With eight
-columns, two decks and only same-suit runs that move freely, it rewards long-term planning
+Spider Solitaire is the card game for players who find Klondike too simple. With ten
+columns, two decks and ordered runs that move freely, it rewards long-term planning
 over quick decisions. Every stock deal is a gamble, every empty column is a prize, and a
 completed game feels genuinely earned.

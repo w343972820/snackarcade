@@ -8,12 +8,12 @@ relatedGameSlugs: ["word-search"]
 author: "SnackArcade Team"
 draft: false
 publishedAt: 2026-09-15
-updatedAt: 2026-09-15
+updatedAt: 2026-10-10
 ---
 
 # Word Search Tips: Find Hidden Words Faster
 
-Word Search has a reputation problem: people call it easy. Then they get stuck on the last two words for five minutes, staring at the same grid, convinced the puzzle is broken. The words are always there — the grid never lies — but finding them is a skill, not a lucky glance. This guide covers the scanning habits that separate a two-minute solve from a ten-minute grind, and every one of them can be drilled for free on our [Word Search game](/games/word-search/), where puzzles are freshly generated and there is no clock pushing you along.
+Word Search has a reputation problem: people call it easy. Then they get stuck on the last two words for five minutes, staring at the same grid, convinced the puzzle is broken. The words are always there — the grid never lies — but finding them is a skill, not a lucky glance. This guide covers the scanning habits that separate a two-minute solve from a ten-minute grind, and every one of them can be drilled for free on our [Word Search game](/games/word-search/), where the grid is freshly arranged on every visit and there is no clock pushing you along.
 
 ## How Word Search Actually Works
 
@@ -136,7 +136,7 @@ Yes. It turns spelling into a visual search task, which is approachable and genu
 No. An incorrect selection simply does not register. You can guess as freely as you like, which is why scanning aggressively beats deliberating.
 
 **Do the puzzles repeat?**
-No — each new puzzle is generated fresh, so the grid and the word list change every time. You will not exhaust the content by playing regularly.
+No — the word list stays the same, but the grid is arranged fresh every time you load it: the words are placed in new positions and the empty squares are filled with new random letters. So the puzzle looks different on every visit and you will not exhaust the content by playing regularly.
 
 ## Play It Now
 

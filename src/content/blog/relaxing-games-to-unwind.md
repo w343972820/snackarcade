@@ -7,7 +7,7 @@ relatedGameSlugs: ["mahjong-solitaire", "klondike-solitaire", "nonogram", "sudok
 author: "SnackArcade Team"
 draft: false
 publishedAt: 2026-08-07
-updatedAt: 2026-08-07
+updatedAt: 2026-10-10
 ---
 
 # Relaxing Games to Unwind: Calm Browser Puzzles
@@ -24,7 +24,7 @@ A relaxing game has three properties. First, no timer: you never have to move fa
 
 ## Klondike Solitaire: Quiet Card Planning
 
-[Klondike Solitaire](/games/klondike-solitaire/) is a different kind of calm. It has a clear goal — build all four suits on the foundations — and a gentle rhythm of dealing, considering and committing. There is no clock, and your deal is saved automatically, so you can play a few moves, close the tab and finish later. The game rewards slow, deliberate thinking, which is exactly the mental state that helps you unwind. Choose draw-one mode for the most relaxed experience.
+[Klondike Solitaire](/games/klondike-solitaire/) is a different kind of calm. It has a clear goal — build all four suits on the foundations — and a gentle rhythm of dealing, considering and committing. There is no clock, so nothing rushes a decision. One honest caveat: the deal is not saved between visits — a reload starts a fresh game — so it is best savoured in one sitting. The game rewards slow, deliberate thinking, which is exactly the mental state that helps you unwind.
 
 ## Nonogram: Slow Deduction With a Picture Reward
 
@@ -32,7 +32,7 @@ A relaxing game has three properties. First, no timer: you never have to move fa
 
 ## Sudoku: The Classic Quiet Grid
 
-[Sudoku](/games/sudoku/) has been calming minds for decades, and it is still the go-to relaxing puzzle for millions of people. Fill the grid so every row, column and box holds the digits 1 to 9 once, using pure logic and no arithmetic. The notes mode lets you keep pencil marks like paper, and the easy difficulty level is perfect for winding down — the puzzle occupies your attention without overwhelming it. There is no clock and no way to lose, just a grid that gradually resolves itself.
+[Sudoku](/games/sudoku/) has been calming minds for decades, and it is still the go-to relaxing puzzle for millions of people. Fill the grid so every row, column and box holds the digits 1 to 9 once, using pure logic and no arithmetic. The easy difficulty level is perfect for winding down — the puzzle occupies your attention without overwhelming it. There is no clock and no way to lose, just a grid that gradually resolves itself.
 
 ## How to Actually Unwind With a Game
 

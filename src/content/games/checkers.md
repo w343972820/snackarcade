@@ -10,13 +10,13 @@ seo:
     - checkers online
     - play checkers free
     - checkers 2 player
-    - checkers vs computer
+    - checkers strategy guide
     - how to play checkers
   noindexOverride: false
 
 media:
   cover: ../../assets/games/checkers/cover.png
-  coverAlt: "Checkers board with red and black pieces set up on the dark squares"
+  coverAlt: "Checkers board with blue and red pieces set up on the dark squares"
   aspectRatio: [16, 9]
 
 source:
@@ -74,7 +74,7 @@ content:
     - step: "Set up the board."
       detail: >-
         Each player places twelve pieces on the dark squares of their side of the board.
-        Red moves first, then players alternate turns.
+        Player 1 (the blue pieces) moves first, then players alternate turns.
     - step: "Move diagonally forward."
       detail: >-
         A piece moves one square diagonally forward onto an empty dark square. Pieces can
@@ -106,17 +106,17 @@ content:
       desktop: "Legal squares are highlighted when a piece is selected"
       mobile: "Legal squares are highlighted when a piece is selected"
     - action: "See whose turn it is"
-      desktop: "The turn indicator shows red or black"
-      mobile: "The turn indicator shows red or black"
+      desktop: "There is no turn display — only the current side's pieces are clickable"
+      mobile: "There is no turn display — only the current side's pieces are tappable"
     - action: "Undo a move"
-      desktop: "Click the Undo button, if available"
-      mobile: "Tap the Undo button, if available"
+      desktop: "Not supported — there is no undo, so a move cannot be taken back"
+      mobile: "Not supported — there is no undo, so a move cannot be taken back"
     - action: "Restart the game"
-      desktop: "Click the New Game button"
-      mobile: "Tap the New Game button"
+      desktop: "There is no New Game button — change any option in the panel (for example the Fieldsize select) to rebuild the board"
+      mobile: "There is no New Game button — change any option in the panel (for example the Fieldsize select) to rebuild the board"
     - action: "Fullscreen"
-      desktop: "Click the fullscreen button above the board"
-      mobile: "Tap the fullscreen button above the board"
+      desktop: "Click the Fullscreen button in the bar below the board"
+      mobile: "Tap the Fullscreen button below the board"
     - action: "Exit fullscreen"
       desktop: "Escape key"
       mobile: "Tap the fullscreen button again"
@@ -212,7 +212,7 @@ ratings:
   count: 0
 
 publishedAt: 2026-08-05
-updatedAt: 2026-08-05
+updatedAt: 2026-10-10
 ---
 
 Checkers is the perfect introduction to board game strategy: the rules fit on a napkin,

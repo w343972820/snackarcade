@@ -5,7 +5,7 @@ draft: false
 
 seo:
   title: "Play Klondike Solitaire Free — No Download | SnackArcade"
-  description: "Play Klondike Solitaire free in your browser. Draw one or draw three, build the four foundations and win. Full rules, controls and FAQ. No download."
+  description: "Play Klondike Solitaire free in your browser. Draw three at a time, build the four foundations and win. Full rules, controls and FAQ. No download."
   targetKeywords:
     - klondike solitaire
     - free solitaire no download
@@ -37,7 +37,6 @@ taxonomy:
     - mobile-friendly
     - strategy
     - relaxing
-    - saves-progress
     - open-source
     - no-signup
   mechanics:
@@ -52,17 +51,18 @@ content:
     seven tableau columns, four foundation piles and a single goal: move every card
     onto its matching suit pile, from Ace up to King. It looks calm, but behind the
     green felt is a planning puzzle where every exposure of a hidden card changes the
-    shape of the whole game. Play it free in your browser here, with draw-one and
-    draw-three modes and no download.
+    shape of the whole game. Play it free in your browser here in the classic draw-three
+    style, with no download.
 
   about:
     - >-
       Klondike's history is fuzzy — it appeared in the late 1800s, possibly named after
       the Klondike gold rush, and became a household name when Microsoft shipped it with
       Windows 3.0 in 1990. The rules are simple enough to learn in a minute and the odds
-      are just hard enough that a win feels like an achievement. Statistically, only
-      around one in five deals is winnable with best play, which is why the game rewards
-      patience more than luck.
+      are just hard enough that a win feels like an achievement. Statistically, roughly
+      one in five deals cannot be won no matter how well you play, and because so much of
+      the deck starts face down a human player wins far fewer than that — which is why
+      the game rewards patience more than luck.
     - >-
       The tableau is built with seven columns: one card in the first, two in the second,
       and so on up to seven. Only the top card of each column is face up. You build
@@ -71,10 +71,9 @@ content:
       A King, and only a King, can fill an empty tableau space.
     - >-
       The version here is an open-source implementation by Radovan Janjic, released under
-      the MIT licence. It runs entirely in your browser with no account and no download,
-      and it offers both draw-one and draw-three modes so you can choose how strict you
-      want the game to be. Your current game state is saved in your browser, so you can
-      close the tab and come back to the same deal.
+      the MIT licence. It runs entirely in your browser with no account and no download.
+      Cards are always turned from the stock three at a time — the classic and tougher
+      draw-three variant of Klondike, rather than the easier one-card draw.
 
   howToPlay:
     - step: "Deal the tableau."
@@ -94,9 +93,9 @@ content:
         foundations wins the game.
     - step: "Use the stock pile."
       detail: >-
-        When no more tableau moves are available, flip cards from the stock. In draw-one
-        mode you get each card once; in draw-three mode you get them three at a time, which
-        is harder and scores differently.
+        When no more tableau moves are available, flip cards from the stock. Cards are
+        always turned three at a time — the classic draw-three style, which is harder than
+        a one-card draw and rewards careful sequencing.
     - step: "Free a King for an empty column."
       detail: >-
         An empty tableau column can only be filled by a King (or a sequence starting with a
@@ -104,29 +103,26 @@ content:
 
   controls:
     - action: "Move a card"
-      desktop: "Click a card, then click its destination"
-      mobile: "Tap a card, then tap its destination"
-    - action: "Move a card to foundation"
-      desktop: "Click a card, then click a foundation pile"
-      mobile: "Tap a card, then tap a foundation pile"
+      desktop: "Hold the mouse button on a card, drag it where you want it, then release"
+      mobile: "Hold a card, drag it where you want it, then release"
+    - action: "Move a card to a foundation"
+      desktop: "Drag the card onto a foundation pile at the top"
+      mobile: "Drag the card onto a foundation pile at the top"
     - action: "Move a card automatically"
-      desktop: "Double-click a card"
-      mobile: "Double-tap a card"
+      desktop: "Click a card and it goes to the best legal spot"
+      mobile: "Tap a card and it goes to the best legal spot"
     - action: "Draw from the stock"
-      desktop: "Click the stock pile"
-      mobile: "Tap the stock pile"
-    - action: "Undo last move"
-      desktop: "Click the Undo button"
-      mobile: "Tap the Undo button"
+      desktop: "Click the face-down stock pile to turn three cards over"
+      mobile: "Tap the face-down stock pile to turn three cards over"
+    - action: "Recycle the deck"
+      desktop: "Click the empty stock pile to turn the dealt cards back over"
+      mobile: "Tap the empty stock pile to turn the dealt cards back over"
     - action: "Restart the deal"
       desktop: "Click the New Game button"
       mobile: "Tap the New Game button"
-    - action: "Toggle draw mode"
-      desktop: "Choose Draw 1 or Draw 3 before dealing"
-      mobile: "Choose Draw 1 or Draw 3 before dealing"
     - action: "Fullscreen"
-      desktop: "Click the fullscreen button above the table"
-      mobile: "Tap the fullscreen button above the table"
+      desktop: "Click the fullscreen button in the bar below the table"
+      mobile: "Tap the fullscreen button in the bar below the table"
     - action: "Exit fullscreen"
       desktop: "Escape key"
       mobile: "Tap the fullscreen button again"
@@ -164,10 +160,9 @@ content:
         so the exposed column is useful rather than a dead end.
 
   features:
-    - "Classic Klondike Solitaire with draw-one and draw-three modes"
+    - "Classic Klondike Solitaire played with the draw-three variant"
     - "Runs entirely in your browser with no download or plugin"
-    - "Game state saved automatically so you can finish a deal later"
-    - "Undo button to take back a mistake"
+    - "A one-click New game button deals a fresh shuffle whenever you like"
     - "Open source under the MIT licence with credit to the developer"
 
   faq:
@@ -175,11 +170,11 @@ content:
       a: >-
         Yes, completely. The game is open source under the MIT licence and free to play here
         with no payment, no trial and no premium tier.
-    - q: "What is the difference between draw one and draw three?"
+    - q: "How are cards drawn from the stock?"
       a: >-
-        Draw one reveals a single card from the stock each time, which is the easier mode.
-        Draw three reveals three cards at once and only lets you play the top card of the
-        group, making the game harder and the win more rewarding.
+        Three cards are turned from the stock at a time — the classic and tougher draw-three
+        style. When the stock runs out, the cards you have drawn are recycled back into it
+        so you can cycle through the deck again.
     - q: "Do I need to download or install anything?"
       a: >-
         No. Klondike Solitaire runs entirely in your web browser. There is nothing to install,
@@ -188,10 +183,10 @@ content:
       a: >-
         Yes. The game supports touch controls — tap a card and then tap where you want to move
         it. It works in portrait and landscape on iOS and Android browsers.
-    - q: "Is my game saved if I close the tab?"
+    - q: "How do I start a new game?"
       a: >-
-        Your current deal is saved in your browser's local storage, so you can close the tab
-        and come back to the same game. Clearing your browser data or switching devices resets it.
+        Click the New game button at any time to shuffle and deal a fresh hand. The game does
+        not save or resume an unfinished deal, so a new game always starts from scratch.
     - q: "How do I win Klondike Solitaire?"
       a: >-
         You win by moving every card onto the four foundation piles, each built from Ace to
@@ -230,7 +225,7 @@ ratings:
   count: 0
 
 publishedAt: 2026-08-04
-updatedAt: 2026-08-04
+updatedAt: 2026-10-10
 ---
 
 Klondike Solitaire is a game of slow, quiet decisions. There is no clock and no opponent,

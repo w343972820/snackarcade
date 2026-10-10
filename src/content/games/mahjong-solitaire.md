@@ -49,9 +49,9 @@ content:
     Mahjong Solitaire is the calm cousin of the classic tile game: a board piled high
     with decorated tiles, and one job — remove every tile by matching pairs. You can
     only match a tile that is free, meaning nothing sits on top of it and at least one
-    of its left or right sides is open. There is no clock and no opponent, so a game
-    is a quiet, meditative puzzle that you solve at your own pace. Play it free in
-    your browser with dozens of layouts and no download.
+    of its left or right sides is open. A gentle stopwatch tracks your time, and with no
+    opponent a game is a quiet, meditative puzzle that you solve at your own pace. Play it
+    free in your browser with dozens of layouts and no download.
 
   about:
     - >-
@@ -152,7 +152,7 @@ content:
   features:
     - "Classic Mahjong Solitaire matching with dozens of layouts"
     - "Runs entirely in your browser with no download or plugin"
-    - "No timer and no moves limit — play completely at your own pace"
+    - "No time limit and no move limit — a stopwatch counts up but never rushes you"
     - "Hints and shuffle help when you are stuck"
     - "Open source under the MIT licence with artwork credits"
 
@@ -215,10 +215,10 @@ ratings:
   count: 0
 
 publishedAt: 2026-08-04
-updatedAt: 2026-08-04
+updatedAt: 2026-10-10
 ---
 
 Mahjong Solitaire is the game to open when you want to think without being rushed. There is
-no timer counting down and no score to protect, only a board of tiles that asks a simple
+no countdown and no time limit to beat, only a board of tiles that asks a simple
 question over and over: which pair can I safely take next? Answer it patiently and the
 board disappears one pair at a time.

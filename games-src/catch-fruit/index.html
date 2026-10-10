@@ -17,13 +17,21 @@ The game also uses music and a couple of sound effects.
     <head>
         <title>Fruit Catcher</title>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
     </head>
     <style type="text/css">
 		canvas	
 		{
             border: 1px solid black;
             position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            max-width: 1024px;
+            height: auto;
+            box-sizing: border-box;
             background-color: transparent;
+            touch-action: none;
 		}
 
 	</style>
@@ -256,6 +264,74 @@ The game also uses music and a couple of sound effects.
                     window.clearTimeout(timer);
                 }
              });
+            
+            //Converts a pointer/finger client x coordinate into canvas space.
+            //The canvas may be scaled by the page (e.g. embedded in an iframe),
+            //so the rendered size is compared to the intrinsic size.
+            function getCanvasX(clientX)
+            {
+                var rect = canvas.getBoundingClientRect();
+                //Guard against a zero-width rect which would divide to NaN
+                if(rect.width === 0)
+                {
+                    return null;
+                }
+                return (clientX - rect.left) * (canvas.width / rect.width);
+            }
+            
+            //Moves the basket so its horizontal centre follows the given client x.
+            //Clamps the basket to the same playfield bounds the keyboard path uses.
+            function moveBasketTo(clientX)
+            {
+                if(!player)
+                {
+                    return;
+                }
+                var canvasX = getCanvasX(clientX);
+                if(canvasX === null)
+                {
+                    return;
+                }
+                var newX = canvasX - player.playerWidth / 2;
+                if(newX < 0)
+                {
+                    newX = 0;
+                }
+                else if(newX > canvas.width - player.playerWidth)
+                {
+                    newX = canvas.width - player.playerWidth;
+                }
+                player.x = newX;
+            }
+            
+            //Mouse control. The basket follows the pointer's x position.
+            canvas.addEventListener("mousemove", function(e)
+            {
+                moveBasketTo(e.clientX);
+            });
+            
+            //Touch control. The basket follows the finger's x position.
+            //preventDefault stops a vertical drag from scrolling the page,
+            //so the listeners are registered as non-passive.
+            canvas.addEventListener("touchstart", function(e)
+            {
+                if(e.touches.length == 0)
+                {
+                    return;
+                }
+                e.preventDefault();
+                moveBasketTo(e.touches[0].clientX);
+            }, { passive: false });
+            
+            canvas.addEventListener("touchmove", function(e)
+            {
+                if(e.touches.length == 0)
+                {
+                    return;
+                }
+                e.preventDefault();
+                moveBasketTo(e.touches[0].clientX);
+            }, { passive: false });
             
             main();
 

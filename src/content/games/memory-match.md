@@ -48,7 +48,8 @@ content:
   intro: >-
     Memory Match is the concentration game everyone knows: a grid of face-down cards, each
     hiding a picture, and one job — flip two cards at a time and find every matching pair.
-    There is no timer pushing you and no way to lose except running out of patience. It is
+    A clock counts your time so you can race your own best, but it never runs out — there
+    is no time limit and no way to lose. It is
     one of the oldest brain games in the world, equally loved by children and adults, and
     it runs free in your browser with no download and no account.
 
@@ -66,8 +67,9 @@ content:
     - >-
       This version is based on an open-source memory matching game by Jiten Rajpurohit,
       released under the MIT licence. It runs entirely in your browser with mouse controls
-      on desktop and tap controls on mobile, and it includes multiple levels that grow the
-      grid as you improve. No download, no sign-up and no time pressure.
+      on desktop and tap controls on mobile, and it offers five board sizes — 3×4, 4×4, 4×5,
+      5×6 and 6×6 — that you pick from the menu before you start. No download, no sign-up
+      and no time pressure.
 
   howToPlay:
     - step: "Flip a card."
@@ -86,10 +88,11 @@ content:
       detail: >-
         Keep flipping and matching until every card is face up and every pair is found. The
         game tracks your moves and time, so fewer flips mean a better result.
-    - step: "Advance to bigger grids."
+    - step: "Choose your grid size."
       detail: >-
-        As you clear boards, the game offers larger grids with more pairs — the same rules,
-        but a much bigger test of memory.
+        Before a game you pick a board from the menu — 3×4, 4×4, 4×5, 5×6 or 6×6 — and that
+        sets how many pairs are on the grid. Every mode is available from the start; nothing
+        unlocks as you go, you simply pick the size of challenge you want.
 
   controls:
     - action: "Flip a card"
@@ -98,18 +101,18 @@ content:
     - action: "Select the next card"
       desktop: "Click a second face-down card"
       mobile: "Tap a second face-down card"
-    - action: "Restart the board"
-      desktop: "Click the Restart button"
-      mobile: "Tap the Restart button"
+    - action: "Start a new board"
+      desktop: "Pick a grid mode (3×4 up to 6×6) from the menu to begin a fresh board"
+      mobile: "Tap a grid mode (3×4 up to 6×6) from the menu to begin a fresh board"
     - action: "Choose a level"
       desktop: "Select a grid size before starting"
       mobile: "Select a grid size before starting"
     - action: "See your move count"
       desktop: "The number of flips is shown above the grid"
       mobile: "The number of flips is shown above the grid"
-    - action: "See how many pairs remain"
-      desktop: "The remaining pair count is shown above the grid"
-      mobile: "The remaining pair count is shown above the grid"
+    - action: "See your running time"
+      desktop: "The clock is shown above the grid; it counts up and stops when you clear the board"
+      mobile: "The clock is shown above the grid; it counts up and stops when you clear the board"
     - action: "Fullscreen"
       desktop: "Click the fullscreen button above the grid"
       mobile: "Tap the fullscreen button above the grid"
@@ -140,14 +143,15 @@ content:
         up, and starting too big just trains frustration instead of recall.
     - title: "Play without rushing"
       body: >-
-        There is no timer, so speed is not the point. A slow, careful game with fewer flips
-        is a better memory workout than a frantic one with twice the moves.
+        The clock counts up rather than down, so there is no time limit — speed is your own
+        challenge, not the game's. A slow, careful game with fewer flips is a better memory
+        workout than a frantic one with twice the moves.
 
   features:
     - "Classic concentration matching with multiple grid sizes"
     - "Runs entirely in your browser with no download or plugin"
     - "Click controls on desktop and tap controls on mobile"
-    - "No timer — play completely at your own pace"
+    - "A count-up stopwatch with no time limit — play at your own pace"
     - "Open source under the MIT licence with credit to the developer"
 
   faq:
@@ -173,8 +177,9 @@ content:
         builds the habit of holding and recalling visual information.
     - q: "How do I win?"
       a: >-
-        Match every identical pair on the board so that every card is face up. The game then
-        shows your result and offers the next, larger grid.
+        Match every identical pair on the board so that every card is face up. When you clear
+        the board the game shows your time and move count and invites you to start another
+        mode.
 
 info:
   developer: "Jiten Rajpurohit"
@@ -205,9 +210,9 @@ ratings:
   count: 0
 
 publishedAt: 2026-08-05
-updatedAt: 2026-08-05
+updatedAt: 2026-10-10
 ---
 
 Memory Match is the rare game where the only opponent is your own attention. There is no
-clock, no score to lose and no trick to learn — just a grid of cards asking you to
+time limit, no score to lose and no trick to learn — just a grid of cards asking you to
 remember, and the quiet satisfaction when a hunch turns out to be right.

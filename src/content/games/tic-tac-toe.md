@@ -1,16 +1,16 @@
 ---
 title: "Tic Tac Toe"
-h1: "Play Tic Tac Toe Online — Free 2 Player Game"
+h1: "Play Tic Tac Toe Online — Free Game vs the Computer"
 draft: false
 
 seo:
-  title: "Play Tic Tac Toe Free — 2 Player Game | SnackArcade"
-  description: "Play Tic Tac Toe free in your browser. Take turns placing X and O and be the first to line up three. Against the computer or a friend. No download."
+  title: "Play Tic Tac Toe Free — Game vs the Computer | SnackArcade"
+  description: "Play Tic Tac Toe free in your browser. Beat a computer opponent set to Easy, Medium or Hard by lining up three X or O marks in a row. No download required."
   targetKeywords:
     - tic tac toe online
     - play tic tac toe free
     - tic tac toe vs computer
-    - tic tac toe 2 player
+    - tic tac toe single player
     - how to play tic tac toe
   noindexOverride: false
 
@@ -33,7 +33,7 @@ taxonomy:
     - puzzle
   tags:
     - classic
-    - two-player
+    - single-player
     - strategy
     - no-download
     - family-friendly
@@ -50,9 +50,8 @@ content:
     Tic Tac Toe is the first strategy game most people ever learn: a 3 by 3 grid, two
     players, and the goal of placing three marks in a row. It is simple enough for a child
     and, against the right opponent, surprisingly tricky — because perfect play always ends
-    in a draw. The version here lets you play against a smart computer opponent or against a
-    friend on the same device, and it runs free in your browser with no download and no
-    account.
+    in a draw. The version here pits you against a computer opponent that you can set to Easy,
+    Medium or Hard, and it runs free in your browser with no download and no account.
 
   about:
     - >-
@@ -69,14 +68,14 @@ content:
     - >-
       This version is based on an open-source Tic Tac Toe game by Ramazan Çetinkaya,
       released under the MIT licence. It runs entirely in your browser with zero dependencies,
-      includes a heuristic computer opponent for solo play, and supports two-player mode on
-      one screen. No download, no sign-up and no waiting.
+      and it is a single-player game: you take on a computer opponent that you can set to
+      Easy, Medium or Hard. No download, no sign-up and no waiting.
 
   howToPlay:
     - step: "Choose your mark."
       detail: >-
-        One player takes X and the other takes O. X always moves first, and the players
-        alternate turns on the 3 by 3 grid.
+        Pick the mark you want to play as — X or O. The computer takes the other one. X always
+        moves first, so if you choose O the computer opens the game.
     - step: "Place your mark."
       detail: >-
         Click or tap an empty square to place your X or O. Once placed, a mark stays for the
@@ -98,6 +97,12 @@ content:
     - action: "Place a mark"
       desktop: "Click an empty square"
       mobile: "Tap an empty square"
+    - action: "Choose your mark"
+      desktop: "Pick X or O on the start screen"
+      mobile: "Pick X or O on the start screen"
+    - action: "Choose difficulty"
+      desktop: "Pick Easy, Medium or Hard before you start"
+      mobile: "Pick Easy, Medium or Hard before you start"
     - action: "See whose turn it is"
       desktop: "The turn indicator shows X or O"
       mobile: "The turn indicator shows X or O"
@@ -105,14 +110,11 @@ content:
       desktop: "The winning line is highlighted when the game ends"
       mobile: "The winning line is highlighted when the game ends"
     - action: "Restart the game"
-      desktop: "Click the New Game button"
-      mobile: "Tap the New Game button"
-    - action: "Choose game mode"
-      desktop: "Select Computer or Two Player before starting"
-      mobile: "Select Computer or Two Player before starting"
+      desktop: "Click the restart icon and confirm"
+      mobile: "Tap the restart icon and confirm"
     - action: "Start a new round"
-      desktop: "Click New Game on the result screen"
-      mobile: "Tap New Game on the result screen"
+      desktop: "Click Next Round on the result screen"
+      mobile: "Tap Next Round on the result screen"
     - action: "Fullscreen"
       desktop: "Click the fullscreen button above the grid"
       mobile: "Tap the fullscreen button above the grid"
@@ -144,13 +146,14 @@ content:
         line. Save them for the middle of the game when they complete a threat.
     - title: "Play the computer to learn"
       body: >-
-        The computer opponent is a patient teacher. Play against it to learn the opening and
-        blocking patterns, then test them on a human friend.
+        Play against it to learn the opening and blocking patterns. Easy plays a loose,
+        defensive game, Medium blocks your threats, and Hard follows a strict hierarchy of the
+        strongest moves, so you can raise the level as you improve.
 
   features:
-    - "Classic Tic Tac Toe against the computer or a friend"
+    - "Classic Tic Tac Toe against a computer opponent"
+    - "Easy, Medium and Hard computer difficulty levels"
     - "Runs entirely in your browser with no download or plugin"
-    - "Zero dependencies — loads instantly"
     - "Quick rounds perfect for a short break"
     - "Open source under the MIT licence with credit to the developer"
 
@@ -161,12 +164,13 @@ content:
         with no payment, no trial and no premium version.
     - q: "Can I play against the computer?"
       a: >-
-        Yes. The game includes a smart computer opponent, so you can practise alone without
-        needing another player.
-    - q: "Can two people play on the same device?"
+        Yes — it is a single-player game, so the computer is your opponent. Choose your mark
+        and a difficulty, then play at your own pace with no second player needed.
+    - q: "Can I change how hard the computer is?"
       a: >-
-        Yes. Choose the two-player mode and both players share the same screen, taking turns
-        to place X and O.
+        Yes. Before you start, pick Easy, Medium or Hard. Easy defends but often plays at
+        random, Medium blocks your immediate threats, and Hard follows a strict hierarchy of
+        the strongest moves and is very tough to beat.
     - q: "Why is Tic Tac Toe often a draw?"
       a: >-
         With perfect play, neither player can force a win — the game always ends in a draw.
@@ -186,7 +190,7 @@ info:
   genre:
     - Board
     - Strategy
-  players: MultiPlayer
+  players: SinglePlayer
   technology: "HTML5 / JavaScript"
   platform:
     - Desktop
@@ -208,7 +212,7 @@ ratings:
   count: 0
 
 publishedAt: 2026-08-06
-updatedAt: 2026-08-06
+updatedAt: 2026-10-10
 ---
 
 Tic Tac Toe is the game that teaches you how strategy works before you even know the word.

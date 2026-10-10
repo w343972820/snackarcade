@@ -50,9 +50,9 @@ content:
     Alien Attack is the retro alien-shooter in its purest arcade form: rows of alien ships
     descend toward you, and you control a cannon at the bottom of the screen, firing upward
     to stop them before they land. Every wave moves faster, every shot counts, and your only
-    goal is to survive as long as you can and beat your high score. It is the classic
-    vertical shooter that started the arcade era, rebuilt for your browser with no download
-    and no account.
+    goal is to survive as long as you can and score as many points as possible. It is the
+    classic vertical shooter that started the arcade era, rebuilt for your browser with no
+    download and no account.
 
   about:
     - >-
@@ -74,12 +74,14 @@ content:
   howToPlay:
     - step: "Move your cannon."
       detail: >-
-        Use the left and right arrow keys to slide your cannon along the bottom of the
-        playfield. Position yourself beneath the alien formation to line up your shots.
+        Use the left and right arrow keys (or the A and D keys) to slide your cannon along
+        the bottom of the playfield. Position yourself beneath the alien formation to line up
+        your shots.
     - step: "Fire at the aliens."
       detail: >-
-        Press the space bar or fire button to shoot upward. A hit destroys an alien and adds
-        to your score, and clearing a full wave moves you to the next, faster one.
+        Press the space bar, the W key or the up arrow to shoot upward. A hit destroys an
+        alien and adds to your score, and clearing a full wave moves you to the next, faster
+        one.
     - step: "Dodge the incoming bombs."
       detail: >-
         The aliens fire back. Move your cannon to avoid their bombs — being hit costs you a
@@ -88,20 +90,21 @@ content:
       detail: >-
         Destroy every alien in a wave to advance. Each new wave descends faster and is
         harder to dodge, so the game escalates until it overwhelms you.
-    - step: "Beat your high score."
+    - step: "Aim for a bigger score."
       detail: >-
-        Your best score is saved locally, so every game is a chance to push a little further
-        and climb a little higher.
+        Your score rises with every alien you destroy and is shown at the top of the
+        playfield. It starts again from zero each run, so every game is a fresh chance to
+        score more.
 
   controls:
     - action: "Move cannon left"
-      desktop: "Left arrow key"
+      desktop: "Left arrow key or A"
       mobile: "Not available — keyboard game"
     - action: "Move cannon right"
-      desktop: "Right arrow key"
+      desktop: "Right arrow key or D"
       mobile: "Not available"
     - action: "Fire"
-      desktop: "Space bar"
+      desktop: "Space bar, W or the up arrow"
       mobile: "Not available"
     - action: "See your score"
       desktop: "The score is shown at the top of the playfield"
@@ -110,13 +113,16 @@ content:
       desktop: "Lives are shown at the top of the playfield"
       mobile: "Not available"
     - action: "Restart the game"
-      desktop: "Click the Play button after losing"
+      desktop: "Click the Restart button on the game-over screen"
       mobile: "Not available"
     - action: "Pause the game"
-      desktop: "Press the Pause button, if available"
+      desktop: "Press the Esc key; the pause screen offers Continue, Restart and Home"
+      mobile: "Not available"
+    - action: "Mute the sound"
+      desktop: "Click the Mute button to toggle sound on and off"
       mobile: "Not available"
     - action: "Fullscreen"
-      desktop: "Click the fullscreen button above the playfield"
+      desktop: "Click the fullscreen button in the bar below the playfield"
       mobile: "Not available"
     - action: "Exit fullscreen"
       desktop: "Escape key"
@@ -133,7 +139,7 @@ content:
         them slows the march and gives you more time to dodge.
     - title: "Fire in short bursts"
       body: >-
-        Holding the fire button wastes shots. Fire deliberately, aim at a target, and let
+        Holding the fire key wastes shots. Fire deliberately, aim at a target, and let
         each shot land before you fire again — accuracy beats volume.
     - title: "Move only when you must"
       body: >-
@@ -152,7 +158,7 @@ content:
     - "Classic descending-alien shooter gameplay"
     - "Runs entirely in your browser with no download or plugin"
     - "Keyboard controls for precise aiming"
-    - "Escalating waves and a local high score"
+    - "Escalating waves and an on-screen score"
     - "Open source under the MIT licence with credit to the developer"
 
   faq:
@@ -162,8 +168,8 @@ content:
         with no payment, no trial and no premium version.
     - q: "How do I control the cannon?"
       a: >-
-        Use the left and right arrow keys to move, and the space bar to fire. The game needs
-        a keyboard and is designed for desktop play.
+        Use the left and right arrow keys (or A and D) to move, and the space bar, W or the
+        up arrow to fire. The game needs a keyboard and is designed for desktop play.
     - q: "What happens when I clear a wave?"
       a: >-
         Destroying every alien completes the wave and the next one appears, descending faster
@@ -176,10 +182,10 @@ content:
       a: >-
         Watch the alien directly above your cannon. When it drops a bomb, move sideways out
         of the line before it lands.
-    - q: "Is my high score saved?"
+    - q: "Is my score saved?"
       a: >-
-        Your best score is saved in your browser's local storage, so you can return and try
-        to beat it. Clearing your browser data will reset it.
+        No. Your score is shown while you play, but it is not saved between visits — close
+        the tab or start a new run and the count begins again from zero.
 
 info:
   developer: "matt-aranha"
@@ -208,9 +214,9 @@ ratings:
   count: 0
 
 publishedAt: 2026-08-07
-updatedAt: 2026-08-07
+updatedAt: 2026-10-10
 ---
 
 Alien Attack is the game that taught a generation that dodging is a skill. The aliens
-march, the bombs fall, and the only thing between you and a new high score is your ability
+march, the bombs fall, and the only thing between you and a bigger score is your ability
 to stay calm while the whole screen tries to end you. It is the arcade at its purest.

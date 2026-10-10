@@ -7,7 +7,7 @@ relatedGameSlugs: ["nonogram", "minesweeper", "sudoku", "four-in-a-row"]
 author: "SnackArcade Team"
 draft: false
 publishedAt: 2026-08-07
-updatedAt: 2026-08-07
+updatedAt: 2026-10-10
 ---
 
 # The Best Logic Puzzle Games to Play Free Online
@@ -28,7 +28,7 @@ A logic puzzle gives you complete information and asks you to deduce the answer.
 
 ## Sudoku: The Grid of Constraints
 
-[Sudoku](/games/sudoku/) is the world's favourite logic puzzle for a reason. The rules fit in one sentence — every row, column and box must contain the digits 1 to 9 exactly once — and the solving is pure elimination. Each cell's candidates shrink as you fill in the grid, and the techniques from simple scanning to hidden singles and naked pairs are all logical consequences of the one rule. With notes mode and four difficulty levels, it scales from a gentle warm-up to a genuinely hard problem, and it never asks you to guess.
+[Sudoku](/games/sudoku/) is the world's favourite logic puzzle for a reason. The rules fit in one sentence — every row, column and box must contain the digits 1 to 9 exactly once — and the solving is pure elimination. Each cell's candidates shrink as you fill in the grid, and the techniques from simple scanning to hidden singles and naked pairs are all logical consequences of the one rule. With five difficulty levels, it scales from a gentle warm-up to a genuinely hard problem, and it never asks you to guess.
 
 ## Four in a Row: The Two-Player Logic Battle
 

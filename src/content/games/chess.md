@@ -183,7 +183,8 @@ content:
     - q: "What chess rules are enforced?"
       a: >-
         The engine understands all standard rules including castling, en passant, promotion
-        and checkmate. It is the widely used open-source chess.js engine.
+        and checkmate. It is the widely used open-source chess.js engine. Note that promotion
+        is automatic: a pawn always becomes a queen, with no piece to choose.
     - q: "Can I play chess on my phone?"
       a: >-
         Yes. Tap a piece and tap a highlighted destination to move. The board works in both
@@ -221,7 +222,7 @@ ratings:
   count: 0
 
 publishedAt: 2026-08-04
-updatedAt: 2026-08-04
+updatedAt: 2026-10-10
 ---
 
 Chess rewards the player who asks the right question after every single move: what changed

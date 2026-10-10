@@ -5,7 +5,7 @@ draft: false
 
 seo:
   title: "Play Catch Fruit Free — Arcade Game | SnackArcade"
-  description: "Play Catch Fruit free in your browser. Move the basket to catch every falling fruit and build the longest combo streak. Full controls, tips and FAQ."
+  description: "Play Catch Fruit free in your browser. Move the basket to catch falling fruit — the faster it drops, the more points it scores. Full controls, tips and FAQ."
   targetKeywords:
     - catch fruit game
     - fruit catch online
@@ -42,27 +42,28 @@ taxonomy:
   mechanics:
     - catching
     - timing
-    - combo-building
 
 content:
   intro: >-
     Catch Fruit is the arcade game of moving a basket and catching fruit as it falls from
-    the sky. Every piece you catch scores points, every one you miss costs you, and the
-    longer you survive the faster the fruit falls. It is one of the most instantly readable
+    the sky. Every piece you catch scores points, every one you miss costs you, and each
+    piece falls at its own random pace — the faster a fruit drops, the more points it is
+    worth. It is one of the most instantly readable
     games ever made — move, catch, score — and it is loved by children and adults alike.
     Play it free in your browser with no download and no account.
 
   about:
     - >-
       The catch-the-falling-objects game has been a casual favourite for decades, because it
-      turns a simple motor skill — moving something to catch something — into an
-      increasingly tense test of timing. The rules are obvious from the first second, and
-      the difficulty curve does the rest.
+      turns a simple motor skill — moving something to catch something — into a tense test
+      of timing. The rules are obvious from the first second, and judging how fast each
+      fruit falls does the rest.
     - >-
       The challenge is anticipation. Fruit falls from different parts of the sky at
       different speeds, and your basket is the only thing between the fruit and the ground.
-      The skill is reading where each piece will land and moving there in time, while a
-      growing pace forces you to decide which pieces are worth chasing.
+      The skill is reading where each piece will land and moving there in time, while
+      pieces keep arriving from every direction, forcing you to choose which are worth
+      chasing.
     - >-
       This version is based on an open-source HTML5 fruit catcher by Jeevan Kumar Raj,
       released under the MIT licence. It runs entirely in your browser with mouse controls
@@ -80,16 +81,18 @@ content:
         catch adds to your score.
     - step: "Avoid the misses."
       detail: >-
-        Every fruit that reaches the ground without being caught costs you a life. Lose all
-        your lives and the game is over.
-    - step: "Build combo streaks."
+        Every fruit that reaches the ground without being caught counts as a miss against
+        you. Miss ten and the run is over — it is the only way the game ends.
+    - step: "Prioritise the valuable fruit."
       detail: >-
-        Catching several pieces in a row without a miss builds a combo, which multiplies your
-        score. A single miss resets the combo.
-    - step: "Survive the rising pace."
+        Fruit have different base values — a banana 5, an apple 10, an orange 15, a pineapple
+        20 and a melon 25. When two pieces are equally reachable, take the more valuable one;
+        the speed multiplier is applied on top of that.
+    - step: "Score more with faster fruit."
       detail: >-
-        As you play, fruit falls faster and in greater numbers. The longer you survive, the
-        harder the game becomes — and the higher your final score.
+        Each piece of fruit falls at its own random speed, and its points are multiplied by
+        how fast it falls — so a fast piece is worth more than a slow one. Watch how quickly
+        each fruit drops and go for the fastest, highest-value pieces.
 
   controls:
     - action: "Move basket left"
@@ -102,14 +105,14 @@ content:
       desktop: "Left and right arrow keys, if supported"
       mobile: "Not available — use drag"
     - action: "Restart the game"
-      desktop: "Click the Play button after losing"
-      mobile: "Tap the Play button after losing"
+      desktop: "Press Enter after losing"
+      mobile: "Not available — the game is restarted with Enter on a keyboard"
     - action: "See your score"
-      desktop: "The score and lives are shown at the top"
-      mobile: "The score and lives are shown at the top"
-    - action: "See remaining lives"
-      desktop: "The life counter is shown at the top of the playfield"
-      mobile: "The life counter is shown at the top of the playfield"
+      desktop: "The score and hi score are shown at the top"
+      mobile: "The score and hi score are shown at the top"
+    - action: "See how many you have missed"
+      desktop: "The fruit-missed counter is at the top; ten misses end the run"
+      mobile: "The fruit-missed counter is at the top; ten misses end the run"
     - action: "Fullscreen"
       desktop: "Click the fullscreen button above the game"
       mobile: "Tap the fullscreen button above the game"
@@ -132,23 +135,25 @@ content:
         through the middle. Returning to the centre after each catch covers the most ground.
     - title: "Do not chase every piece"
       body: >-
-        When the pace rises, some fruit is simply too far away. Let it fall and keep your
-        basket ready for the next cluster — one missed piece is cheaper than a scramble that
-        misses three.
-    - title: "Protect your combo"
+        When several pieces fall at once, some fruit is simply too far away. Let it fall
+        and keep your basket ready for the next one — one missed piece is cheaper than a
+        scramble that misses three.
+    - title: "Guard your final misses"
       body: >-
-        A combo streak is worth far more than individual catches. When the combo is high,
-        sacrifice a hard-to-reach piece to keep the streak alive on the easy ones.
-    - title: "Anticipate the spawn pattern"
+        The run ends the moment you miss your tenth piece, and that counter never resets, so
+        a loose patch late in a game can undo everything. Only chase a far-away piece when
+        you can comfortably get back in time.
+    - title: "Scan the whole playfield"
       body: >-
-        Fruit tends to spawn in clusters across the screen. Learn the rhythm of the clusters
-        and move into position before the next batch starts falling.
+        Fruit drops from random positions all across the sky, with no fixed spawn pattern to
+        memorise, so keep your eyes moving over the whole playfield and stay ready to drift
+        toward whichever piece is about to land.
 
   features:
     - "Classic catch-the-falling-fruit gameplay"
     - "Runs entirely in your browser with no download or plugin"
     - "Mouse controls on desktop and touch controls on mobile"
-    - "Combo scoring that rewards clean streaks"
+    - "Speed-based scoring — the faster a fruit falls, the more it is worth"
     - "Open source under the MIT licence with credit to the developer"
 
   faq:
@@ -162,12 +167,13 @@ content:
         left and right along the bottom of the playfield.
     - q: "What happens when I miss a piece of fruit?"
       a: >-
-        A piece of fruit that reaches the ground without being caught costs you a life. Lose
-        all your lives and the game ends.
-    - q: "How do combos work?"
+        A piece of fruit that reaches the ground without being caught counts as a miss. Ten
+        misses end the game, so the missed-fruit counter at the top is the number to watch.
+    - q: "How does scoring work?"
       a: >-
-        Catching several pieces in a row without a miss builds a combo that multiplies your
-        score. Missing a piece resets the combo back to zero.
+        Each fruit has a base value — a banana is worth 5, an apple 10, an orange 15, a
+        pineapple 20 and a melon 25 — and that value is multiplied by how fast the fruit is
+        falling. So the fastest, most valuable fruit on screen is worth the most points.
     - q: "Can I play Catch Fruit on my phone?"
       a: >-
         Yes. Drag your finger to move the basket. The game works in portrait and landscape on
@@ -205,10 +211,10 @@ ratings:
   count: 0
 
 publishedAt: 2026-08-07
-updatedAt: 2026-08-07
+updatedAt: 2026-10-10
 ---
 
 Catch Fruit is a game with one idea, perfectly executed: move the basket, catch the fruit,
 beat your best. There is no story to follow, no inventory to manage and no tutorial to sit
-through — just a falling challenge that gets faster until your reflexes are the only thing
-standing between you and a new high score.
+through — just a falling challenge where the fastest fruit scores the most, and your
+reflexes are the only thing standing between you and a new high score.

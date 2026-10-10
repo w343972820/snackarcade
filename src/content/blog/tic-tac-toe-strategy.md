@@ -8,12 +8,12 @@ relatedGameSlugs: ["tic-tac-toe"]
 author: "SnackArcade Team"
 draft: false
 publishedAt: 2026-09-16
-updatedAt: 2026-09-16
+updatedAt: 2026-10-10
 ---
 
 # Tic Tac Toe Strategy: Why You Never Have to Lose
 
-Tic Tac Toe gets dismissed as a children's game, and there is a reason: the game is small enough to be solved completely, and when it was solved, the answer was that nobody has to lose. But "solvable" is not the same as "trivial". The gap between a player who knows the game is a draw and a player who can actually hold that draw against a determined opponent is exactly the gap this guide closes — and you can test every claim here on the [free Tic Tac Toe board](/games/tic-tac-toe/) against the computer or a friend.
+Tic Tac Toe gets dismissed as a children's game, and there is a reason: the game is small enough to be solved completely, and when it was solved, the answer was that nobody has to lose. But "solvable" is not the same as "trivial". The gap between a player who knows the game is a draw and a player who can actually hold that draw against a determined opponent is exactly the gap this guide closes — and you can test every claim here on the [free Tic Tac Toe board](/games/tic-tac-toe/) against the computer.
 
 ## The Grid Is Not Nine Equal Squares
 
@@ -93,7 +93,7 @@ Together these three habits cover the entire practical difference between a play
 
 ## Practising Against the Computer
 
-The human opponent in the room is a poor training partner because they make unpredictable mistakes — you learn nothing from a win you did not earn. Our [two-player Tic Tac Toe game](/games/tic-tac-toe/) also includes a computer opponent that plays a solid heuristic game, and that is a much better sparring partner: it will punish the edge opening, it will take the centre when you offer it, and it will fork you the moment your defence slips.
+The human opponent in the room is a poor training partner because they make unpredictable mistakes — you learn nothing from a win you did not earn. Our [Tic Tac Toe game](/games/tic-tac-toe/) plays against a computer opponent that follows a solid heuristic, and that is a much better sparring partner: it will punish the edge opening, it will take the centre when you offer it, and it will fork you the moment your defence slips.
 
 Play ten games against it. If you lose even one, you have found a gap in your blocking routine. If you draw ten in a row, you have genuinely learned the game.
 

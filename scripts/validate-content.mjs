@@ -29,6 +29,13 @@ const ASSETS_DIR = path.join(ROOT, 'src', 'assets', 'games');
 const GAMES_SRC = path.join(ROOT, 'games-src');
 const MANIFEST = path.join(GAMES_SRC, 'manifest.json');
 
+/* Kept in step with the content.controls rule in src/content.config.ts.
+   Astro enforces this too, but only one entry at a time and only once the
+   build has started (2026-10-10: a 7-row klondike-solitaire.md reached
+   `npm run build` because this script did not check the count). */
+const CONTROLS_MIN = 8;
+const CONTROLS_MAX = 15;
+
 /* ============================================================================
    Licence rules
    ========================================================================== */
@@ -134,6 +141,37 @@ const problems = [];
  */
 function fail(file, field, message, fix) {
   problems.push({ file, field, message, fix });
+}
+
+/**
+ * Check seo.title / seo.description lengths against the bounds in
+ * src/content.config.ts. Astro enforces the same rules, but it stops at the
+ * first offender and only once the build is already running — this reports
+ * every one of them before the build starts, which is what saved a two-round
+ * build/fix/build cycle on 2026-10-10.
+ * @param {string} rel File path shown to the user.
+ * @param {Record<string, any>} seo The parsed seo block, if any.
+ * @param {[number, number]} titleBounds [min, max] characters for seo.title.
+ * @param {[number, number]} descBounds [min, max] characters for seo.description.
+ * @param {string} aim Extra plain-language guidance for the description.
+ */
+function checkSeoLengths(rel, seo, titleBounds, descBounds, aim) {
+  if (!seo || typeof seo !== 'object') return;
+
+  for (const [field, value, [lo, hi]] of [
+    ['seo.title', seo.title, titleBounds],
+    ['seo.description', seo.description, descBounds],
+  ]) {
+    if (typeof value !== 'string' || value === '') continue;
+    if (value.length < lo || value.length > hi) {
+      fail(
+        rel,
+        field,
+        `"${field}" is ${value.length} characters; the schema allows ${lo}–${hi}.`,
+        `Rewrite it to land between ${lo} and ${hi} characters. ${aim}`,
+      );
+    }
+  }
 }
 
 /** @type {string[]} */
@@ -390,6 +428,32 @@ function checkGames(knownTagIds, knownCategoryIds, manifestBySlug) {
       }
     }
 
+    /* ---- controls table -------------------------------------------------
+       The Zod schema is the source of truth, but Astro stops at the first bad
+       entry and only after the build has begun. Checking the shape here means
+       every short table is reported in one pass, before the build starts. */
+    const controls = data?.content?.controls;
+    if (
+      Array.isArray(controls) &&
+      (controls.length < CONTROLS_MIN || controls.length > CONTROLS_MAX)
+    ) {
+      fail(
+        rel,
+        'content.controls',
+        `This game lists ${controls.length} control row(s); the schema requires ${CONTROLS_MIN}–${CONTROLS_MAX}.`,
+        `Add or remove rows until the table has ${CONTROLS_MIN}–${CONTROLS_MAX} entries. Never invent a gesture to pad the count — read games-src/${slug}/ and describe something the game actually does. The fullscreen and restart rows count, and both live in the site shell rather than in the game itself.`,
+      );
+    }
+
+    /* ---- seo.title / seo.description length ----------------------------- */
+    checkSeoLengths(
+      rel,
+      data?.seo,
+      [30, 60],
+      [120, 158],
+      'Aim for 140–155 so Google shows the whole line.',
+    );
+
     /* ---- Cover image ---------------------------------------------------- */
     const coverRef = typeof data?.media?.cover === 'string' ? data.media.cover : '';
     if (coverRef !== '') {
@@ -618,6 +682,17 @@ function checkBlog(knownGameSlugs) {
         );
       }
     }
+
+    /* ---- seo.title / seo.description length -----------------------------
+       Blog bounds are not the game bounds: seo.title 15–60 and
+       seo.description 70–158, per src/content.config.ts. */
+    checkSeoLengths(
+      rel,
+      data?.seo,
+      [15, 60],
+      [70, 158],
+      'Aim for 120–155 so Google shows the whole line.',
+    );
 
     /* ---- Author convention --------------------------------------------- */
     const author = String(data?.author ?? '');

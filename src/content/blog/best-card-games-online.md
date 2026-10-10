@@ -7,7 +7,7 @@ relatedGameSlugs: ["klondike-solitaire", "mahjong-solitaire", "chess", "four-in-
 author: "SnackArcade Team"
 draft: false
 publishedAt: 2026-08-06
-updatedAt: 2026-08-06
+updatedAt: 2026-10-10
 ---
 
 # Best Card Games Online: Free Classics You Can Play Now
@@ -16,7 +16,7 @@ There is a reason card games outlived every operating system they ever shipped o
 
 ## Klondike Solitaire: The Gateway Classic
 
-If you are going to play one card game, make it [Klondike Solitaire](/games/klondike-solitaire/). It is the patience game that shipped with every computer for three decades, and its appeal has not faded: one deck, seven tableau columns, and the goal of building all four suits from Ace to King on the foundations. The version here offers both draw-one and draw-three modes, so you can choose how forgiving the game is, and your deal is saved automatically so you can finish it later. It is the calmest game on the list and the one you will return to most.
+If you are going to play one card game, make it [Klondike Solitaire](/games/klondike-solitaire/). It is the patience game that shipped with every computer for three decades, and its appeal has not faded: one deck, seven tableau columns, and the goal of building all four suits from Ace to King on the foundations. The version here uses the traditional three-card draw — three cards turn over at a time and only the top one is playable — and there is no auto-save, so each deal is played in a single sitting. It is the calmest game on the list and the one you will return to most.
 
 ## Mahjong Solitaire: The Tile-Matching Cousin
 

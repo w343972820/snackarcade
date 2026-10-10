@@ -174,8 +174,8 @@ content:
         in portrait and landscape on mobile browsers.
     - q: "Are the puzzles always different?"
       a: >-
-        Yes. Each puzzle is generated fresh, so the grid and word list change every time you
-        start a new game.
+        The same word list is used each time, but the grid itself is generated fresh: the
+        words stay the same while their positions and directions change from game to game.
     - q: "Is Word Search good for children?"
       a: >-
         Yes. Word search is a popular classroom activity that builds spelling and pattern
@@ -209,7 +209,7 @@ ratings:
   count: 0
 
 publishedAt: 2026-08-06
-updatedAt: 2026-08-06
+updatedAt: 2026-10-10
 ---
 
 Word Search is the quietest puzzle on the site and one of the most satisfying. There is no

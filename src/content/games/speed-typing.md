@@ -5,7 +5,7 @@ draft: false
 
 seo:
   title: "Play Speed Typing Free — Typing Game | SnackArcade"
-  description: "Play Speed Typing free in your browser. Type the falling words before they reach the bottom and push your words per minute to a new high score. No download."
+  description: "Play Speed Typing free in your browser. A passage appears and you have 60 seconds to type it as fast and accurately as you can, then your WPM is scored."
   targetKeywords:
     - typing game online
     - speed typing game
@@ -16,7 +16,7 @@ seo:
 
 media:
   cover: ../../assets/games/speed-typing/cover.png
-  coverAlt: "Speed Typing game with words falling down the screen and a typing input bar"
+  coverAlt: "Speed Typing game showing a passage to type, a typing input box and live accuracy, timer and words per minute readouts"
   aspectRatio: [16, 9]
 
 source:
@@ -46,65 +46,76 @@ taxonomy:
 
 content:
   intro: >-
-    Speed Typing turns your keyboard into the game controller. Words fall down the screen,
-    and your job is to type each one before it reaches the bottom. The faster and more
-    accurately you type, the more words you clear and the higher your score climbs. It is
-    the perfect game for a work break — it feels like play, but it quietly builds real
-    typing speed and accuracy. Play it free in your browser with no download and no account.
+    Speed Typing turns your keyboard into the game controller. A passage appears on the screen,
+    and your job is to type it exactly as shown — every character is checked as you go, so a
+    correct letter and a wrong one look different straight away. You have 60 seconds on the
+    clock, and when the time runs out the game reports your words per minute and your accuracy.
+    Play it free in your browser with no download and no account.
 
   about:
     - >-
       Typing games have been popular since the first computers because they turn practice
-      into play. Instead of drilling finger positions, you react to falling words, and your
-      hands learn the patterns without you noticing. Regular play measurably improves both
-      speed and accuracy, which is why typing games appear in classrooms and offices alike.
+      into play. Instead of drilling finger positions, you type real passages against the
+      clock, and your hands learn the patterns without you noticing. Regular play measurably
+      improves both speed and accuracy, which is why typing games appear in classrooms and
+      offices alike.
     - >-
-      The core loop is simple: a word appears, you type it, it disappears. Words fall at a
-      steady pace, and the game tracks your speed and accuracy as you go. The challenge
-      escalates as you improve — faster words, more of them, and less time to react.
+      The core loop is simple: one of six passages appears, you type it, and the game serves
+      up the next one the moment you type its final character. The clock never stops between
+      passages, and the game tracks your accuracy and error count as you go. It does not get
+      harder as you improve — the only pressure is the one-minute timer, and the goal of each
+      run is to beat your own words per minute.
     - >-
       This version is based on an open-source typing game by Sayantan Majumdar, released
       under the MIT licence. It runs entirely in your browser with a physical keyboard and
-      offers the classic falling-words format with a clean, focused interface. No download,
-      no sign-up and no need to install anything.
+      offers a clean, focused 60-second typing test. No download, no sign-up and no need to
+      install anything.
 
   howToPlay:
-    - step: "Watch the falling words."
+    - step: "Read the passage on screen."
       detail: >-
-        Words appear at the top of the screen and fall toward the bottom. You have to type
-        each word before it reaches the danger zone at the bottom of the play area.
-    - step: "Type the word you want to clear."
+        A passage is shown at the top of the screen. Click into the typing box below it and the
+        60-second timer starts — you have one minute to type as much of the passage as you can
+        before the clock reaches zero.
+    - step: "Type the passage exactly."
       detail: >-
-        Start typing a word. As you type, matching letters are highlighted so you can see
-        your progress. Complete the word to clear it and score points.
-    - step: "Watch your accuracy."
+        Type the passage as it appears. Every character is checked instantly — correct letters
+        are highlighted in one colour and mistakes in another, so you can see straight away
+        where you went wrong.
+    - step: "Watch your accuracy and errors."
       detail: >-
-        Typing the wrong letter costs time and can slow your score. Focus on accuracy first —
-        speed follows naturally when you are not correcting mistakes.
-    - step: "Keep the screen clear."
+        The header shows your accuracy as a percentage and counts your errors while you type.
+        Accuracy is your correct characters divided by everything you have typed, so aim for
+        clean, careful keystrokes.
+    - step: "Beat the clock."
       detail: >-
-        If a word reaches the bottom of the screen, you lose a life or the game ends,
-        depending on the mode. Clearing words before they fall is the whole game.
-    - step: "Beat your words per minute."
+        The timer counts down from 60 seconds and keeps running between passages. There is no
+        losing screen and no lives to defend — when the clock hits zero the run simply ends and
+        your results appear.
+    - step: "Check your words per minute."
       detail: >-
-        The game measures your typing speed in words per minute, and your best score is saved
-        locally so you can track your improvement over time.
+        When the minute is up, the game shows your words per minute and characters per minute
+        for that run, along with your final accuracy. Nothing is stored, so restart and try to
+        beat your number.
 
   controls:
-    - action: "Type a word"
+    - action: "Type the passage"
       desktop: "Use the letter keys on your keyboard"
       mobile: "Not available — this game needs a physical keyboard"
     - action: "Correct a mistake"
       desktop: "Backspace to delete the last letter"
       mobile: "Not available"
-    - action: "Submit a completed word"
-      desktop: "The word clears automatically when complete"
+    - action: "Finish a passage"
+      desktop: "The next passage appears automatically when you type its last character"
       mobile: "Not available"
-    - action: "See your words per minute"
-      desktop: "The WPM counter is shown during play"
+    - action: "See the countdown"
+      desktop: "The timer in the header counts down from 60 seconds"
       mobile: "Not available"
     - action: "See your accuracy"
-      desktop: "Accuracy is tracked and shown during play"
+      desktop: "Accuracy and errors are shown in the header while you type"
+      mobile: "Not available"
+    - action: "See your words per minute"
+      desktop: "Your words per minute and characters per minute appear when the run ends"
       mobile: "Not available"
     - action: "Restart the game"
       desktop: "Click the Restart button"
@@ -130,24 +141,26 @@ content:
         Beginners type one letter, check the screen, then type the next. Try to type each
         word as a single smooth burst of letters — your hands learn the rhythm and the word
         clears faster.
-    - title: "Do not panic as words fall"
+    - title: "Do not rush the passage"
       body: >-
-        A falling word is not a timer on your whole game — it is just one target. Pick the
-        nearest manageable word and clear it; staying calm beats rushing.
-    - title: "Start with shorter words"
+        Nothing falls toward you and there is no way to lose a life — the only pressure is the
+        clock. Settle into a steady rhythm and type the passage smoothly; a calm, even pace
+        scores higher than a frantic one.
+    - title: "Use the whole minute"
       body: >-
-        If the game lets you choose a difficulty, start with the shorter word list. Mastering
-        the rhythm on small words builds the muscle memory you need for the long ones.
+        Every run lasts the full 60 seconds and there is no bonus for finishing a passage
+        early — the next one appears the instant you complete the current text. Keep a steady
+        pace across the whole minute rather than sprinting and stalling.
     - title: "Play a little every day"
       body: >-
         Typing speed improves with consistent practice, not marathon sessions. A few minutes
         of Speed Typing daily produces faster gains than an hour once a week.
 
   features:
-    - "Classic falling-words typing gameplay"
+    - "60-second typing test with six rotating passages"
     - "Runs entirely in your browser with no download or plugin"
     - "Tracks your speed in words per minute"
-    - "Best score saved locally in your browser"
+    - "Live accuracy and error tracking as you type"
     - "Open source under the MIT licence with credit to the developer"
 
   faq:
@@ -161,20 +174,20 @@ content:
         played on a desktop or laptop. It is not playable on a phone.
     - q: "How is my typing speed measured?"
       a: >-
-        The game tracks how many words you clear and calculates your words per minute over
-        the session, so you can see your speed improve with practice.
-    - q: "What happens when a word reaches the bottom?"
+        The game counts every character you type during the 60-second run and reports your
+        words per minute and characters per minute when the time is up.
+    - q: "What happens when the timer runs out?"
       a: >-
-        A word that reaches the bottom of the play area costs you a life, and losing all your
-        lives ends the game. Clear words before they fall to keep playing.
+        The typing box is locked, the game shows your words per minute and accuracy for that
+        run, and a Restart button appears so you can play another minute.
     - q: "Can Speed Typing make me faster at typing?"
       a: >-
         Yes. Typing games are proven practice tools — they train accuracy first and speed
         follows. Regular short sessions measurably improve your typing.
-    - q: "Is my best score saved?"
+    - q: "Does the game save my score?"
       a: >-
-        Your best score is saved in your browser's local storage, so you can return and try
-        to beat it. Clearing your browser data will reset it.
+        No. Each 60-second run is scored on its own and the result is not stored anywhere, so
+        the only record is the number shown at the end. Play again any time to beat it.
 
 info:
   developer: "Sayantan Majumdar"
@@ -203,9 +216,9 @@ ratings:
   count: 0
 
 publishedAt: 2026-08-06
-updatedAt: 2026-08-06
+updatedAt: 2026-10-10
 ---
 
 Speed Typing is the rare game that makes you better at something useful every time you
-play. There is no luck, no hidden mechanic and no way to win except typing well — and the
-score you chase is really your own improving hands. It is practice that feels like play.
+play. There is no luck, no hidden mechanic and no way to score well except typing well —
+and the score you chase is really your own improving hands. It is practice that feels like play.
