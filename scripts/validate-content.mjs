@@ -36,6 +36,36 @@ const MANIFEST = path.join(GAMES_SRC, 'manifest.json');
 const CONTROLS_MIN = 8;
 const CONTROLS_MAX = 15;
 
+/* Kept in step with META_LIMITS in src/config/seo.ts and SITE.name in
+   src/config/site.ts. Category pages are built from a *template*, so the
+   length is only known once the placeholders are filled — and Astro fills
+   them at render time, which is already mid-build (2026-10-10: the rewritten
+   /c/2-player/ descriptionTemplate rendered to 168 characters and killed the
+   build after ~4 minutes). Filling the template here, with the widest count
+   we could ever have, moves that failure in front of the build. */
+const META_TITLE_MIN = 15;
+const META_TITLE_MAX = 60;
+const META_DESC_MIN = 70;
+const META_DESC_MAX = 158;
+const SITE_NAME = 'SnackArcade';
+/** No category will ever list more games than this on the whole site. */
+const COUNT_UPPER_BOUND = 99;
+
+/**
+ * Fill a category seo template the same way src/lib/seo/meta.ts does.
+ * @param {string} template Raw template from the frontmatter.
+ * @param {string} name The category's display name.
+ * @returns {string} The string that will end up in the document head.
+ */
+function fillCategoryTemplate(template, name) {
+  return String(template)
+    .replaceAll('{count}', String(COUNT_UPPER_BOUND))
+    .replaceAll('{name}', name)
+    .replaceAll('{site}', SITE_NAME)
+    .replaceAll('{year}', String(new Date().getUTCFullYear()))
+    .replaceAll('{month}', 'September');
+}
+
 /* ============================================================================
    Licence rules
    ========================================================================== */
@@ -614,6 +644,31 @@ function checkCategories() {
         );
       } else {
         seenOrder.set(order, rel);
+      }
+    }
+
+    /* Rendered title / description length. The templates are strings with
+       placeholders, so this is the only place the final length can be checked
+       without running the build. */
+    const name = String(parsed.data?.name ?? '');
+    for (const [field, template, lo, hi] of [
+      ['seo.titleTemplate', parsed.data?.seo?.titleTemplate, META_TITLE_MIN, META_TITLE_MAX],
+      [
+        'seo.descriptionTemplate',
+        parsed.data?.seo?.descriptionTemplate,
+        META_DESC_MIN,
+        META_DESC_MAX,
+      ],
+    ]) {
+      if (typeof template !== 'string' || template === '') continue;
+      const rendered = fillCategoryTemplate(template, name);
+      if (rendered.length < lo || rendered.length > hi) {
+        fail(
+          rel,
+          field,
+          `"${field}" renders to ${rendered.length} characters with the placeholders filled; the limit is ${lo}–${hi}.`,
+          `Shorten the template by ${rendered.length > hi ? rendered.length - hi : lo - rendered.length} characters. The longest form is used (count = ${COUNT_UPPER_BOUND}), so a shorter count will not save it.`,
+        );
       }
     }
   }

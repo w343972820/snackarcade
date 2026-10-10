@@ -27,9 +27,8 @@ source:
   bundleBytes: 46834
 
 taxonomy:
-  primaryCategory: 2-player
+  primaryCategory: puzzle
   categories:
-    - 2-player
     - puzzle
   tags:
     - classic

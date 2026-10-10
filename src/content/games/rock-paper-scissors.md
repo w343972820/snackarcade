@@ -27,12 +27,11 @@ source:
   bundleBytes: 138223
 
 taxonomy:
-  primaryCategory: 2-player
+  primaryCategory: arcade
   categories:
-    - 2-player
+    - arcade
   tags:
     - classic
-    - two-player
     - family-friendly
     - quick-session
     - no-download

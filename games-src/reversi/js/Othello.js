@@ -298,9 +298,13 @@ class Othello {
             let blocks = that.blocks;
 
             let rect = canvas.getBoundingClientRect();
+            // The canvas is scaled with CSS to fit small screens, so convert the
+            // on-screen tap position back into the canvas' own pixel space.
+            let scaleX = rect.width ? canvas.width / rect.width : 1;
+            let scaleY = rect.height ? canvas.height / rect.height : 1;
             let clickPosition = {
-                x: event.clientX - rect.left,
-                y: event.clientY - rect.top,
+                x: (event.clientX - rect.left) * scaleX,
+                y: (event.clientY - rect.top) * scaleY,
             }
             console.log(clickPosition)
             blocks.forEach((row, rowIndex) => {

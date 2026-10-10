@@ -14,7 +14,7 @@
   {
     "id": "two-player",
     "name": "Two Player",
-    "description": "Local multiplayer games for two people sharing one keyboard or one touchscreen, with split controls listed on every game page.",
+    "description": "Local multiplayer games for two people on one device: mostly turn-based, passing the same screen back and forth, with Paddle Ball the real-time exception.",
     "forceNoindex": false
   },
   {
@@ -86,7 +86,7 @@
   {
     "id": "high-score",
     "name": "High Score",
-    "description": "Games with no ending, only a number — you play until you lose and the goal is beating your previous best. A personal-best chase keeps every run meaningful.",
+    "description": "Games with no ending, only a score. You play until you lose, and the number you reach is the whole point of the run.",
     "forceNoindex": false
   },
   {

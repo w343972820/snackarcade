@@ -30,7 +30,6 @@ taxonomy:
   primaryCategory: card-board
   categories:
     - card-board
-    - 2-player
   tags:
     - classic
     - strategy
@@ -105,7 +104,7 @@ content:
       mobile: "Tap the black or white button before the game starts"
     - action: "See the disc count"
       desktop: "The black and white totals are shown beside the board"
-      mobile: "The black and white totals are shown beside the board"
+      mobile: "The black and white totals are shown below the board"
     - action: "When you have no legal move"
       desktop: "The game ends and the higher disc count wins"
       mobile: "The game ends and the higher disc count wins"
@@ -170,10 +169,9 @@ content:
         or white before the game starts, and the computer takes the other colour.
     - q: "Can I play Reversi on my phone?"
       a: >-
-        Yes — tap an empty highlighted square to place your disc. The board is 600 pixels
-        wide, so on a phone only about half of it is visible at once and you have to scroll
-        sideways to reach the rest; a tablet or desktop shows the whole board without
-        scrolling.
+        Yes — the board scales to fit the width of your screen, so the whole eight by eight
+        grid is visible in portrait with no sideways scrolling. Tap an empty highlighted
+        square to place your disc; the score card sits below the board on small screens.
     - q: "Why is my move not allowed?"
       a: >-
         A move is legal only if it flanks at least one line of opponent discs. If you have no

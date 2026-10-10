@@ -22,5 +22,12 @@
 # than leaving a dead end.
 /blog/sudoku-strategy/  /blog/sudoku-strategies-for-beginners/  301
 
+# /t/two-player/ lost its page on 2026-10-10. Rock Paper Scissors is a bot-only
+# game, so its "two player" tag was wrong and was removed; that took the tag from
+# 6 games to 5, under the TAG_MIN_GAMES threshold, so the page is no longer
+# generated. The same five games are listed on /c/2-player/, which is where this
+# traffic goes now.
+/t/two-player/  /c/2-player/  301
+
 https://www.playsnackarcade.com/* https://playsnackarcade.com/:splat 301
 http://www.playsnackarcade.com/* https://playsnackarcade.com/:splat 301
