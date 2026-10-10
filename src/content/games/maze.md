@@ -76,7 +76,7 @@ content:
   howToPlay:
     - step: "Look at the maze before you move."
       detail: >-
-        The maze is drawn as a grid of walls and corridors, with you at the top-left and the pink
+        The maze is drawn as a grid of walls and corridors, with you at the top-left and the purple
         exit square at the bottom-right. The clock does not start until your first move, so this
         look costs you nothing.
     - step: "Move with the arrow keys or WASD."
@@ -96,7 +96,7 @@ content:
         seconds and red at 5, so you always know how much margin you have left.
     - step: "Reach the exit."
       detail: >-
-        Once the board is clear of counters, walk to the pink square at the bottom-right to
+        Once the board is clear of counters, walk to the purple square at the bottom-right to
         finish. The game tells you how many seconds you had left over.
     - step: "Play again or pick a new size."
       detail: >-
