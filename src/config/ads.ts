@@ -5,6 +5,9 @@
  * FOR THE SITE OWNER
  * ═══════════════════════════════════════════════════════════════════════════
  * Ads are OFF right now. Nothing to do until AdSense approves you.
+ * The AdSense loader itself is already live on every page — that is what puts
+ * the publisher ID in front of Google so a review can start. Turning the switch
+ * on only adds the ad slots.
  *
  * To turn ads ON:
  *   1. Put your publisher ID in `.env`   →  PUBLIC_ADSENSE_PUB_ID=ca-pub-...
@@ -20,15 +23,30 @@
  * ═══════════════════════════════════════════════════════════════════════════
  * WHY IT IS BUILT THIS WAY
  * ═══════════════════════════════════════════════════════════════════════════
- * While `ENABLED` is false the build must contain ZERO ad code — not a hidden
- * div, not a commented-out script, not a preconnect hint. Two reasons:
+ * Two different things are switched, and they are switched separately.
  *
- *   • Empty ad containers on a site under AdSense review look like a site built
- *     for ads rather than for readers. That is a documented rejection reason.
- *   • Any ad script, even one that never fills, costs real Core Web Vitals.
+ *   • SLOTS — `<ins class="adsbygoogle">` plus their wrapping container — stay
+ *     gated on `adsActive()`, i.e. on `ENABLED` below AND valid credentials.
+ *     While `ENABLED` is false the build contains zero ad containers: not a
+ *     hidden div, not a commented-out script, not a reserved gap. Empty ad
+ *     containers on a site under AdSense review look like a site built for ads
+ *     rather than for readers, which is a documented rejection reason.
  *
- * `scripts/validate-ads.mjs` greps the built site and fails the build if a
- * single ad token survives while ads are off.
+ *   • The LOADER — `<script async src=".../adsbygoogle.js?client=ca-pub-…">`
+ *     and its preconnect hints — is gated on the publisher ID alone, and is
+ *     therefore still emitted while `ENABLED` is false. That is deliberate,
+ *     not a leak: AdSense lists "make sure your publisher ID is displayed on
+ *     the page" among the prerequisites for *starting* the site approval
+ *     process, and the ID only reaches the page inside that script tag. A
+ *     build with no loader cannot begin a review at all.
+ *     https://developers.google.com/adsense/platforms/transparent/approvals
+ *
+ *   • With no publisher ID configured there is nothing to load and nothing to
+ *     render, so the build contains zero ad tokens of any kind.
+ *
+ * `scripts/validate-ads.mjs` asserts all three states after every build: no
+ * credentials → zero ad tokens; ID but ads off → exactly one loader per page
+ * and zero slots; ads on → tag present, ads.txt valid, per-page cap respected.
  */
 
 /** Ad networks this codebase knows how to render. */
@@ -192,7 +210,11 @@ export const adsConfig: {
   readonly lazyRootMargin: string;
   readonly gameAdGapPx: number;
 } = {
-  /** The master switch. When false, not one byte of ad code is emitted. */
+  /**
+   * The master switch. When false, no ad slot is rendered anywhere. The AdSense
+   * loader still ships as long as a publisher ID exists, because AdSense
+   * requires the ID on the page before it will start a site review.
+   */
   enabled: ENABLED,
 
   /** Which ad network's markup to render. */
@@ -285,7 +307,16 @@ export function getPlacement(id: AdPlacementId): AdPlacement {
  */
 export function describeAdState(): string {
   if (!adsConfig.enabled) {
-    return 'OFF — the build contains no ad code at all (src/config/ads.ts → ENABLED_IN_CODE).';
+    if (adsConfig.network === 'adsense' && adsConfig.publisherId !== '') {
+      return (
+        'OFF — no ad slots are rendered; only the AdSense loader is emitted so that ' +
+        'AdSense can read the publisher ID during site review (src/config/ads.ts → ENABLED_IN_CODE).'
+      );
+    }
+    return (
+      'OFF — no ad code at all: no publisher ID is configured in .env, so there is ' +
+      'nothing to load and nothing to render (src/config/ads.ts → ENABLED_IN_CODE).'
+    );
   }
   if (adsConfig.network === 'none') {
     return 'OFF — ads are enabled but the network is set to "none".';

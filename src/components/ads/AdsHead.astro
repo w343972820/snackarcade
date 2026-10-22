@@ -2,9 +2,31 @@
 /**
  * Everything the ad network needs in `<head>`, emitted once per page.
  *
- * With ads off this component produces an empty string — no preconnect, no
- * script tag, no comment. That is the guarantee `scripts/validate-ads.mjs`
- * checks after every build.
+ * TWO SEPARATE DECISIONS, DELIBERATELY NOT ONE
+ * --------------------------------------------
+ * The LOADER and the SLOTS are gated by different conditions:
+ *
+ *   • Loader — `<script async src=".../adsbygoogle.js?client=ca-pub-…">` plus
+ *     the three preconnect hints. Emitted whenever a valid publisher ID is
+ *     configured, whether or not ads are switched on. AdSense's published
+ *     prerequisites for *starting* a site review include "make sure your
+ *     publisher ID is displayed on the page", and the ID only appears on the
+ *     page if this script tag does. Without it the review cannot even begin.
+ *     https://developers.google.com/adsense/platforms/transparent/approvals
+ *
+ *   • Slots — `<ins class="adsbygoogle" data-ad-placement=…>` and their
+ *     wrappers. Still gated on `adsActive()`, unchanged. While ads are off no
+ *     ad container is emitted at all, because empty containers on a site under
+ *     review read as a site built for ads rather than for readers — that is a
+ *     documented rejection reason.
+ *
+ * So there are three possible outputs, and `scripts/validate-ads.mjs` checks
+ * all three after every build:
+ *
+ *   no publisher ID          → empty string. No preconnect, no script, no
+ *                              comment: the build contains zero ad tokens.
+ *   ID configured, ads off   → exactly one loader per page, zero ad slots.
+ *   ID configured, ads on    → loader plus the slots `adsActive()` allows.
  *
  * The lazy loader is inlined at the END of the body by `BaseLayout.astro`
  * rather than here, because it has to run after the slots exist in the DOM.
@@ -12,9 +34,15 @@
 import { adsActive, adsConfig } from '@/config/ads';
 import { buildMediavineLoaderScript } from '@/scripts/ads-loader';
 
-const active: boolean = adsActive();
-const isAdSense: boolean = active && adsConfig.network === 'adsense';
-const isMediavine: boolean = active && adsConfig.network === 'mediavine';
+/**
+ * Whether the AdSense `<head>` payload should be emitted. Note this is NOT
+ * `adsActive()`: the loader must survive while ads are off, so that Google can
+ * read the publisher ID off the page during review.
+ */
+const hasAdSenseId: boolean = adsConfig.network === 'adsense' && adsConfig.publisherId !== '';
+
+/** The slots, however, still require the master switch to be on. */
+const isMediavine: boolean = adsActive() && adsConfig.network === 'mediavine';
 
 /**
  * AdSense's own tag URL. Kept in one place so the ad validator has a single
@@ -27,7 +55,7 @@ const mediavineLoader: string = isMediavine ? buildMediavineLoaderScript() : '';
 ---
 
 {
-  isAdSense && (
+  hasAdSenseId && (
     <>
       {/* Warm up the TLS handshake to the ad server while the page parses. */}
       <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin />
@@ -38,6 +66,9 @@ const mediavineLoader: string = isMediavine ? buildMediavineLoaderScript() : '';
         `async` and no `defer`: AdSense must be allowed to run as soon as it
         arrives, but must never block parsing. This is Google's own guidance
         and a condition of ad serving.
+
+        This is also the tag that carries the publisher ID, which is what
+        AdSense reads when deciding whether a site review may start.
       */}
       <script async is:inline src={adSenseTagUrl} crossorigin="anonymous"></script>
     </>
