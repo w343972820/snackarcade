@@ -381,6 +381,17 @@ function readMaxPerPage() {
 }
 
 /**
+ * How many hits mode C prints before collapsing the list into a count.
+ *
+ * Mode C fires when the deployed environment is misconfigured, and in that
+ * state every page leaks every token — 119 pages x 4 tokens is 476 lines,
+ * which buries the `fix:` advice and gets truncated by GitHub Actions. Ten
+ * lines plus per-token counts is enough to see what leaked and where; set
+ * `AD_VALIDATE_VERBOSE=1` when the full list really is needed.
+ */
+const MAX_PRINTED_HITS = 10;
+
+/**
  * Mode C — no credentials, so no ad code of any kind may appear.
  * @param {string[]} files
  */
@@ -395,16 +406,53 @@ function checkNoAdCode(files) {
     return;
   }
 
-  process.stdout.write(`${pc.red('✖ No ad credentials are configured, but ad code reached the build.')}\n\n`);
+  const verbose = /^(1|true|yes)$/i.test((process.env.AD_VALIDATE_VERBOSE ?? '').trim());
+
+  /** @type {Map<string, number>} */
+  const perToken = new Map();
   for (const hit of hits) {
-    process.stdout.write(`  ${hit.file}:${hit.line}  →  "${hit.token}"\n`);
-    process.stdout.write(`    ${pc.dim(hit.excerpt)}\n`);
+    perToken.set(hit.token, (perToken.get(hit.token) ?? 0) + 1);
   }
+  const filesWithHits = new Set(hits.map((hit) => hit.file));
+
+  const shown = verbose ? hits : hits.slice(0, MAX_PRINTED_HITS);
+  const hidden = hits.length - shown.length;
+  const hiddenFiles = new Set(hits.slice(shown.length).map((hit) => hit.file)).size;
+
+  process.stdout.write(
+    `${pc.red('✖ No ad credentials are configured, but ad code reached the build.')}\n\n`,
+  );
+  process.stdout.write(
+    `  ${hits.length} occurrence(s) of ${perToken.size} ad token(s) across ` +
+      `${filesWithHits.size} file(s):\n`,
+  );
+  for (const [token, count] of perToken) {
+    process.stdout.write(`    ${token.padEnd(20)} ${String(count).padStart(4)} occurrence(s)\n`);
+  }
+
+  process.stdout.write(`\n  ${verbose ? 'All' : `First ${shown.length}`} hit(s):\n`);
+  for (const hit of shown) {
+    process.stdout.write(
+      `    ${hit.file}:${hit.line}  →  "${hit.token}"  ${pc.dim(hit.excerpt.slice(0, 60))}\n`,
+    );
+  }
+  if (hidden > 0) {
+    process.stdout.write(
+      `    ${pc.dim(
+        `… and ${hidden} more occurrence(s) across ${hiddenFiles} file(s) — ` +
+          'set AD_VALIDATE_VERBOSE=1 to list them all',
+      )}\n`,
+    );
+  }
+
+  // Kept last on purpose: the collapsed list must never hide the fix.
   process.stdout.write(
     `\n${pc.green('fix:')} with no publisher ID there is nothing to load, so every ad tag must be\n` +
       '      gated. Check that the component wraps its markup in a conditional rather\n' +
       '      than hiding it with CSS, and that any script uses `is:inline` so it is not\n' +
-      '      bundled independently of whether it rendered.\n\n',
+      '      bundled independently of whether it rendered.\n' +
+      '      Most likely cause here: the build ran with PUBLIC_ADSENSE_PUB_ID set and\n' +
+      '      the deploy did not, so dist/ carries a loader its environment cannot own.\n\n',
   );
   process.exitCode = 1;
 }

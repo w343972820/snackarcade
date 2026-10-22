@@ -11,6 +11,18 @@ jobs:
     name: Validate, type-check, test and build
     runs-on: ubuntu-latest
 
+    # The AdSense publisher ID is public — it is served verbatim in /ads.txt and
+    # inside every page's <head> — so it is safe to pin here. It matters because
+    # `scripts/validate-ads.mjs` decides what to assert from two facts: the
+    # master switch and whether credentials exist. Without this variable CI would
+    # build the "no publisher ID" shape, where the correct output is zero ad
+    # tokens — proving nothing about what production actually ships.
+    #
+    # With it set, CI builds the production shape: exactly one AdSense loader per
+    # page and zero ad slots (ads stay off until approval).
+    env:
+      PUBLIC_ADSENSE_PUB_ID: ca-pub-4356925414992622
+
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -50,20 +62,16 @@ jobs:
       - name: Type-check Astro templates
         run: npx astro check
 
-      # `npm run build` chains prebuild (content + ad policy validation)
-      # and postbuild (deploy budget report) automatically.
+      # `npm run build` chains prebuild (content validation + game sync) and
+      # postbuild (deploy budget report) automatically.
       - name: Build site
         run: npm run build
 
-      - name: Assert no ad code ships while ads are disabled
-        run: |
-          COUNT=$(grep -rEl "adsbygoogle|pagead2" dist/ 2>/dev/null | wc -l)
-          echo "Files containing ad markers: $COUNT"
-          if [ "$COUNT" -ne 0 ]; then
-            echo "::error::Ads are disabled in src/config/ads.ts but ad code was found in dist/."
-            grep -rEl "adsbygoogle|pagead2" dist/ || true
-            exit 1
-          fi
+      # Single source of truth for ad-output policy. The three modes and their
+      # assertions live in the script, not here: duplicating the rule as a grep
+      # in this file is what made the two disagree in the first place.
+      - name: Validate ad output
+        run: node scripts/validate-ads.mjs
 
       - name: Warn when content and page templates change together
         if: github.event_name == 'pull_request'
