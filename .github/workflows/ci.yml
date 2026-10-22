@@ -19,7 +19,7 @@ jobs:
     # tokens — proving nothing about what production actually ships.
     #
     # With it set, CI builds the production shape: exactly one AdSense loader per
-    # page and zero ad slots (ads stay off until approval).
+    # page and zero ad slots in the delivered markup (ads stay off until approval).
     env:
       PUBLIC_ADSENSE_PUB_ID: ca-pub-4356925414992622
 

@@ -27,10 +27,10 @@
  *
  *   • SLOTS — `<ins class="adsbygoogle">` plus their wrapping container — stay
  *     gated on `adsActive()`, i.e. on `ENABLED` below AND valid credentials.
- *     While `ENABLED` is false the build contains zero ad containers: not a
- *     hidden div, not a commented-out script, not a reserved gap. Empty ad
- *     containers on a site under AdSense review look like a site built for ads
- *     rather than for readers, which is a documented rejection reason.
+ *     While `ENABLED` is false there are no ad containers in the delivered
+ *     markup: not a hidden div, not a commented-out script, not a reserved gap.
+ *     Empty ad containers on a site under AdSense review look like a site built
+ *     for ads rather than for readers, which is a documented rejection reason.
  *
  *   • The LOADER — `<script async src=".../adsbygoogle.js?client=ca-pub-…">`
  *     and its preconnect hints — is gated on the publisher ID alone, and is
@@ -44,9 +44,40 @@
  *   • With no publisher ID configured there is nothing to load and nothing to
  *     render, so the build contains zero ad tokens of any kind.
  *
- * `scripts/validate-ads.mjs` asserts all three states after every build: no
- * credentials → zero ad tokens; ID but ads off → exactly one loader per page
- * and zero slots; ads on → tag present, ads.txt valid, per-page cap respected.
+ * WHAT THE LOADER COSTS, AND WHAT IT DOES NOT DO
+ * ----------------------------------------------
+ * The loader is a real script that really runs, so "no slots in the delivered
+ * markup" is a weaker claim than "no ad machinery on the page". Measured on
+ * this site with ads off, 1440px viewport, three alternating runs per side:
+ *
+ *   • transfer   329,154 bytes with the loader vs 45,126 without it. 270,260 of
+ *                the difference is Google-side script (adsbygoogle.js 67 KB,
+ *                show_ads_impl.js 192 KB, zrt_lookup.js 4.5 KB).
+ *   • load       +186 ms on the homepage (320 ms vs 134 ms).
+ *   • DCL / FCP  130 vs 134 ms and 56 vs 68 ms — both inside noise, so `async`
+ *                is doing what it promises: no parse blocking.
+ *
+ * 82% of the homepage's transferred bytes go to a mechanism that filled nothing.
+ * That is the price of the publisher ID being readable by AdSense, and it is
+ * the reason the slots themselves stay off: two costs, and only one of them
+ * buys anything before approval.
+ *
+ * ONE RUNTIME FACT, so that nobody debugs a ghost: when the account-side Auto
+ * ads setting is enabled, the AdSense script injects its own element —
+ * `<ins class="adsbygoogle adsbygoogle-noablate">` at the end of `<body>`, 0x0,
+ * `display:none`. Observed on this site: injected on every recorded navigation
+ * (10 of 10 runs), with `data-ad-status="unfilled"` in all 140 samples and
+ * `filled` never once. That element is not in the delivered HTML, so
+ * `scripts/validate-ads.mjs` cannot see it and makes no claim about it —
+ * "zero ad slots" below always means zero in the delivered markup. Auto ads is
+ * controlled in the AdSense console, not in this file; whether it is currently
+ * on has to be checked there, and switching it off is the only way to stop
+ * that injection.
+ *
+ * `scripts/validate-ads.mjs` asserts all three build states after every build:
+ * no credentials → zero ad tokens; ID but ads off → exactly one loader per page
+ * and zero ad slots in the delivered markup; ads on → tag present, ads.txt
+ * valid, per-page cap respected.
  */
 
 /** Ad networks this codebase knows how to render. */

@@ -110,7 +110,7 @@ if (gameHtml === '') {
     'src/components/ads/AdsHead.astro — the loader is gated on the publisher ID, not on adsActive()',
   );
   (slotContainers + slotElements === 0 ? ok : bad)(
-    `zero ad slots on /games/2048/ while ads are off ` +
+    `zero ad slots in the delivered markup for /games/2048/ while ads are off ` +
       `(found ${slotContainers} data-ad-placement=, ${slotElements} <ins class="adsbygoogle">)`,
     'src/components/ads/AdSlot.astro — slots stay gated on adsActive()',
   );

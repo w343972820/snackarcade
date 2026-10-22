@@ -25,8 +25,14 @@
  *
  *   no publisher ID          → empty string. No preconnect, no script, no
  *                              comment: the build contains zero ad tokens.
- *   ID configured, ads off   → exactly one loader per page, zero ad slots.
+ *   ID configured, ads off   → exactly one loader per page, zero ad slots in
+ *                              the delivered markup.
  *   ID configured, ads on    → loader plus the slots `adsActive()` allows.
+ *
+ * "Zero ad slots" above is a statement about the HTML this build emits, not
+ * about the running page: once the account-side Auto ads setting is enabled the
+ * AdSense script injects its own hidden, unfilled `<ins>` at the end of `<body>`.
+ * See `src/config/ads.ts` for the measured cost of that script.
  *
  * The lazy loader is inlined at the END of the body by `BaseLayout.astro`
  * rather than here, because it has to run after the slots exist in the DOM.

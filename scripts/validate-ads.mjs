@@ -525,9 +525,15 @@ function checkLoaderOnly(files) {
   if (problems.length === 0) {
     process.stdout.write(
       `  ${pc.green('✔')} ${pages.length}/${pages.length} HTML pages carry exactly one AdSense ` +
-        `loader; zero ad slots.\n` +
+        `loader; zero ad slots in the delivered markup.\n` +
         `  ${pc.dim(
-          'The publisher ID is visible to AdSense on every page, and nothing renders an empty ad box.',
+          'The publisher ID is visible to AdSense on every page, and this build emits no ad slot.',
+        )}\n` +
+        `  ${pc.dim(
+          'Runtime note: with account-side Auto ads enabled the AdSense script injects its own',
+        )}\n` +
+        `  ${pc.dim(
+          'hidden, unfilled <ins> at the end of <body> — not part of this build, not checked here.',
         )}\n`,
     );
     if (iframeDocuments.length > 0) {
@@ -632,7 +638,7 @@ function main() {
     mode === 'no-ad-code'
       ? 'NO ad code at all'
       : mode === 'tag-only'
-        ? 'one AdSense loader per page, zero ad slots'
+        ? 'one AdSense loader per page, zero ad slots in the delivered markup'
         : 'ad code present';
 
   process.stdout.write(`\n${pc.bold('Ad output check')}\n`);
